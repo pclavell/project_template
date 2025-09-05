@@ -20,3 +20,13 @@ cd project_template
 python setup_project.py
 cd ../
 ```
+
+## Developer to-do
+
+* Add a template Python notebook in analysis (Fairlie)
+* Skeleton READMEs (Fairlie)
+* GH auto-run script
+  - Update config_mn5.yml
+  - Turn all paths in READMEs into links automatically
+  - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
+    - also for this add nested links for all .R, .ipynb, and any other relevant things? 

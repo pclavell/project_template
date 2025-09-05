@@ -65,7 +65,7 @@
 
 
 get_script_dir <- function() {
-  script_parent_dir <- ifelse(length(commandArgs(trailingOnly = F))>0,
+  script_parent_dir <- ifelse(length(commandArgs(trailingOnly = F))>2,
                               dirname(normalizePath(gsub("--file=","",commandArgs(trailingOnly = F)[4]))),
                               dirname(normalizePath(rstudioapi::getActiveDocumentContext()$path)))
   # # Case 1: Running via Rscript

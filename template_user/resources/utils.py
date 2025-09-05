@@ -120,7 +120,7 @@ def get_path_map(mn5_config=False):
     username = getpass.getuser()
 
     # if for just updating mn5 config
-    if mn5_config == True: username = 'template_mn5_user_do_not_remove'
+    if mn5_config == True: username = 'template_user'
 
     resources = load_resources()
     print(resources['path_map'][username])    # invalid username

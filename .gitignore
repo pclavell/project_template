@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
@@ -195,3 +196,6 @@ __pycache__/
 >>>>>>> 1fb048d (work making skeletons for readmes)
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
+=======
+__pycache__/
+>>>>>>> cdc1c12 (remove thrash from template)

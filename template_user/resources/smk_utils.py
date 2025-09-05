@@ -13,7 +13,6 @@
 
 ############ --------------------------------------------------------------- ############
 import pandas as pd
-from pyfaidx import Fasta
 
 # function to enable the array-like behaviour in snakemake 
 #  (particularly when there are more start than ending files)

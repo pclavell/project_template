@@ -1,0 +1,51 @@
+################################## README BEFORE USAGE ##################################
+
+# Write the absolute path for these directories in marenostrum and your local computers
+
+#     -metadata
+#     -data
+#     -ref
+#     -figures
+
+# Use any of the following examples. 
+# Do NOT remove template_mn5_user_do_not_remove (it is used in utils.py)
+
+############ --------------------------------------------------------------- ############
+
+
+path_map:
+  template_mn5_user_do_not_remove:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/user1/metadata
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+
+  # fairlie, mn5
+  bsc083001:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/user1/metadata
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+
+  # pau, mn5
+  bsc083549:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/user1/metadata
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+
+  # fairlie, laptop
+  fairliereese:
+    \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/data
+    \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/ref
+    \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/user1/metadata
+    \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/figures
+
+ # pau, laptop
+  pclavell:
+    \{data_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/data
+    \{ref_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/ref
+    \{metadata_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/user1/metadata
+    \{figures_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/figures
+
+

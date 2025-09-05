@@ -1,0 +1,105 @@
+################################## README BEFORE USAGE ##################################
+
+# This is an snakemake example, please do the following:
+
+#  1) Adapt the CONFIGURATION section where you see this symbols: !!! (details below)
+#  2) Adapt the FIRST RULE depending on your data (detail below)
+#  3) Add all the rules you want =)
+
+                                    #   /\_/\  
+                                    #  ( o.o ) 
+                                    #   > ^ < 
+                                    #  /     \  
+                                    # (       )  
+                                    #  \__ __/   
+                                    #   || ||   
+
+############ --------------------------------------------------------------- ############
+
+
+
+
+
+######################################## SETTINGS ########################################
+# import packages
+import pandas as pd
+import os
+import sys
+
+# set resources and metadata path
+p = os.path.dirname(os.path.dirname(os.getcwd()))+'/resources/'
+sys.path.append(p)
+
+# import all utils stored in resources
+from smk_utils import *
+from utils import *
+
+# set folder where all snakemake modules are sitting
+rules_dir = '../rules/'
+
+# source all snakemake modules
+for f in sorted(os.listdir(rules_dir)):    #  recursive way to do ->   include: f'{rules_dir}anyscript.smk'
+    if f.endswith(".smk"):
+        include: f"{rules_dir}{f}"
+
+
+# this makes all paths on the config as absolute paths that can be read while using the config.yml references
+config = load_config_abs() 
+
+############ --------------------------------------------------------------- ############
+
+
+
+
+
+##################################### CONFIGURATION #####################################
+
+# !!! LOAD ARRAY FILE (metadata tsv) and check that:
+#     1) the metadata file path is properly written in the resources/config.yml
+metadata_file = config['metadata']
+array_df = pd.read_csv(metadata_file, sep='\t')
+
+
+# !!! DECIDE ON THE FINAL WANTED OUTPUTS (by repeating the expand structure, separated by comma, you can choose several)
+rule all:
+    input:
+        expand(config['example']['bam'],
+                sample=array_df['sample'].tolist()) # this substitutes the {sample} from the yml to the actual sample
+
+############ --------------------------------------------------------------- ############
+
+
+
+
+
+
+######################################### RULES #########################################
+
+# !!! FIRST RULE 1 (important to properly define)
+
+## IF THERE ARE MORE THAN ONE INPUT FOR EACH OUTPUT (i.e. replicates) USE THIS:
+# index unaligned bam so next rule can work properly
+use rule example_rule1 as er1 with:
+    input:
+        bam = lambda wc: get_value_from_df(
+            df,
+            target_column="sample",
+            filters={"sample": wc.sample, "condition": wc.condition})
+    output:
+        sam = temporary(config['example']['sam'])
+
+
+## IF FOR EACH INPUT THERE IS A SINGLE OUTPUT USE THIS:
+use rule example_rule1 as er1 with:
+    input:
+        bam = config['example']['bam'],
+    output:
+        sam = temporary(config['example']['sam'])
+
+
+# rule 2 
+use rule example_rule2 as er2 with:
+    input:
+        sam = rules.example_rule1.output.sam
+    output:
+        sorted_sam = config['example']['sorted_sam']

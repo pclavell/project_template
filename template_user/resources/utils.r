@@ -14,6 +14,25 @@
 
 ############ --------------------------------------------------------------- ############
 
+# #' Load Snakemake config YAML as a list
+# #'
+# #' @param config_file Optional path to config.yml file. If NULL, must provide utils_file_path.
+# #' @param utils_file_path Path to the utils.R file (used to find config.yml relative to it).
+# #' @return A named list parsed from YAML config file.
+# load_config <- function(config_file = NULL, utils_file_path = NULL) {
+#   if (is.null(config_file)) {
+#     if (is.null(utils_file_path)) {
+#       stop("Must provide utils_file_path if config_file is NULL")
+#     }
+#     d <- dirname(normalizePath(utils_file_path))
+#     od <- file.path(d, "snakemake")
+#     config_file <- file.path(od, "config.yml")
+#   }
+
+#   config <- yaml::read_yaml(config_file)
+#   return(config)
+# }
+
 #' Load Snakemake config YAML as a list
 #'
 #' @param config_file Optional path to config.yml file. If NULL, must provide utils_file_path.
@@ -32,6 +51,9 @@ load_config <- function(config_file = NULL, utils_file_path = NULL) {
   config <- yaml::read_yaml(config_file)
   return(config)
 }
+
+
+
 
 #' Load resources YAML as a list
 #'
@@ -160,12 +182,30 @@ load_meta <- function(utils_file_path) {
   return(df)
 }
 
+#' Expand a pattern with all combinations of variables
+#'
+#' Generates a vector of strings by substituting placeholders in a pattern
+#' with all possible combinations of provided variables.
+#'
+#' @param pattern A character string containing placeholders in curly braces,
+#'   e.g., "{x}", "{y}".
+#' @param ... Named arguments, each being a vector of values to substitute into
+#'   the pattern. All combinations of these values will be generated.
+#'
+#' @return A character vector of strings with placeholders replaced by the
+#'   values from all combinations of the provided variables.
+#'
+#' @examples
+#' expand("file_{x}_{y}.txt", x = 1:2, y = c("a", "b"))
+#' # Returns: "file_1_a.txt" "file_2_a.txt" "file_1_b.txt" "file_2_b.txt"
+#'
+#' expand("path/{folder}/{file}.csv", folder = c("data", "results"), file = 1:2)
+#'
+#' @export
 expand <- function(pattern, ...) {
   vars <- list(...)
-  # Get all combinations of variables as a data.frame
   combos <- do.call(expand.grid, vars)
   
-  # Replace placeholders in pattern with values for each row
   result <- apply(combos, 1, function(row) {
     res <- pattern
     for (varname in names(vars)) {

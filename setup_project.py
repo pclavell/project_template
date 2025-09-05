@@ -35,8 +35,8 @@ for user, entry in m['setup_settings']['users'].items():
     m = make_user_path_map_entry(entry['mn5_username'])
 
 # also make one for temp mn5 user
-m = make_user_path_map_entry('template_mn5_user_do_not_remove')
-m['path_map']['template_mn5_user_do_not_remove']
+m = make_user_path_map_entry('template_user')
+m['path_map']['template_user']
 
 
 # adding path map entries for LOCAL location

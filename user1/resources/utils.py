@@ -18,6 +18,7 @@
 import yaml
 import os
 import getpass
+import subprocess
 
 def load_config(config_file=None):
     """

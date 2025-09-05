@@ -7,7 +7,6 @@
 
 ```bash
 git clone git@github.com:pclavell/project_template.git
-cd project_template
 ```
 
 * Fill out `setup_settings` according to the example / instructions in [`user1/resources.yml`]('https://github.com/pclavell/project_template/blob/main/user1/resources/resources.yml').

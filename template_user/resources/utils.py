@@ -4,13 +4,13 @@
 # Add all the functions you want; a good rule of thumb is if you feel you are copy+pasting
 # the same code over and over, make it a function! =)
 
-                                    #   /\_/\  
-                                    #  ( o.o ) 
-                                    #   > ^ < 
-                                    #  /     \  
-                                    # (       )  
-                                    #  \__ __/   
-                                    #   || ||   
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
 
 ############ --------------------------------------------------------------- ############
 
@@ -18,6 +18,7 @@
 import yaml
 import os
 import getpass
+import subprocess
 
 def load_config(config_file=None):
     """
@@ -118,7 +119,7 @@ def get_path_map(mn5_config=False):
 
     username = getpass.getuser()
 
-    # if for just updating mn5 config 
+    # if for just updating mn5 config
     if mn5_config == True: username = 'template_mn5_user_do_not_remove'
 
     resources = load_resources()
@@ -128,9 +129,9 @@ def get_path_map(mn5_config=False):
 
     else:
         return resources['path_map'][username]
-    
-    
-    
+
+
+
 def replace_str_dict(d, m):
     """
     Recursively replace substrings in all strings within a nested data structure.
@@ -161,3 +162,41 @@ def replace_str_dict(d, m):
         return d
     else:
         return d  # leave numbers, bools, None, etc. untouched
+
+def run_cmd(cmd):
+    """
+    Run a shell command using subprocess and return its output.
+
+    Parameters
+    ----------
+    cmd : str or list
+        Command to run. If a string, it is split safely into arguments.
+        If a list, it is passed directly to subprocess.
+
+    Returns
+    -------
+    str
+        Captured standard output from the command.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the command exits with a non-zero status, the error message
+        and stderr are raised.
+    """
+    # Split string into args safely
+    if isinstance(cmd, str):
+        cmd = cmd.split()
+
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        print("Error while running command:")
+        print(e.stderr)
+        raise

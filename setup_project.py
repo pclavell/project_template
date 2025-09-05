@@ -1,4 +1,4 @@
-from user1.resources.utils import *
+from template_user.resources.utils import *
 import pathlib
 
 m = load_resources()
@@ -63,10 +63,10 @@ for user, entry in m['setup_settings']['users'].items():
 # write, just append the path_map
 m_append = {}
 m_append['path_map'] = m['path_map']
-with open('user1/resources/resources.yml', 'a') as f:
+with open('template_user/resources/resources.yml', 'a') as f:
         yaml.dump(m_append, f, default_flow_style=False)
 
 # make a copy of template user for each user
 for user in m['setup_settings']['users']:
-    cmd = f'cp -r user1/ {user}'
+    cmd = f'cp -r template_user/ {user}'
     run_cmd(cmd)

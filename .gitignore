@@ -2,12 +2,17 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
+=======
+__pycache__/
+=======
+>>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 # project-specific gitignores
 data/*
 ref/*
@@ -17,9 +22,12 @@ analysis/*tsv
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+=======
+>>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 # general gitignore stuff ripped from a template
 
 
@@ -135,11 +143,14 @@ ipython_config.py
 __pypackages__/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # jupyter lab stuff
 __pycache__/
 
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+=======
+>>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -188,6 +199,7 @@ cython_debug/
 #.idea/
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
@@ -199,3 +211,6 @@ __pycache__/
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
+=======
+>>>>>>> 760d701 (work making skeletons for readmes)
+>>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)

@@ -9,11 +9,11 @@
 git clone git@github.com:pclavell/project_template.git
 ```
 
-* Fill out `setup_settings` according to the example / instructions in [`template_user/resources.yml`](https://github.com/pclavell/project_template/blob/main/user1/resources/resources.yml).
+* Fill out `setup_settings` according to the example / instructions in [`template_user/resources.yml`](https://github.com/pclavell/project_template/blob/main/template_user/resources/resources.yml).
   - As part of this, you must determine your local and MN5 usernames. To do so, run `echo $USER` in the system you choose
 
 
-* Run the [setup script](https://github.com/pclavell/project_template/blob/main/setup_project.py) to automatically create project subdirs for each user, populate [`template_user/resources.yml`](https://github.com/pclavell/project_template/blob/main/user1/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo
+* Run the [setup script](https://github.com/pclavell/project_template/blob/main/setup_project.py) to automatically create project subdirs for each user, populate [`template_user/resources.yml`](https://github.com/pclavell/project_template/blob/main/template_user/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo
 
 ```bash
 cd project_template
@@ -31,9 +31,9 @@ git add -A
 git commit -m "first commit"
 ```
 
-* After you've made the GitHub repo, run the following to add the repo name to the `resources.yml` file
+* After you've made the GitHub repo, run the following to add the repo name to the `resources.yml`
 ```bash
-python resources/add_gh_url_to_resources.py
+python resources/init_gh_url.py
 ```
 
 =======
@@ -49,6 +49,7 @@ python resources/add_gh_url_to_resources.py
   - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
     - also for this add nested links for all .R, .ipynb, and any other relevant things?
     - After push, could it check for broken links?
+<<<<<<< HEAD
 * Wildcards in `submit_smk.sh` will not work for output file
 =======
   - Update config_mn5.yml
@@ -56,3 +57,5 @@ python resources/add_gh_url_to_resources.py
   - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
     - also for this add nested links for all .R, .ipynb, and any other relevant things? 
 >>>>>>> 1fb048d (work making skeletons for readmes)
+=======
+>>>>>>> f57ce38 (update with some progress on gh push companion script)

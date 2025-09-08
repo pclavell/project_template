@@ -23,3 +23,4 @@ m['gh_url'] = s
 d = os.path.dirname(__file__)
 with open(f'{d}/resources.yml', 'a') as f:
         yaml.dump(m, f, default_flow_style=False)
+        

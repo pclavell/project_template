@@ -81,6 +81,9 @@ docs/_build/
 .pybuilder/
 target/
 
+# python
+__pycache__/
+
 # Jupyter Notebook
 .ipynb_checkpoints
 

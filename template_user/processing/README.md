@@ -17,6 +17,7 @@ In the parent directory, there are a few shared resources
 
 Details for each data processing task subfolder listed here.
 
+<!-- * [template_snakemake] -->
 * [template_snakemake](https://github.com/pclavell/project_template/tree/main/template_user/processing/template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
 
 

@@ -1,9 +1,12 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+=======
+>>>>>>> f57ce38 (update with some progress on gh push companion script)
 # project-specific gitignores
 data/*
 ref/*
@@ -183,9 +186,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
 =======
 >>>>>>> 760d701 (work making skeletons for readmes)
 >>>>>>> 1fb048d (work making skeletons for readmes)
+=======
+>>>>>>> f57ce38 (update with some progress on gh push companion script)

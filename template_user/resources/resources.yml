@@ -51,3 +51,5 @@ setup_settings:
 
 
 # we could have here a list of settings to not touch?
+
+gh_url: http://github.com/pclavell/project_template/

@@ -21,6 +21,7 @@ python setup_project.py
 cd ../
 ```
 
+<<<<<<< HEAD
 * Create a new GitHub repository on GitHub. In each of the user directories (ie `template_user`), run:
 ```bash
 cd template_user
@@ -35,14 +36,23 @@ git commit -m "first commit"
 python resources/add_gh_url_to_resources.py
 ```
 
+=======
+>>>>>>> 1fb048d (work making skeletons for readmes)
 ## Developer to-do
 
 * Add a template Python notebook in analysis (Fairlie)
 * Skeleton READMEs (Fairlie)
 * GH auto-run script
+<<<<<<< HEAD
   <!-- - Update `config_mn5.yml` -->
   - Turn all paths / file names (?) in READMEs into links automatically
   - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
     - also for this add nested links for all .R, .ipynb, and any other relevant things?
     - After push, could it check for broken links?
 * Wildcards in `submit_smk.sh` will not work for output file
+=======
+  - Update config_mn5.yml
+  - Turn all paths in READMEs into links automatically
+  - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
+    - also for this add nested links for all .R, .ipynb, and any other relevant things? 
+>>>>>>> 1fb048d (work making skeletons for readmes)

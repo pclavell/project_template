@@ -23,6 +23,9 @@ cd ../
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 21765ce (rebase complete ???)
 * Create a new GitHub repository on GitHub. In each of the user directories (ie `template_user`), run:
 ```bash
 cd template_user
@@ -39,8 +42,11 @@ python resources/init_gh_url.py
 
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+<<<<<<< HEAD
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+>>>>>>> 21765ce (rebase complete ???)
 ## Developer to-do
 
 * Add a template Python notebook in analysis (Fairlie)
@@ -48,6 +54,9 @@ python resources/init_gh_url.py
 * GH auto-run script
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 21765ce (rebase complete ???)
   <!-- - Update `config_mn5.yml` -->
   - Turn all paths / file names (?) in READMEs into links automatically
   - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
@@ -56,15 +65,22 @@ python resources/init_gh_url.py
 <<<<<<< HEAD
 * Wildcards in `submit_smk.sh` will not work for output file
 =======
+<<<<<<< HEAD
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+>>>>>>> 21765ce (rebase complete ???)
   - Update config_mn5.yml
   - Turn all paths in READMEs into links automatically
   - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
     - also for this add nested links for all .R, .ipynb, and any other relevant things? 
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 1fb048d (work making skeletons for readmes)
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+>>>>>>> 1fb048d (work making skeletons for readmes)
+>>>>>>> 21765ce (rebase complete ???)

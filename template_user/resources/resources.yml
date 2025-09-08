@@ -22,14 +22,14 @@
 # CHANGE ME
 # project settings
 setup_settings:
-    project_name: fetal_dev
+    project_name: project_template
 
     # users and user settings
     users:
         pclavell: # this will be the name your project is nested under
             mn5_username: bsc083549 # your MN5 username (`echo $USER`)
             local_username: pclavell # your local username (`echo $USER`)
-            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/fetal_dev/
+            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
 
         freese:
             mn5_username: bsc083001
@@ -51,3 +51,33 @@ setup_settings:
 
 
 # we could have here a list of settings to not touch?
+
+
+##### REMOVE WHAT IS BELOW NOW, THIS IS FOR TESTING
+path_map:
+  bsc083001:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/freese/metadata
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+  bsc083549:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/pclavell/metadata
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+  fairliereese:
+    \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/data
+    \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/figures
+    \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/freese/metadata
+    \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/ref
+  pclavell:
+    \{data_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/data
+    \{figures_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/figures
+    \{metadata_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/pclavell/metadata
+    \{ref_dir\}: /home/pclavell/mounts/mn5/Projects/project_template/ref
+  template_user:
+    \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data
+    \{figures_dir\}: /gpfs/projects/bsc83/Projects/project_template/figures
+    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/project_template/freese/metadata
+    \{ref_dir\}: /gpfs/projects/bsc83/Projects/project_template/ref
+

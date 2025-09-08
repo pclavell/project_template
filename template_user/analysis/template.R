@@ -3,20 +3,33 @@
 # Identify user directory to have a reference path to load the utils 
 #       (assuming that it is inside one of these three dirs, at any depth level)
 
-get_script_dir <- function() {
-  script_parent_dir <- ifelse(length(commandArgs(trailingOnly = F))>2,
-                              dirname(normalizePath(gsub("--file=","",commandArgs(trailingOnly = F)[4]))),
-                              dirname(normalizePath(rstudioapi::getActiveDocumentContext()$path)))
-  return(script_parent_dir)
+get_script_path <- function() {
+  script_path <- ifelse(length(commandArgs(trailingOnly = F))>2,
+                              normalizePath(gsub("--file=","",
+                                                 commandArgs(trailingOnly = F)[4])),
+                              normalizePath(rstudioapi::getActiveDocumentContext()$path))
+  return(script_path)
 }
-script_dir <- get_script_dir()
-user_dir <- gsub("/metadata/|/processing/|/analysis/.*", "", script_dir)
+script_path <- get_script_path()
+user_dir <- gsub("/metadata/|/processing/|/analysis/.*", "", script_path)
 
-# Source all utils
+# Source all utils and set up environment
 source(paste0(user_dir, "/resources/utils.r"))
+config <- set_up_config(user_dir)
 
-config <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"))
-meta_df <- data.table::fread(paste0(user_dir,"/metadata/metadata.tsv"))
+# Load libraries
+library(tidyverse)
+library(data.table)
+####################----------------------------------------####################
+
+
+
+
+
+
+
+meta_df <- data.table::fread(out$metadata)
+
 
 
 fread(config$example$sorted_sam)
@@ -29,35 +42,10 @@ meta_df$sample
 #                                   sample=c(sample)), sep=":", fill=T)
 #   data <- append(data, list(predata))
 # }
-expand(config$sam, sample=c(meta_df$sample))
+expand(out$example$bam, sample=c(meta_df$sample))
 
 
 
 
 
 
-# resources_dir <- 'resources/'
-# source(file.path('resources/utils.r'))
-# config <- load_config_abs(scripts_dir)
-# meta_df <- load_meta(scripts_dir)
-# 
-# 
-# 
-# 
-# 
-# scripts_dir = file.path(dirname(getwd()), 'resources/')
-# source(file.path(scripts_dir, 'utils.r'))
-# # load the metadata and the config file with the 
-# # absolute paths for the correct system 
-# config = load_config_abs(scripts_dir)
-# meta_df = load_meta(scripts_dir)
-# ## Look at adapter content for a specific sample
-# sample = meta_df$sample[1]
-# fname = expand(config$lr$porechop$qc$nanoplot_stats,
-#                sample=c(sample))
-# print(sample)
-# print(fname)
-# df = read.table(fname, sep='\t')
-# files = expand(config$lr$porechop$qc$nanoplot_stats,
-#                sample=meta_df$sample)
-# 

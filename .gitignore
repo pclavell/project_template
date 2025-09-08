@@ -4,6 +4,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
@@ -15,11 +16,22 @@ __pycache__/
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 =======
+=======
+>>>>>>> 21765ce (rebase complete ???)
 __pycache__/
 =======
 =======
 >>>>>>> 8af2746 (conflict resolution)
+<<<<<<< HEAD
 >>>>>>> a9b4c4e (conflict resolution)
+=======
+=======
+=======
+__pycache__/
+=======
+>>>>>>> 1fb048d (work making skeletons for readmes)
+>>>>>>> 8d298b6 (rebase complete ???)
+>>>>>>> 21765ce (rebase complete ???)
 # project-specific gitignores
 data/*
 ref/*
@@ -30,11 +42,17 @@ analysis/*tsv
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+
+=======
+>>>>>>> 1fb048d (work making skeletons for readmes)
+>>>>>>> 21765ce (rebase complete ???)
 # general gitignore stuff ripped from a template
 
 
@@ -151,13 +169,19 @@ __pypackages__/
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 21765ce (rebase complete ???)
 # jupyter lab stuff
 __pycache__/
 
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+<<<<<<< HEAD
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+>>>>>>> 21765ce (rebase complete ???)
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -208,6 +232,7 @@ cython_debug/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
@@ -223,10 +248,23 @@ __pycache__/
 >>>>>>> 760d701 (work making skeletons for readmes)
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 =======
+=======
+>>>>>>> 21765ce (rebase complete ???)
 >>>>>>> 760d701 (work making skeletons for readmes)
 =======
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
 >>>>>>> 8af2746 (conflict resolution)
+<<<<<<< HEAD
 >>>>>>> a9b4c4e (conflict resolution)
+=======
+=======
+=======
+__pycache__/
+>>>>>>> cdc1c12 (remove thrash from template)
+=======
+>>>>>>> 760d701 (work making skeletons for readmes)
+>>>>>>> 1fb048d (work making skeletons for readmes)
+>>>>>>> 8d298b6 (rebase complete ???)
+>>>>>>> 21765ce (rebase complete ???)

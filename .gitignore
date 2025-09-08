@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
@@ -13,6 +14,12 @@ __pycache__/
 __pycache__/
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+__pycache__/
+=======
+=======
+>>>>>>> 8af2746 (conflict resolution)
+>>>>>>> a9b4c4e (conflict resolution)
 # project-specific gitignores
 data/*
 ref/*
@@ -200,6 +207,7 @@ cython_debug/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
@@ -214,3 +222,11 @@ __pycache__/
 =======
 >>>>>>> 760d701 (work making skeletons for readmes)
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
+=======
+>>>>>>> 760d701 (work making skeletons for readmes)
+=======
+=======
+__pycache__/
+>>>>>>> cdc1c12 (remove thrash from template)
+>>>>>>> 8af2746 (conflict resolution)
+>>>>>>> a9b4c4e (conflict resolution)

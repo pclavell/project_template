@@ -28,24 +28,5 @@ library(data.table)
 
 
 
-meta_df <- data.table::fread(out$metadata)
-
-
-
-fread(config$example$sorted_sam)
-meta_df$sample
-# # load nanoplot data
-# data <- list()
-# for(sample in meta_df$sample){
-  
-#   predata <- fread(expand(config$lr$porechop$qc$nanoplot_stats,
-#                                   sample=c(sample)), sep=":", fill=T)
-#   data <- append(data, list(predata))
-# }
-expand(out$example$bam, sample=c(meta_df$sample))
-
-
-
-
 
 

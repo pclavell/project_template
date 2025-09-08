@@ -6,6 +6,7 @@ analysis/*tsv
 */EU_Logs/*
 
 
+
 # general gitignore stuff ripped from a template
 
 
@@ -119,6 +120,9 @@ ipython_config.py
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
+
+# jupyter lab stuff
+__pycache__/
 
 # Celery stuff
 celerybeat-schedule

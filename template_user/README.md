@@ -12,7 +12,13 @@ python resources/save_mn5_config.py; git add -A; git commit -m "update"; git pus
 * [metadata](https://github.com/pclavell/project_template/tree/main/metadata): Instructions / code for picking relevant datasets and getting / formatting their metadata. Final metadata tables.
 * [resources](https://github.com/pclavell/project_template/tree/main/resources): R and Python files with importable functions. YML file with project settings and global variables (color schemes, paths for different systems, etc.)
 * [processing](https://github.com/pclavell/project_template/tree/main/processing): Processing pipelines and code to perform cluster computation.
+  - [`config.yml`](https://github.com/pclavell/project_template/tree/main/resources/config.yml): Defines all the locations of the files used throughout this repo (including, notably, in the [analysis](https://github.com/fairliereese/240927_stam_lr/tree/main/analysis) folder as well).
+  - [`config_mn5.yml`](https://github.com/pclavell/project_template/tree/main/resources/config_mn5.yml): Absolute paths to files on MN5. Mirrors `config.yml`. Created automatically by GitHub push companion script
+  <!-- todo, link script -->
+  - [`resources.yml`](https://github.com/pclavell/project_template/tree/main/resources/resources.yml): Global project settings, including file paths for different systems, users, and colors for plotting.
 * [analysis](https://github.com/pclavell/project_template/tree/main/analysis): Analysis, data wrangling, plotting, and statistical testing.
+
+
 
 <!--
 ```bash

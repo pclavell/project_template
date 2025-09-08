@@ -1,28 +1,43 @@
 ## Data processing
 
-Some computationally-intense data processing was done using Snakemake. Each somewhat-distinct task is in its own folder to make it possible to run several Snakemakes in parallel with one another.
+Most data processing tasks that were run in parallel and / or on the cluster are here.
 
 ## Organization
 
 In the parent directory, there are a few shared resources
-* [`config.yml`](https://github.com/fairliereese/240927_stam_lr/blob/main/processing/config.yml): Defines all the locations of the files used throughout this repo (including, notably, in the [analysis](https://github.com/fairliereese/240927_stam_lr/tree/main/analysis) folder as well).
-* [`config_mn5.yml`](https://github.com/fairliereese/240927_stam_lr/blob/main/processing/config_mn5.yml): Absolute paths to files on MN5. Mirrors `config.yml`. Created automatically.
-* [common](https://github.com/fairliereese/240927_stam_lr/tree/main/processing/common): Snakemake rule definitions for rules that are repeatedly used throughout the subfolder tasks.
+* [rules](https://github.com/pclavell/project_template/tree/main/processing/rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
+* Each subfolder roughly contains a distinct data processing task
 
-In each subdirectory, the important files which are usually there are as follows:
-* `Snakefile`: Used to run the data processing / analysis workflow
-* `snakefile_dev.ipynb` (and other `*dev.ipynb`): Jupyter notebooks used to debug input / output Snakemake files or other tasks that are run during `Snakefile` execution.
-* Oftentimes there are additional `*.txt`, `*.md`, or `*.tsv` files that help outline additional input / output information (especially related to external dataset use) or other information / code used to run the `Snakefile`.
+* For Snakemake workflows, in each subdirectory, the important files which are usually there are as follows:
+  * `Snakefile`: Used to run the data processing / analysis workflow
+  * `snakefile_dev.ipynb` (and other `*dev.ipynb`): Jupyter notebooks used to debug input / output Snakemake files or other tasks that are run during `Snakefile` execution.
+  * Oftentimes there are additional `*.txt`, `*.md`, or `*.tsv` files that help outline additional input / output information (especially related to external dataset use) or other information / code used to run the `Snakefile`.
 
 ## Subfolder descriptions
 
-Subfolders that are not listed here don't contain analyses / processing for this manuscript. Folders are mentioned in order of execution, thus some outputs from earlier steps are required for later ones.
+Details for each data processing task subfolder listed here.
 
-* [qc](https://github.com/fairliereese/240927_stam_lr/tree/main/processing/qc): Run QC (Nanoplot and FASTQC). Find adapter sequences, split fastqs on adapters.
-* [map](https://github.com/fairliereese/240927_stam_lr/tree/main/processing/map): Map adapter-split fastqs. Filter mappings.
+* [template_snakemake](https://github.com/pclavell/project_template/tree/main/template_user/processing/template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
 
 
 ## Snakemake calls
+
+* Run Snakemake from within the relevant processing folder ie `processing/template_snakemake/`
+
+* You can use the script `template_snakemake/submit_smk.sh` to easily lauch Snakemake or run the dryrun. We recommend always at least using `--dryrun` first.
+
+```bash
+submit_smk.sh
+       -run: to start an execution
+       -rerun: for failed runs that blocked the dir, runs unlock
+       -dryrun: tests pipeline structure
+       -graph: makes DAG png
+Usage: bash submit_smk.sh {run|rerun|dryrun}
+```
+
+
+
+* Common Snakemake calls are also reproduced below:
 
 ```bash
 # normal
@@ -38,8 +53,6 @@ snakemake \
     -q gp_bscls \
     -A bsc83 \
     -c {resources.threads}  \
-    --mail-user=freese@bsc.es \
-    --mail-type=START,END,FAIL \
     --time=24:00:00" \
     -n
 
@@ -56,8 +69,6 @@ snakemake \
     -q acc_bscls \
     -A bsc83 \
     -c {resources.threads}  \
-    --mail-user=freese@bsc.es \
-    --mail-type=START,END,FAIL \
     --time={resources.time}" \
     -n
 

@@ -5,6 +5,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
@@ -18,6 +19,8 @@ __pycache__/
 =======
 =======
 >>>>>>> 21765ce (rebase complete ???)
+=======
+>>>>>>> c016049 (update with some progress on gh push companion script)
 __pycache__/
 =======
 =======
@@ -27,11 +30,21 @@ __pycache__/
 =======
 =======
 =======
+>>>>>>> 3445892 (update with some progress on gh push companion script)
+=======
 __pycache__/
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
+<<<<<<< HEAD
 >>>>>>> 8d298b6 (rebase complete ???)
+<<<<<<< HEAD
 >>>>>>> 21765ce (rebase complete ???)
+=======
+=======
+=======
+>>>>>>> f57ce38 (update with some progress on gh push companion script)
+>>>>>>> 3445892 (update with some progress on gh push companion script)
+>>>>>>> c016049 (update with some progress on gh push companion script)
 # project-specific gitignores
 data/*
 ref/*
@@ -233,6 +246,7 @@ cython_debug/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
@@ -250,6 +264,8 @@ __pycache__/
 =======
 =======
 >>>>>>> 21765ce (rebase complete ???)
+=======
+>>>>>>> c016049 (update with some progress on gh push companion script)
 >>>>>>> 760d701 (work making skeletons for readmes)
 =======
 =======
@@ -261,10 +277,20 @@ __pycache__/
 =======
 =======
 =======
+>>>>>>> 3445892 (update with some progress on gh push companion script)
+=======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
 =======
 >>>>>>> 760d701 (work making skeletons for readmes)
 >>>>>>> 1fb048d (work making skeletons for readmes)
+<<<<<<< HEAD
 >>>>>>> 8d298b6 (rebase complete ???)
+<<<<<<< HEAD
 >>>>>>> 21765ce (rebase complete ???)
+=======
+=======
+=======
+>>>>>>> f57ce38 (update with some progress on gh push companion script)
+>>>>>>> 3445892 (update with some progress on gh push companion script)
+>>>>>>> c016049 (update with some progress on gh push companion script)

@@ -22,14 +22,14 @@
 # CHANGE ME
 # project settings
 setup_settings:
-    project_name: fetal_dev
+    project_name: project_template
 
     # users and user settings
     users:
         pclavell: # this will be the name your project is nested under
             mn5_username: bsc083549 # your MN5 username (`echo $USER`)
             local_username: pclavell # your local username (`echo $USER`)
-            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/fetal_dev/
+            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
 
         freese:
             mn5_username: bsc083001

@@ -14,173 +14,106 @@
 
 ############ --------------------------------------------------------------- ############
 
-# #' Load Snakemake config YAML as a list
-# #'
-# #' @param config_file Optional path to config.yml file. If NULL, must provide utils_file_path.
-# #' @param utils_file_path Path to the utils.R file (used to find config.yml relative to it).
-# #' @return A named list parsed from YAML config file.
-# load_config <- function(config_file = NULL, utils_file_path = NULL) {
-#   if (is.null(config_file)) {
-#     if (is.null(utils_file_path)) {
-#       stop("Must provide utils_file_path if config_file is NULL")
-#     }
-#     d <- dirname(normalizePath(utils_file_path))
-#     od <- file.path(d, "snakemake")
-#     config_file <- file.path(od, "config.yml")
-#   }
-
-#   config <- yaml::read_yaml(config_file)
-#   return(config)
-# }
-
-#' Load Snakemake config YAML as a list
+#' Set Up Configuration with User-Specific Resource Paths
 #'
-#' @param config_file Optional path to config.yml file. If NULL, must provide utils_file_path.
-#' @param utils_file_path Path to the utils.R file (used to find config.yml relative to it).
-#' @return A named list parsed from YAML config file.
-load_config <- function(config_file = NULL, utils_file_path = NULL) {
-  if (is.null(config_file)) {
-    if (is.null(utils_file_path)) {
-      stop("Must provide utils_file_path if config_file is NULL")
-    }
-    d <- dirname(normalizePath(utils_file_path))
-    od <- file.path(d, "snakemake")
-    config_file <- file.path(od, "config.yml")
-  }
-
-  config <- yaml::read_yaml(config_file)
-  return(config)
-}
-
-
-
-
-#' Load resources YAML as a list
+#' This function loads a configuration file and a resources file from a user 
+#' directory, then adjusts resource paths based on the current user and 
+#' machine. It returns a fully substituted configuration object for use in 
+#' downstream workflows.
 #'
-#' @param utils_file_path Path to the utils.R file (used to find resources.yml relative to it).
-#' @return A named list parsed from YAML resources file.
-load_resources <- function(utils_file_path = NULL) {
-  if (is.null(utils_file_path)) {
-    stop("Must provide utils_file_path to locate resources.yml")
-  }
-
-  d <- dirname(normalizePath(utils_file_path))
-  od <- file.path(d, "resources")
-  config_file <- file.path(od, "resources.yml")
-
-  config <- yaml::read_yaml(config_file)
-  return(config)
-}
-
-#' Get path replacement map for current user
+#' @param user_dir Character string. Path to the user directory containing the 
+#'   \code{resources/config.yml} and \code{resources/resources.yml} files.
 #'
-#' Returns a named list of strings to replace in configs for the current user.
-#' If the username is not recognized in `resources.yml`, an error is raised.
-#' Optionally, the username can be forced to a specific value for mn5 config.
+#' @details
+#' The function performs the following steps:
+#' \enumerate{
+#'   \item Reads the main configuration from \code{config.yml}.
+#'   \item Reads the resource mappings from \code{resources.yml}.
+#'   \item Determines the current system username via \code{Sys.info()[["user"]]}.
+#'   \item Filters the resource mappings to those specific to the current user.
+#'   \item Flattens the nested resource mappings into a named vector.
+#'   \item Substitutes placeholders in the configuration with absolute paths 
+#'         from the resource mappings using \code{replace_str_dict()}.
+#' }
 #'
-#' @param utils_file_path Path to the utils.R file (used to locate resources.yml).
-#' @param mn5_config Logical; if TRUE, force username to "bsc083001".
-#' @return Named list of string replacements for absolute paths.
+#' @return A configuration object (typically a list) with all resource paths 
+#'   substituted and adjusted for the current user.
+#'
 #' @examples
 #' \dontrun{
-#' get_path_map(utils_file_path = "scripts/utils.R")
-#' get_path_map(utils_file_path = "scripts/utils.R", mn5_config = TRUE)
+#' # Example directory containing resources:
+#' user_dir <- "/home/alice/project"
+#'
+#' # Run setup
+#' config <- set_up_config(user_dir)
+#'
+#' # Access values from the returned config
+#' config$data_dir
 #' }
-get_path_map <- function(utils_file_path, mn5_config = FALSE) {
-  # Get current username
+#'
+#' @seealso [yaml::read_yaml()], [Sys.info()], [replace_str_dict()]
+#'
+#' @export
+
+set_up_config <- function(user_dir){
+  # read config file
+  config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"))
+  # read resources yml file
+  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
+  # get username
   username <- Sys.info()[["user"]]
+  # filter resources yml file depending on the user and machine
+  resources_yml <- resources_yml$path_map[[username]]
+  # Flatten resources yml to a named vector for substitution
+  resources_vec <- unlist(resources_yml, use.names = TRUE)
+  # Creation of proper absolute paths depending on machine and user
+  config <-replace_str_dict(config_file, resources_vec)
   
-  # Override username if mn5_config is TRUE
-  if (mn5_config) {
-    username <- "bsc083001"
-  }
-
-  # Load resources
-  resources <- load_resources(utils_file_path)
-
-  # Check if username exists in path_map
-  if (!(username %in% names(resources$path_map))) {
-    stop(paste0("Username '", username, "' not found in resources.yml path_map. ",
-                "Add it before proceeding."))
-  }
-
-  # Return the path mapping for the user
-  return(resources$path_map[[username]])
-}
-
-
-#' Recursively replace substrings in strings within a nested list
-#'
-#' @param d A nested list or atomic value to perform replacements in.
-#' @param m Named list of substrings to replace (names are old substrings, values are replacements).
-#' @return The input structure with all applicable string replacements applied.
-replace_str_dict <- function(d, m) {
-  if (is.list(d)) {
-    if (!is.null(names(d))) {
-      for (name in names(d)) {
-        d[[name]] <- replace_str_dict(d[[name]], m)
-      }
-      return(d)
-    } else {
-      return(lapply(d, function(x) replace_str_dict(x, m)))
-    }
-  } else if (is.character(d) && length(d) == 1) {
-    for (old in names(m)) {
-      new <- m[[old]]
-      d <- gsub(old, new, d, fixed = TRUE)
-    }
-    return(d)
-  } else {
-    return(d)
-  }
-}
-
-
-#' Load absolute-path config by replacing relative paths based on user
-#'
-#' @param utils_file_path Path to the utils.R file (used for config and resources locating).
-#' @param mn5_config Logical; if TRUE, use mn5 user replacement paths.
-#' @return Named list config with relative paths replaced by absolute paths when possible.
-load_config_abs <- function(utils_file_path, mn5_config=FALSE) {
-  config <- load_config(utils_file_path = utils_file_path)
-  m <- get_path_map(utils_file_path = utils_file_path, mn5_config = mn5_config)
-
-  if (!identical(m, "unknown")) {
-    config <- replace_str_dict(config, m)
-  }
-
   return(config)
 }
 
-#' Load project metadata from the path specified in config.yml
-#'
-#' This function reads a metadata TSV file whose path is defined in the
-#' Snakemake configuration (`config.yml`). It uses the `utils_file_path` to 
-#' determine the relative location of the config and metadata directories.
-#'
-#' @param utils_file_path Full path to the R script calling this function (e.g., "scripts/utils.R").
-#'        Used to resolve paths relative to the project structure.
-#'
-#' @return A tibble containing the metadata.
-#' @examples
-#' load_meta(utils_file_path = "scripts/utils.R")
-load_meta <- function(utils_file_path) {
-  # Directory of utils.R
-  d <- dirname(normalizePath(utils_file_path))
-  od <- file.path(d, "snakemake", "map")
+replace_str_dict <- function(d, m) {
+  #' Recursively replace substrings in all strings within a nested data structure.
+  #'
+  #' @param d A nested data structure: list, vector, or string.
+  #' @param m A named character vector mapping substrings to replace 
+  #'   (names are patterns, values are replacements).
+  #'
+  #' @return The same type as input `d`, with replacements applied.
+  #'
+  #' @examples
+  #' data <- list(path = "/home/user/data", files = c("file1.txt", "file2.txt"))
+  #' mapping <- c("/home/user" = "/mnt/data")
+  #' replace_str_dict(data, mapping)
+  #' # $path
+  #' # [1] "/mnt/data/data"
+  #' #
+  #' # $files
+  #' # [1] "file1.txt" "file2.txt"
   
-  # Load config.yml
-  config <- load_config(utils_file_path = utils_file_path)
-  
-  # Compose full metadata file path
-  meta_path <- file.path(od, config$lr$fmt_meta)
-  print(meta_path)
-  
-  # Read TSV metadata file
-  df <- readr::read_tsv(meta_path)
-  
-  return(df)
+  if (is.list(d)) {
+    # Handle named or unnamed lists recursively
+    return(lapply(d, replace_str_dict, m = m))
+    
+  } else if (is.character(d) && length(d) == 1) {
+    # Single string: apply replacements
+    for (old in names(m)) {
+      d <- gsub(old, m[[old]], d, fixed = TRUE)
+    }
+    return(d)
+    
+  } else if (is.character(d) && length(d) > 1) {
+    # Character vector: apply replacements elementwise
+    return(vapply(d, function(x) replace_str_dict(x, m), character(1)))
+    
+  } else {
+    # Leave numbers, logicals, NULL, etc. untouched
+    return(d)
+  }
 }
+
+
+
 
 #' Expand a pattern with all combinations of variables
 #'
@@ -216,3 +149,116 @@ expand <- function(pattern, ...) {
   
   return(result)
 }
+
+
+#' Capture and Assign Command-Line Arguments (When using Rscript myscript.R)
+#'
+#' This function retrieves a specified number of command-line arguments and 
+#' assigns them to variable names in the global environment.
+#'
+#' @param num Integer. The number of command-line arguments to capture (1–10).
+#' @param arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10 
+#'   Character strings. The names of variables to which the corresponding 
+#'   command-line arguments will be assigned.
+#'
+#' @details
+#' The function uses \code{commandArgs(trailingOnly = TRUE)} to obtain 
+#' command-line arguments passed to the R script. Up to 10 arguments can be 
+#' captured and assigned. For each argument:
+#' \itemize{
+#'   \item If \code{num >= k} and at least \code{k} arguments are supplied, 
+#'   the \code{k}-th command-line argument is assigned to the variable name 
+#'   provided in \code{argk} within the global environment.
+#' }
+#'
+#' Arguments beyond the number provided by the user or exceeding \code{num} 
+#' are ignored.
+#'
+#' @return 
+#' This function does not return a value. Instead, it assigns variables 
+#' in the global environment.
+#'
+#' @examples
+#' \dontrun{
+#' # Suppose the script is called with:
+#' # Rscript myscript.R input.txt output.txt
+#'
+#' catch_args(2, "infile", "outfile", NA, NA, NA, NA, NA, NA, NA, NA)
+#'
+#' # After running, two variables will be available in the global environment:
+#' # infile  -> "input.txt"
+#' # outfile -> "output.txt"
+#' }
+#'
+#' @seealso [commandArgs()]
+#'
+#' @export
+catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
+  if (num > 0) {
+    args <- commandArgs(trailingOnly = TRUE)
+    
+    if (num >= 1 && length(args) >= 1) {
+      first <- args[1]
+      assign(arg1, first, envir = .GlobalEnv)
+    }
+    if (num >= 2 && length(args) >= 2) {
+      second <- args[2]
+      assign(arg2, second, envir = .GlobalEnv)
+    }
+    if (num >= 3 && length(args) >= 3) {
+      third <- args[3]
+      assign(arg3, third, envir = .GlobalEnv)
+    }
+    if (num >= 4 && length(args) >= 4) {
+      fourth <- args[4]
+      assign(arg4, fourth, envir = .GlobalEnv)
+    }
+    if (num >= 5 && length(args) >= 5) {
+      fifth <- args[5]
+      assign(arg5, fifth, envir = .GlobalEnv)
+    }
+    if (num >= 6 && length(args) >= 6) {
+      sixth <- args[6]
+      assign(arg6, sixth, envir = .GlobalEnv)
+    }
+    if (num >= 7 && length(args) >= 7) {
+      seventh <- args[7]
+      assign(arg7, seventh, envir = .GlobalEnv)
+    }
+    if (num >= 8 && length(args) >= 8) {
+      eighth <- args[8]
+      assign(arg8, eighth, envir = .GlobalEnv)
+    }
+    if (num >= 9 && length(args) >= 9) {
+      ninth <- args[9]
+      assign(arg9, ninth, envir = .GlobalEnv)
+    }
+    if (num >= 10 && length(args) >= 10) {
+      tenth <- args[10]
+      assign(arg10, tenth, envir = .GlobalEnv)
+    }
+  }
+}
+
+
+
+# R theme
+mytheme <- theme_minimal() + theme(axis.text = element_text(color = "black"),
+                                 axis.ticks = element_line(linewidth = 0.2), 
+                                 axis.title = element_text(size=7, vjust = -0.5),
+                                 legend.title = element_text(size = 7, face = "bold"),
+                                 legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
+                                 legend.box.margin = margin(-10, 3, -10, -7),
+                                 legend.key.size = unit(0.7, "lines"),
+                                 panel.border	= element_blank(),
+                                 axis.line.x = element_line(linewidth = 0.2),
+                                 axis.line.y = element_line(linewidth = 0.2), 
+                                 panel.background = element_blank(),   
+                                 panel.grid = element_line(linewidth =0.2),
+                                 plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
+                                 plot.title = element_text(face="bold", hjust=0.5),
+                                 strip.text = element_text(size=7, face="bold"),   
+                                 strip.background = element_blank(),
+                                 text = element_text(family = "Helvetica",color="black", size=7),
+                                 legend.key = element_rect(color=NA, fill=NA))
+

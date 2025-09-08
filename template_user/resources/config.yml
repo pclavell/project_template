@@ -16,4 +16,4 @@ metadata: \{metadata_dir\}/metadata.tsv
 example:
   sam: \{data_dir\}/fake_dir/example_{sample}_{replicate}.sam
   bam: \{data_dir\}/fake_dir/example_{sample}.bam
-  sorted_sam: \{data_dir\}/fake_dir/example__{sample}_sorted.sam
+  sorted_sam: \{data_dir\}/fake_dir/example_{sample}_sorted.sam

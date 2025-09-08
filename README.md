@@ -79,8 +79,11 @@ python resources/init_gh_url.py
 >>>>>>> 1fb048d (work making skeletons for readmes)
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
+<<<<<<< HEAD
 =======
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
 >>>>>>> 21765ce (rebase complete ???)
+=======
+>>>>>>> c016049 (update with some progress on gh push companion script)

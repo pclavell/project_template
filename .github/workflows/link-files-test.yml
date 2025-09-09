@@ -4,7 +4,7 @@ name: Link Files in README
 on:
   push:
     paths:
-      - 'template_user/resources/TEST.md'  # Change to '**/*.md' after testing
+      - 'resources/TEST.md'  # Change to '**/*.md' after testing
 
 jobs:
   link-files:
@@ -16,18 +16,17 @@ jobs:
         uses: richardrigutins/replace-in-files@v2
         with:
           files: 'resources/TEST.md'
-          use-regex: true
           search-text: |
-            (?<!\[`?)(?<!\[)`?(analysis/template\.R)`?(?!`\]?)(?!\])(\([^\)]*\))?
+            `?(analysis/template\.R)`?(?!\]\()
           replacement-text: |
             [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis/template.R)
-
+    
       - name: Replace references to analysis
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: 'template_user/resources/TEST.md'
-          use-regex: true
+          files: 'resources/TEST.md'
           search-text: |
-            (?<!\[`?)(?<!\[)`?(analysis)`?(?!`\]?)(?!\])(\([^\)]*\))?
+            `?(analysis)`?(?!\]\()
           replacement-text: |
             [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis)
+    

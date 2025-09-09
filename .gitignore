@@ -6,6 +6,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 =======
@@ -21,6 +22,8 @@ __pycache__/
 >>>>>>> 21765ce (rebase complete ???)
 =======
 >>>>>>> c016049 (update with some progress on gh push companion script)
+=======
+>>>>>>> 8f24867 (added progress making script to run when git pushing)
 __pycache__/
 =======
 =======
@@ -44,7 +47,12 @@ __pycache__/
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
 >>>>>>> 3445892 (update with some progress on gh push companion script)
+<<<<<<< HEAD
 >>>>>>> c016049 (update with some progress on gh push companion script)
+=======
+=======
+>>>>>>> 8b7eaf0 (added progress making script to run when git pushing)
+>>>>>>> 8f24867 (added progress making script to run when git pushing)
 # project-specific gitignores
 data/*
 ref/*
@@ -53,6 +61,7 @@ analysis/*tsv
 */EU_Logs/*
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -66,6 +75,9 @@ analysis/*tsv
 =======
 >>>>>>> 1fb048d (work making skeletons for readmes)
 >>>>>>> 21765ce (rebase complete ???)
+=======
+
+>>>>>>> 8f24867 (added progress making script to run when git pushing)
 # general gitignore stuff ripped from a template
 
 
@@ -183,6 +195,7 @@ __pypackages__/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 21765ce (rebase complete ???)
 # jupyter lab stuff
@@ -195,6 +208,11 @@ __pycache__/
 >>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
 =======
 >>>>>>> 21765ce (rebase complete ???)
+=======
+# jupyter lab stuff
+__pycache__/
+
+>>>>>>> 8f24867 (added progress making script to run when git pushing)
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -247,6 +265,7 @@ cython_debug/
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 __pycache__/
 >>>>>>> cdc1c12 (remove thrash from template)
@@ -266,6 +285,8 @@ __pycache__/
 >>>>>>> 21765ce (rebase complete ???)
 =======
 >>>>>>> c016049 (update with some progress on gh push companion script)
+=======
+>>>>>>> 8f24867 (added progress making script to run when git pushing)
 >>>>>>> 760d701 (work making skeletons for readmes)
 =======
 =======
@@ -293,4 +314,9 @@ __pycache__/
 =======
 >>>>>>> f57ce38 (update with some progress on gh push companion script)
 >>>>>>> 3445892 (update with some progress on gh push companion script)
+<<<<<<< HEAD
 >>>>>>> c016049 (update with some progress on gh push companion script)
+=======
+=======
+>>>>>>> 8b7eaf0 (added progress making script to run when git pushing)
+>>>>>>> 8f24867 (added progress making script to run when git pushing)

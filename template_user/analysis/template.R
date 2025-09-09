@@ -1,5 +1,6 @@
 ####################---------------- HEADER ----------------####################
 
+# Use always this header in your R scripts
 # Identify user directory to have a reference path to load the utils 
 #       (assuming that it is inside one of these three dirs, at any depth level)
 
@@ -7,7 +8,7 @@ get_script_path <- function() {
   script_path <- ifelse(length(commandArgs(trailingOnly = F))>2,
                               normalizePath(gsub("--file=","",
                                                  commandArgs(trailingOnly = F)[4])),
-                              normalizePath(rstudioapi::getActiveDocumentContext()$path))
+                              normalizePath(rstudioapi::getActiveDocumentContext()))
   return(script_path)
 }
 script_path <- get_script_path()
@@ -21,12 +22,6 @@ config <- set_up_config(user_dir)
 library(tidyverse)
 library(data.table)
 ####################----------------------------------------####################
-
-
-
-
-
-
 
 
 

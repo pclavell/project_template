@@ -4,7 +4,7 @@ name: Link Files in README
 on:
   push:
     paths:
-      - 'resources/TEST.md'  # Change to '**/*.md' after testing
+      - 'template_user/resources/TEST.md'  # Change to '**/*.md' after testing
 
 jobs:
   link-files:
@@ -15,7 +15,7 @@ jobs:
       - name: Replace references to analysis/template.R
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: 'resources/TEST.md'
+          files: 'template_user/resources/TEST.md'
           search-text: |
             `?(analysis/template\.R)`?(?!\]\()
           replacement-text: |
@@ -24,7 +24,7 @@ jobs:
       - name: Replace references to analysis
         uses: richardrigutins/replace-in-files@v2
         with:
-          files: 'resources/TEST.md'
+          files: 'template_user/resources/TEST.md'
           search-text: |
             `?(analysis)`?(?!\]\()
           replacement-text: |

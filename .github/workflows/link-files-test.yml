@@ -20,7 +20,7 @@ jobs:
             `?(analysis/template\.R)`?(?!\]\()
           replacement-text: |
             [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis/template.R)
-    
+
       - name: Replace references to analysis
         uses: richardrigutins/replace-in-files@v2
         with:
@@ -29,4 +29,3 @@ jobs:
             `?(analysis)`?(?!\]\()
           replacement-text: |
             [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis)
-    

@@ -23,5 +23,6 @@ library(tidyverse)
 library(data.table)
 ####################----------------------------------------####################
 
-
+# Paths are stored in the config file, that should be always updated
+config$data$sam
 

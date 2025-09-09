@@ -1,0 +1,33 @@
+
+name: Link Files in README
+
+on:
+  push:
+    paths:
+      - 'template_user/resources/TEST.md'  # Change to '**/*.md' after testing
+
+jobs:
+  link-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Replace references to analysis/template.R
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: 'resources/TEST.md'
+          use-regex: true
+          search-text: |
+            (?<!\[`?)(?<!\[)`?(analysis/template\.R)`?(?!`\]?)(?!\])(\([^\)]*\))?
+          replacement-text: |
+            [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis/template.R)
+
+      - name: Replace references to analysis
+        uses: richardrigutins/replace-in-files@v2
+        with:
+          files: 'template_user/resources/TEST.md'
+          use-regex: true
+          search-text: |
+            (?<!\[`?)(?<!\[)`?(analysis)`?(?!`\]?)(?!\])(\([^\)]*\))?
+          replacement-text: |
+            [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis)

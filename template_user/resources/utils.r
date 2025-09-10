@@ -250,6 +250,10 @@ catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9
 library(ggplot2)
 
 # mytheme version for publication based on Nature Genetics guidelines
+# Max size: 180mm x 215mm (width-height)
+# Min resolution: 300 dpi
+# Font: 5–7 pt san serif for standard text labelling
+
 
 mythemep <- function() {
   list(

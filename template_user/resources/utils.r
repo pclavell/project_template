@@ -63,13 +63,17 @@ set_up_config <- function(user_dir){
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
-  resources_yml <- resources_yml$path_map[[username]]
+  resources <- resources_yml$path_map[[username]]
   # Flatten resources yml to a named vector for substitution
-  resources_vec <- unlist(resources_yml, use.names = TRUE)
+  resources_vec <- unlist(resources, use.names = TRUE)
   # Creation of proper absolute paths depending on machine and user
   config <-replace_str_dict(config_file, resources_vec)
-  
-  return(config)
+
+  # effects
+  setwd(user_dir)
+  assign("config", config, envir = .GlobalEnv)
+  assign("resources", resources, envir = .GlobalEnv)
+
 }
 
 replace_str_dict <- function(d, m) {

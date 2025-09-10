@@ -8,7 +8,7 @@ get_script_path <- function() {
   script_path <- ifelse(length(commandArgs(trailingOnly = F))>2,
                               normalizePath(gsub("--file=","",
                                                  commandArgs(trailingOnly = F)[4])),
-                              normalizePath(rstudioapi::getActiveDocumentContext()))
+                              normalizePath(rstudioapi::getActiveDocumentContext()$path))
   return(script_path)
 }
 script_path <- get_script_path()
@@ -24,5 +24,7 @@ library(data.table)
 ####################----------------------------------------####################
 
 # Paths are stored in the config file, that should be always updated
+# Alternatively, files that are not of so much interest can be referred to
+#   with paths relative to your user directory
 config$data$sam
 

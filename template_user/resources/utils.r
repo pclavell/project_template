@@ -287,7 +287,7 @@ mythemep <- function() {
   )
 }
 
-# mytheme version for exploration
+# mytheme version for exploration (only text size changes)
 mytheme <- function() {
   list(
     theme_minimal(),

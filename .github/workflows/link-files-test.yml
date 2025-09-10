@@ -10,22 +10,33 @@ jobs:
   link-files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Replace references to analysis/template.R
-        uses: richardrigutins/replace-in-files@v2
+      - uses: actions/checkout@v4
+      - name: Replace occurrences of analysis/template.R with placeholder
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
-          files: 'template_user/resources/TEST.md'
-          search-text: |
-            `?(analysis/template\.R)`?(?!\]\()
-          replacement-text: |
-            [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis/template.R)
-
-      - name: Replace references to analysis
-        uses: richardrigutins/replace-in-files@v2
+          find: '\banalysis/template\.R\b'
+          replace: '__FILE_REPL_1_1819D1B9__'
+          include: 'template_user/resources/TEST.md'
+          regex: true
+      - name: Replace occurrences of analysis with placeholder
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
-          files: 'template_user/resources/TEST.md'
-          search-text: |
-            `?(analysis)`?(?!\]\()
-          replacement-text: |
-            [\1](http://github.com/pclavell/project_template/tree/fairlie/analysis)
+          find: '\banalysis\b'
+          replace: '__FILE_REPL_2_889E0153__'
+          include: 'template_user/resources/TEST.md'
+          regex: true
+      - name: Restore placeholder __FILE_REPL_1_1819D1B9__ -> link for analysis/template.R
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: '__FILE_REPL_1_1819D1B9__'
+          replace: '[`analysis/template.R`](http://github.com/pclavell/project_template/tree/gh_actions/analysis/template.R)'
+          include: 'template_user/resources/TEST.md'
+          regex: false
+      - name: Restore placeholder __FILE_REPL_2_889E0153__ -> link for analysis
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: '__FILE_REPL_2_889E0153__'
+          replace: '[`analysis`](http://github.com/pclavell/project_template/tree/gh_actions/analysis)'
+          include: 'template_user/resources/TEST.md'
+          regex: false
+

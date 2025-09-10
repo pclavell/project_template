@@ -9,10 +9,10 @@ python resources/save_mn5_config.py; git add -A; git commit -m "update"; git pus
 ```
 
 ## Repository content
-* [metadata](https://github.com/pclavell/project_template/tree/main/metadata): Instructions / code for picking relevant datasets and getting / formatting their metadata. Final metadata tables.
-* [resources](https://github.com/pclavell/project_template/tree/main/resources): R and Python files with importable functions. YML file with project settings and global variables (color schemes, paths for different systems, etc.)
-* [processing](https://github.com/pclavell/project_template/tree/main/processing): Processing pipelines and code to perform cluster computation.
-* [analysis](https://github.com/pclavell/project_template/tree/main/analysis): Analysis, data wrangling, plotting, and statistical testing.
+* [metadata](metadata): Instructions / code for picking relevant datasets and getting / formatting their metadata. Final metadata tables.
+* [resources](resources): R and Python files with importable functions. YML file with project settings and global variables (color schemes, paths for different systems, etc.)
+* [processing](processing): Processing pipelines and code to perform cluster computation.
+* [analysis](analysis): Analysis, data wrangling, plotting, and statistical testing.
 
 <!--
 ```bash

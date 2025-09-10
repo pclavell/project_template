@@ -72,7 +72,7 @@ def make_user_path_map_entry_local(user, username):
     m2[username] = {}
     m2[username]["data_dir"] = str(pathlib.Path(data_dir))
     m2[username]["ref_dir"] = str(pathlib.Path(ref_dir))
-    m2[username]["\{figures_dir"] = str(pathlib.Path(figures_dir))
+    m2[username]["figures_dir"] = str(pathlib.Path(figures_dir))
     m2[username]["metadata_dir"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
     
 

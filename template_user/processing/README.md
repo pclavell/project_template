@@ -5,7 +5,7 @@ Most data processing tasks that were run in parallel and / or on the cluster are
 ## Organization
 
 In the parent directory, there are a few shared resources
-* [rules](https://github.com/pclavell/project_template/tree/main/processing/rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
+* [rules](processing/rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
 * Each subfolder roughly contains a distinct data processing task
 
 * For Snakemake workflows, in each subdirectory, the important files which are usually there are as follows:
@@ -18,12 +18,12 @@ In the parent directory, there are a few shared resources
 Details for each data processing task subfolder listed here.
 
 <!-- * [template_snakemake] -->
-* [template_snakemake](https://github.com/pclavell/project_template/tree/main/template_user/processing/template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
+* [template_snakemake](processing/template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
 
 
 ## Snakemake calls
 
-* Run Snakemake from within the relevant processing folder ie `processing/template_snakemake/`
+* Run Snakemake from within the relevant processing folder ie [processing/template_snakemake/](processing/template_snakemake)
 
 * You can use the script `template_snakemake/submit_smk.sh` to easily lauch Snakemake or run the dryrun. We recommend always at least using `--dryrun` first.
 
@@ -35,8 +35,6 @@ submit_smk.sh
        -graph: makes DAG png
 Usage: bash submit_smk.sh {run|rerun|dryrun}
 ```
-
-
 
 * Common Snakemake calls are also reproduced below:
 

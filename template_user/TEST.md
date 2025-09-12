@@ -4,6 +4,8 @@ To see how to run R code, take a look at analysis/template.R.
 
 Hello, [This is a link](TEST.md)
 
+When we want to look at the analysis, we should xyz
+
 ```
 this is code analysis
 this is some more code analysis

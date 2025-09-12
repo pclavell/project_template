@@ -1,1 +1,2 @@
-We want to look in the analysis directory.
+We want to look in the [`analysis`](analysis) directory.
+

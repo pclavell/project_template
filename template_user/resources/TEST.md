@@ -5,12 +5,13 @@ To see how to run R code, take a look at analysis/template.R.
 Hello, [This is a link](TEST.md)
 
 ```
-this is code
-
+this is code analysis
+this is some more code analysis
 ```
 
 
-<!-- This is a comment -->
+<!-- This is a comment analysis -->
 
 * This is a bullet point
 * * this is a nested bullet point
+* * this is a nested bullet point analysis.

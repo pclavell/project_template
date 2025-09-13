@@ -5,7 +5,7 @@ Most data processing tasks that were run in parallel and / or on the cluster are
 ## Organization
 
 In the parent directory, there are a few shared resources
-* [rules](processing/rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
+* [rules](rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
 * Each subfolder roughly contains a distinct data processing task
 
 * For Snakemake workflows, in each subdirectory, the important files which are usually there are as follows:
@@ -18,7 +18,7 @@ In the parent directory, there are a few shared resources
 Details for each data processing task subfolder listed here.
 
 <!-- * [template_snakemake] -->
-* [template_snakemake](processing/template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
+* [template_snakemake](template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
 
 
 

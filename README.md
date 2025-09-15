@@ -30,18 +30,9 @@ git add -A
 git commit -m "first commit"
 ```
 
-* After you've made the GitHub repo, run the following to add the repo name to the `resources.yml`
-```bash
-python resources/init_gh_url.py
-```
-
 ## Developer to-do
 
 * Add a template Python notebook in analysis (Fairlie)
-* Skeleton READMEs (Fairlie)
-* GH auto-run script
-  <!-- - Update `config_mn5.yml` -->
-  - Turn all paths / file names (?) in READMEs into links automatically
-  - Add and link all subdirs in analysis/ and processing/ to the corresponding README so it's easy to add descriptions
-    - also for this add nested links for all .R, .ipynb, and any other relevant things?
-    - After push, could it check for broken links?
+* Add new user script
+* Python plotting theme
+* Check for broken links in READMEs

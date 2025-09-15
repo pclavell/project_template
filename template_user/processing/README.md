@@ -15,6 +15,8 @@ In the parent directory, there are a few shared resources
 
 ## Subfolder descriptions
 
+<!-- leave the subfolder descriptions header here it makes the GitHub action work! -->
+
 Details for each data processing task subfolder listed here.
 
 <!-- * [template_snakemake] -->

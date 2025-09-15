@@ -13,6 +13,8 @@ To help get started, we provide tempate R and Python files with headers and exam
 
 ## Subfolder descriptions
 
+<!-- leave the subfolder descriptions header here it makes the GitHub action work! -->
+
 Details for each analysis task subfolder listed here.
 
 <!-- * [dummy_analysis] -->

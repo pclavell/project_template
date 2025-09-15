@@ -185,5 +185,5 @@ for md_file in md_files:
     doc = md.render(doc)
 
     # write to new md file
-    with open(f'{md_file}_revised.md', 'w') as ofile:
+    with open(f'{md_file}', 'w') as ofile:
         ofile.write(doc)

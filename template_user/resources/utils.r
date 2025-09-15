@@ -63,13 +63,17 @@ set_up_config <- function(user_dir){
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
-  resources_yml <- resources_yml$path_map[[username]]
+  resources <- resources_yml$path_map[[username]]
   # Flatten resources yml to a named vector for substitution
-  resources_vec <- unlist(resources_yml, use.names = TRUE)
+  resources_vec <- unlist(resources, use.names = TRUE)
   # Creation of proper absolute paths depending on machine and user
   config <-replace_str_dict(config_file, resources_vec)
-  
-  return(config)
+
+  # effects
+  setwd(user_dir)
+  assign("config", config, envir = .GlobalEnv)
+  assign("resources", resources, envir = .GlobalEnv)
+
 }
 
 replace_str_dict <- function(d, m) {
@@ -243,22 +247,85 @@ catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9
 
 
 # R theme
-mytheme <- theme_minimal() + theme(axis.text = element_text(color = "black"),
-                                 axis.ticks = element_line(linewidth = 0.2), 
-                                 axis.title = element_text(size=7, vjust = -0.5),
-                                 legend.title = element_text(size = 7, face = "bold"),
-                                 legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
-                                 legend.box.margin = margin(-10, 3, -10, -7),
-                                 legend.key.size = unit(0.7, "lines"),
-                                 panel.border	= element_blank(),
-                                 axis.line.x = element_line(linewidth = 0.2),
-                                 axis.line.y = element_line(linewidth = 0.2), 
-                                 panel.background = element_blank(),   
-                                 panel.grid = element_line(linewidth =0.2),
-                                 plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
-                                 plot.title = element_text(face="bold", hjust=0.5),
-                                 strip.text = element_text(size=7, face="bold"),   
-                                 strip.background = element_blank(),
-                                 text = element_text(family = "Helvetica",color="black", size=7),
-                                 legend.key = element_rect(color=NA, fill=NA))
+library(ggplot2)
 
+# mytheme version for publication based on Nature Genetics guidelines
+# Max size: 180mm x 215mm (width-height)
+# Min resolution: 300 dpi
+# Font: 5–7 pt san serif for standard text labelling
+
+
+mythemep <- function() {
+  list(
+    theme_minimal(),
+    theme(
+      axis.text = element_text(color = "black"),
+      axis.ticks = element_line(linewidth = 0.2), 
+      axis.title = element_text(size=7, vjust = -0.5),
+      legend.title = element_text(size = 7, face = "bold"),
+      legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
+      legend.text = element_text(margin = margin(l = 0)),
+      legend.key = element_rect(color=NA, fill=FALSE),
+      legend.box.margin = margin(r = 0, l = 5, t = 0, b = 0),
+      legend.key.size= unit(4, "mm"),
+      # legend.key.spacing.y= unit(-1, "mm"),
+      legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
+      panel.border = element_rect(linewidth = 0.2, fill = NA), 
+      panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
+      panel.grid = element_line(linewidth =0.05, color="grey"),
+      panel.grid.minor = element_blank(), 
+      plot.margin = margin(t = 1, r = 10, b = 1, l = 1),
+      plot.title = element_text(face="bold", hjust=0.5),
+      strip.text = element_text(size=7, face="bold"),   
+      strip.background = element_blank(),
+      text = element_text(family = "Helvetica", color="black", size=7),
+    ),
+    guides(color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
+            fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
+            shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+    )
+  )
+}
+
+# mytheme version for exploration (only text size changes)
+mytheme <- function() {
+  list(
+    theme_minimal(),
+    theme(
+      axis.text = element_text(color = "black"),
+      axis.ticks = element_line(linewidth = 0.2), 
+      axis.title = element_text(vjust = -0.5),
+      legend.title = element_text(face = "bold"),
+      legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
+      legend.text = element_text(margin = margin(l = 0)),
+      legend.key = element_rect(color=NA, fill=FALSE),
+      legend.box.margin = margin(r = 0, l = 5, t = 0, b = 0),
+      legend.key.size= unit(4, "mm"),
+      # legend.key.spacing.y= unit(-1, "mm"),
+      legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
+      panel.border = element_rect(linewidth = 0.2, fill = NA), 
+      panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
+      panel.grid = element_line(linewidth =0.05, color="grey"),
+      panel.grid.minor = element_blank(), 
+      plot.margin = margin(t = 1, r = 10, b = 1, l = 1),
+      plot.title = element_text(face="bold", hjust=0.5),
+      strip.text = element_text( face="bold"),   
+      strip.background = element_blank(),
+      text = element_text(family = "Helvetica", color="black"),
+    ),
+    guides(color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
+            fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
+            shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+    )
+  )
+}
+
+# Function to display sample size in a ggplot
+n_fun <- function(x, y){
+  print("USAGE: stat_summary(fun.data = n_fun, geom = \"text\", fun.args = list(y=200), vjust=0.5, size=6*0.35)")
+  return(data.frame(y = y, label = paste0("n = ",length(x))))
+}
+
+# Cheatsheet how to save a ggplot
+howtosave <- function(){
+  print("ggsave(filename,  dpi=500, width = 45, height = 45,  units = \"mm\")")}

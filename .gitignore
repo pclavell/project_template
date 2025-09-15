@@ -1,58 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
+
 __pycache__/
-=======
->>>>>>> 1fb048d (work making skeletons for readmes)
-=======
->>>>>>> f57ce38 (update with some progress on gh push companion script)
-=======
-__pycache__/
-=======
->>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
-=======
-=======
->>>>>>> 21765ce (rebase complete ???)
-=======
->>>>>>> c016049 (update with some progress on gh push companion script)
-=======
->>>>>>> 8f24867 (added progress making script to run when git pushing)
-__pycache__/
-=======
-=======
->>>>>>> 8af2746 (conflict resolution)
-<<<<<<< HEAD
->>>>>>> a9b4c4e (conflict resolution)
-=======
-=======
-=======
->>>>>>> 3445892 (update with some progress on gh push companion script)
-=======
-__pycache__/
-=======
->>>>>>> 1fb048d (work making skeletons for readmes)
-<<<<<<< HEAD
->>>>>>> 8d298b6 (rebase complete ???)
-<<<<<<< HEAD
->>>>>>> 21765ce (rebase complete ???)
-=======
-=======
-=======
->>>>>>> f57ce38 (update with some progress on gh push companion script)
->>>>>>> 3445892 (update with some progress on gh push companion script)
-<<<<<<< HEAD
->>>>>>> c016049 (update with some progress on gh push companion script)
-=======
-=======
->>>>>>> 8b7eaf0 (added progress making script to run when git pushing)
->>>>>>> 8f24867 (added progress making script to run when git pushing)
+
 # project-specific gitignores
 data/*
 ref/*
@@ -60,26 +9,7 @@ figures/*
 analysis/*tsv
 */EU_Logs/*
 
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 1fb048d (work making skeletons for readmes)
-=======
->>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
-=======
-
-=======
->>>>>>> 1fb048d (work making skeletons for readmes)
->>>>>>> 21765ce (rebase complete ???)
-=======
-
->>>>>>> 8f24867 (added progress making script to run when git pushing)
 # general gitignore stuff ripped from a template
-
 
 # C extensions
 *.so
@@ -139,6 +69,8 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+.DS_Store/
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -192,27 +124,6 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 21765ce (rebase complete ???)
-# jupyter lab stuff
-__pycache__/
-
-=======
->>>>>>> 1fb048d (work making skeletons for readmes)
-<<<<<<< HEAD
-=======
->>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
-=======
->>>>>>> 21765ce (rebase complete ???)
-=======
-# jupyter lab stuff
-__pycache__/
-
->>>>>>> 8f24867 (added progress making script to run when git pushing)
 # Celery stuff
 celerybeat-schedule
 celerybeat.pid
@@ -259,64 +170,3 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-__pycache__/
->>>>>>> cdc1c12 (remove thrash from template)
-=======
->>>>>>> 760d701 (work making skeletons for readmes)
->>>>>>> 1fb048d (work making skeletons for readmes)
-=======
->>>>>>> f57ce38 (update with some progress on gh push companion script)
-=======
-__pycache__/
->>>>>>> cdc1c12 (remove thrash from template)
-=======
->>>>>>> 760d701 (work making skeletons for readmes)
->>>>>>> c151b0e (work making skeletons for readmes; adding gh push companion code)
-=======
-=======
->>>>>>> 21765ce (rebase complete ???)
-=======
->>>>>>> c016049 (update with some progress on gh push companion script)
-=======
->>>>>>> 8f24867 (added progress making script to run when git pushing)
->>>>>>> 760d701 (work making skeletons for readmes)
-=======
-=======
-__pycache__/
->>>>>>> cdc1c12 (remove thrash from template)
->>>>>>> 8af2746 (conflict resolution)
-<<<<<<< HEAD
->>>>>>> a9b4c4e (conflict resolution)
-=======
-=======
-=======
->>>>>>> 3445892 (update with some progress on gh push companion script)
-=======
-__pycache__/
->>>>>>> cdc1c12 (remove thrash from template)
-=======
->>>>>>> 760d701 (work making skeletons for readmes)
->>>>>>> 1fb048d (work making skeletons for readmes)
-<<<<<<< HEAD
->>>>>>> 8d298b6 (rebase complete ???)
-<<<<<<< HEAD
->>>>>>> 21765ce (rebase complete ???)
-=======
-=======
-=======
->>>>>>> f57ce38 (update with some progress on gh push companion script)
->>>>>>> 3445892 (update with some progress on gh push companion script)
-<<<<<<< HEAD
->>>>>>> c016049 (update with some progress on gh push companion script)
-=======
-=======
->>>>>>> 8b7eaf0 (added progress making script to run when git pushing)
->>>>>>> 8f24867 (added progress making script to run when git pushing)

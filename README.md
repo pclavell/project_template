@@ -35,4 +35,4 @@ git commit -m "first commit"
 * Add a template Python notebook in analysis (Fairlie)
 * Add new user script
 * Python plotting theme
-* Check for broken links in READMEs
+* [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)

@@ -1,12 +1,14 @@
 ## RULES
 
-* Work on your own branch, but try to merge into main at least 1x / week
+* Always run `git pull origin <branch name>` before starting to work
+Work on your own branch, but try to merge into main at least 1x / week
 * Maintain the .gitignore well! Ie, should be able to run `git add -A` without accidentally pushing large / unnecessary files
-* When adding files to the config, only update resources/config.yml. The mn5 version of it is generated automatically.
+* When adding files to the config, only update resources/config.yml. The mn5 version of it is generated automatically
 * To commit your work and push, run:
 ```bash
-python resources/save_mn5_config.py; git add -A; git commit -m "update"; git push origin main
+git add -A; git commit -m "update"; git push origin <branch name>
 ```
+* GitHub actions will automatically try to keep your READMEs linked and up-to-date.
 
 ## Repository content
 * [metadata](metadata): Instructions / code for picking relevant datasets and getting / formatting their metadata. Final metadata tables.

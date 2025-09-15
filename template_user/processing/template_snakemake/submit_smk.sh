@@ -4,9 +4,9 @@
 ################################## README BEFORE USAGE ##################################
 
 # ERROR: a first argument needs to be chosen between the following:
-#    -run: to start an execution 
-#    -rerun: for failed runs that blocked the dir, runs unlock 
-#    -dryrun: tests pipeline structure and makes dag 
+#    -run: to start an execution
+#    -rerun: for failed runs that blocked the dir, runs unlock
+#    -dryrun: tests pipeline structure and makes dag
 # Usage: bash submit_smk.sh {run|rerun|dryrun}
 
 ############ --------------------------------------------------------------- ############
@@ -96,5 +96,3 @@ case "$PARAM" in
     exit 1
     ;;
 esac
-
-

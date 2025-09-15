@@ -37,8 +37,8 @@ def load_config(config_file=None):
         configuration entries and values as specified in the YAML file.
     """
     if not config_file:
-        dir = os.path.dirname(__file__)
-        config_file = f'{dir}/config.yml'
+        d = os.path.dirname(__file__)
+        config_file = f'{d}/config.yml'
 
     with open(config_file) as f:
         config = yaml.safe_load(f)
@@ -58,8 +58,8 @@ def load_resources():
     dict
         Parsed resources as a dictionary.
     """
-    dir = os.path.dirname(__file__)
-    config_file = f'{dir}/resources.yml'
+    d = os.path.dirname(__file__)
+    config_file = f'{d}/resources.yml'
     config = load_config(config_file)
     return config
 
@@ -96,7 +96,7 @@ def save_mn5_config():
 
     This function generates a copy of the configuration where paths are
     converted to absolute paths suitable for the MN5 environment and saves
-    it as `config_mn5.yml` in the `../processing/` directory.
+    it as `config_mn5.yml` in the `../resources/` directory.
 
     Returns
     -------
@@ -104,8 +104,8 @@ def save_mn5_config():
     """
     config = load_config_abs(mn5_config=True)
 
-    dir = os.path.dirname(__file__)
-    config_file = f'{dir}/config_mn5.yml'
+    d = os.path.dirname(__file__)
+    config_file = f'{d}/config_mn5.yml'
 
     with open(config_file, 'w') as f:
         yaml.dump(config, f, default_flow_style=False)
@@ -123,7 +123,6 @@ def get_path_map(mn5_config=False):
     if mn5_config == True: username = 'template_user'
 
     resources = load_resources()
-    print(resources['path_map'][username])    # invalid username
     if username not in resources['path_map'].keys():
         raise ValueError(f'Username {username} not found in ../resources/resources.yml. Add before proceeding')
 

@@ -22,7 +22,7 @@
 # CHANGE ME
 # project settings
 setup_settings:
-    project_name: project_template
+    project_name: test_project_template
 
     # users and user settings
     users:

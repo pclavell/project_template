@@ -1,3 +1,5 @@
+__pycache__/
+.DS_Store/
 # project-specific gitignores
 data/*
 ref/*
@@ -80,6 +82,9 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
+
+# python
+__pycache__/
 
 # Jupyter Notebook
 .ipynb_checkpoints

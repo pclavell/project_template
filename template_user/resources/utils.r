@@ -63,17 +63,13 @@ set_up_config <- function(user_dir){
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
-  resources <- resources_yml$path_map[[username]]
+  resources_yml <- resources_yml$path_map[[username]]
   # Flatten resources yml to a named vector for substitution
-  resources_vec <- unlist(resources, use.names = TRUE)
+  resources_vec <- unlist(resources_yml, use.names = TRUE)
   # Creation of proper absolute paths depending on machine and user
   config <-replace_str_dict(config_file, resources_vec)
-
-  # effects
-  setwd(user_dir)
-  assign("config", config, envir = .GlobalEnv)
-  assign("resources", resources, envir = .GlobalEnv)
-
+  
+  return(config)
 }
 
 replace_str_dict <- function(d, m) {
@@ -250,10 +246,6 @@ catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9
 library(ggplot2)
 
 # mytheme version for publication based on Nature Genetics guidelines
-# Max size: 180mm x 215mm (width-height)
-# Min resolution: 300 dpi
-# Font: 5–7 pt san serif for standard text labelling
-
 
 mythemep <- function() {
   list(
@@ -287,7 +279,7 @@ mythemep <- function() {
   )
 }
 
-# mytheme version for exploration (only text size changes)
+# mytheme version for exploration
 mytheme <- function() {
   list(
     theme_minimal(),

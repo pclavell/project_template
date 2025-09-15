@@ -1,15 +1,15 @@
 ## RULES
 
 * Work on your own branch, but try to merge into main at least 1x / week
-* Maintain the .gitignore well! Ie, should be able to run `git add -A` without accidentally pushing large / unnecessary files
-* When adding files to the config, only update resources/config.yml. The mn5 version of it is generated automatically.
+* Maintain the [`.gitignore`](.gitignore) well! Ie, should be able to run `git add -A` without accidentally pushing large / unnecessary files
+* When adding files to the config, only update [`resources/config.yml`](resources/config.yml). The mn5 version of it is generated automatically.
 * To commit your work and push, run:
 ```bash
 python resources/save_mn5_config.py; git add -A; git commit -m "update"; git push origin main
 ```
 
 ## Repository content
-* [metadata](metadata): Instructions / code for picking relevant datasets and getting / formatting their metadata. Final metadata tables.
+* [metadata](metadata): Instructions / code for picking relevant datasets and getting / formatting their [metadata](metadata). Final [metadata](metadata) tables.
 * [resources](resources): R and Python files with importable functions. YML file with project settings and global variables (color schemes, paths for different systems, etc.)
 * [processing](processing): Processing pipelines and code to perform cluster computation.
 * [analysis](analysis): Analysis, data wrangling, plotting, and statistical testing.

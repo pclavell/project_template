@@ -1,0 +1,55 @@
+################################## README BEFORE USAGE ##################################
+# 1. Change the entries in setup_settings according to your needs
+# 2. Do NOT remove template_mn5_user_do_not_remove (it is used in utils.py)
+
+# Developer notes:
+# * we could technically make mn5_projects editable and therfore generalize to other systems...
+# * if we add any foolproof utils to interface w/ resources.yml (ie, getting color schemes),
+#   we could add them for real to this file
+# * related to first pt, we could generalize more the # of systems we can allow for a user
+#   to have
+
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
+
+############ --------------------------------------------------------------- ############
+
+# CHANGE ME
+# project settings
+setup_settings:
+    project_name: test_project_template
+
+    # users and user settings
+    users:
+        pclavell: # this will be the name your project is nested under
+            mn5_username: bsc083549 # your MN5 username (`echo $USER`)
+            local_username: pclavell # your local username (`echo $USER`)
+            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
+
+        freese:
+            mn5_username: bsc083001
+            local_username: fairliereese
+            local_path: /Users/fairliereese/Documents/programming/mele_lab/projects/
+
+    # do not change
+    mn5_projects: /gpfs/projects/bsc83/Projects/
+
+
+
+# other project settings, for example color settings, aliases, global variables... etc
+# example:
+
+# colors:
+#     tissue:
+#         lung: blue
+#         eye: red
+
+
+# we could have here a list of settings to not touch?
+
+gh_url: http://github.com/pclavell/project_template/

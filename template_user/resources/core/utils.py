@@ -37,7 +37,7 @@ def load_config(config_file=None):
         configuration entries and values as specified in the YAML file.
     """
     if not config_file:
-        d = os.path.dirname(__file__)
+        d = os.path.dirname(os.path.dirname(__file__))
         config_file = f'{d}/config.yml'
 
     with open(config_file) as f:
@@ -58,7 +58,7 @@ def load_resources():
     dict
         Parsed resources as a dictionary.
     """
-    d = os.path.dirname(__file__)
+    d = os.path.dirname(os.path.dirname(__file__))
     config_file = f'{d}/resources.yml'
     config = load_config(config_file)
     return config
@@ -104,7 +104,7 @@ def save_mn5_config():
     """
     config = load_config_abs(mn5_config=True)
 
-    d = os.path.dirname(__file__)
+    d = os.path.dirname(os.path.dirname(__file__))
     config_file = f'{d}/config_mn5.yml'
 
     with open(config_file, 'w') as f:

@@ -5,9 +5,8 @@ Most data processing tasks that were run in parallel and / or on the cluster are
 ## Organization
 
 In the parent directory, there are a few shared resources
-* [rules](rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
+* [rules](rules): Rule definitions for workflow manager [`rules`](rules) that are repeatedly used throughout the subfolder tasks.
 * Each subfolder roughly contains a distinct data processing task
-
 * For Snakemake workflows, in each subdirectory, the important files which are usually there are as follows:
   * `Snakefile`: Used to run the data processing / analysis workflow
   * `snakefile_dev.ipynb` (and other `*dev.ipynb`): Jupyter notebooks used to debug input / output Snakemake files or other tasks that are run during `Snakefile` execution.
@@ -18,24 +17,12 @@ In the parent directory, there are a few shared resources
 Details for each data processing task subfolder listed here.
 
 <!-- * [template_snakemake] -->
+
 * [template_snakemake](template_snakemake): Template Snakemake workflow with header that works with the structure of this repository.
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Snakemake calls
 
 * Run Snakemake from within the relevant processing folder ie [processing/template_snakemake/](template_snakemake)
-
 * You can use the script `template_snakemake/submit_smk.sh` to easily lauch Snakemake or run the dryrun. We recommend always at least using `--dryrun` first.
 
 ```bash

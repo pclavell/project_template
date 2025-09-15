@@ -1,0 +1,44 @@
+name: Update READMEs
+
+on:
+  push:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  update_readmes:
+     # skip if commit was made by the workflow itself
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+            persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.7'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+
+      - name: Add subfolders to readmes
+        run: python -u resources/add_subfolders_to_readmes.py
+
+      - name: Add links to readmes
+        run: python -u resources/add_links_to_readmes.py
+
+      # remember to push!!
+      - name: Commit and push edited .mds
+        if: github.repository != ''  # Only runs on GitHub, not local act
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resources/config_mn5.yml
+          git commit -m "auto-edited md files" || echo "No changes to commit"
+          git push

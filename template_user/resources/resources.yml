@@ -51,30 +51,3 @@ setup_settings:
 
 
 # we could have here a list of settings to not touch?
-
-path_map:
-  bsc083001:
-    \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-    \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/freese/metadata
-    \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-  bsc083549:
-    \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-    \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/pclavell/metadata
-    \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-  fairliereese:
-    \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/data
-    \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/figures
-    \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/freese/metadata
-    \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/ref
-  pclavell:
-    \{data_dir\}: /home/pclavell/mounts/mn5/Projects/test_project_template/data
-    \{figures_dir\}: /home/pclavell/mounts/mn5/Projects/test_project_template/figures
-    \{metadata_dir\}: /home/pclavell/mounts/mn5/Projects/test_project_template/pclavell/metadata
-    \{ref_dir\}: /home/pclavell/mounts/mn5/Projects/test_project_template/ref
-  template_user:
-    \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-    \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-    \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/freese/metadata
-    \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref

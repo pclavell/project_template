@@ -21,11 +21,11 @@ python setup_project.py
 cd ../
 ```
 
-* Create a new GitHub repository on GitHub. In each of the user directories (ie `template_user`), run:
+* Create a new GitHub repository on GitHub. In each of the user directories (ie template_user), run:
 ```bash
-cd template_user
+cd <project_name>/<username>
 git init
-git remote add origin git@github.com:USERNAME/REPO_NAME.git
+git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "first commit"
 ```

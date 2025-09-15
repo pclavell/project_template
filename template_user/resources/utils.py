@@ -96,7 +96,7 @@ def save_mn5_config():
 
     This function generates a copy of the configuration where paths are
     converted to absolute paths suitable for the MN5 environment and saves
-    it as `config_mn5.yml` in the `../processing/` directory.
+    it as `config_mn5.yml` in the `../resources/` directory.
 
     Returns
     -------
@@ -199,96 +199,3 @@ def run_cmd(cmd):
         print("Error while running command:")
         print(e.stderr)
         raise
-
-        
-def make_user_path_map_entry(m, username):
-    """
-    Create path map entries for a given user.
-
-    Populates global dictionaries `m` and `m2` with resolved directory paths
-    (data, reference, figures, metadata) for the given user. Uses the globals
-    `data_dir`, `ref_dir`, `figures_dir`, `pref`, and `user`.
-
-    Parameters
-    ----------
-    username : str
-        The username for which to create path map entries.
-
-    Returns
-    -------
-    tuple of dict
-        Updated versions of the global dictionaries `(m, m2)`.
-
-    Notes
-    -----
-    - `m['path_map'][username]` stores paths with placeholders
-      (e.g., ``"{data_dir}"``).
-    - `m2[username]` stores the same paths without placeholders, using simple keys
-      (e.g., ``"data_dir"``).
-    - Relies on global variables: `m`, `m2`, `data_dir`, `ref_dir`, `figures_dir`,
-      `pref`, and `user`.
-    """
-    m['path_map'][username] = {}
-    m['path_map'][username]["{data_dir}"] = str(pathlib.Path(data_dir))
-    m['path_map'][username]["{ref_dir}"] = str(pathlib.Path(ref_dir))
-    m['path_map'][username]["{figures_dir}"] = str(pathlib.Path(figures_dir))
-    m['path_map'][username]["{metadata_dir}"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-
-    m2[username] = {}
-    m2[username]["data_dir"] = str(pathlib.Path(data_dir))
-    m2[username]["ref_dir"] = str(pathlib.Path(ref_dir))
-    m2[username]["figures_dir"] = str(pathlib.Path(figures_dir))
-    m2[username]["metadata_dir"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-
-    return m, m2
-
-
-def make_user_path_map_entry_local(m, user, username):
-    """
-    Create local path map entries for a given user.
-
-    Constructs project-specific directories (data, reference, figures, metadata)
-    under the local path for the specified user, and populates the global
-    dictionaries `m` and `m2` accordingly.
-
-    Parameters
-    ----------
-    user : str
-        The user key used to look up the local path in
-        ``m['setup_settings']['users'][user]['local_path']``.
-    username : str
-        The username for which to create path map entries.
-
-    Returns
-    -------
-    tuple of dict
-        Updated versions of the global dictionaries `(m, m2)`.
-
-    Notes
-    -----
-    - Uses `m['setup_settings']['project_name']` and the local path for `user`
-      to construct the base directory prefix.
-    - `m['path_map'][username]` stores paths with placeholders
-      (e.g., ``"{data_dir}"``).
-    - `m2[username]` stores the same paths without placeholders, using simple keys
-      (e.g., ``"data_dir"``).
-    - Relies on the global dictionaries `m` and `m2`.
-    """
-    pref = f"{m['setup_settings']['users'][user]['local_path']}/{m['setup_settings']['project_name']}/"
-    data_dir = f'{pref}/data/'
-    ref_dir = f'{pref}/ref/'
-    figures_dir = f'{pref}/figures/'
-
-    m['path_map'][username] = {}
-    m['path_map'][username]["{data_dir}"] = str(pathlib.Path(data_dir))
-    m['path_map'][username]["{ref_dir}"] = str(pathlib.Path(ref_dir))
-    m['path_map'][username]["{figures_dir}"] = str(pathlib.Path(figures_dir))
-    m['path_map'][username]["{metadata_dir}"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-
-    m2[username] = {}
-    m2[username]["data_dir"] = str(pathlib.Path(data_dir))
-    m2[username]["ref_dir"] = str(pathlib.Path(ref_dir))
-    m2[username]["figures_dir"] = str(pathlib.Path(figures_dir))
-    m2[username]["metadata_dir"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-
-    return m, m2

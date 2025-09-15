@@ -14,6 +14,9 @@ python resources/save_mn5_config.py; git add -A; git commit -m "update"; git pus
 * [processing](processing): Processing pipelines and code to perform cluster computation.
 * [analysis](analysis): Analysis, data wrangling, plotting, and statistical testing.
 
+## Other files details
+* [requirements.txt](requirements.txt): Python libraries needed to run the code in this repo.
+
 <!--
 ```bash
 conda activate pt_snakemake

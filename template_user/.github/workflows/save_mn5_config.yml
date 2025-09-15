@@ -1,0 +1,44 @@
+name: Save MN5 config
+
+on:
+  push:
+    branches:
+      - '*'
+    paths-ignore:
+      - 'resources/config_mn5.yml'
+  workflow_dispatch:
+
+jobs:
+  save_mn5_config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.7'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+
+      - name: Modify config_mn5.yml
+        run: python resources/save_mn5_config.py
+
+      # locally, check to see if the thing is there
+      - name: List resources folder
+        run: ls -l resources
+
+      - name: Commit and push mn5 config
+        if: github.repository != ''  # Only runs on GitHub, not local act
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add resources/config_mn5.yml
+          git commit -m "Auto-generate config_mn5.yml" || echo "No changes to commit"
+          git push

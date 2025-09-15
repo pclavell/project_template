@@ -11,15 +11,10 @@ this is code analysis
 this is some more code analysis
 ```
 
-
 <!-- This is a comment analysis -->
+
 
 * This is a bullet point
 * * this is a nested bullet point
 * * this is a nested bullet point analysis.
-
-* maybe you should look at (../resources/resources.yml), if not, that's ok.
-
-* you could even check out (.../../../resources.).
-
-* if you want, try (resources/resources.yml.)
+* this is a (../analysis/) secret

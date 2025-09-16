@@ -42,7 +42,6 @@ simply edit [template_user/resources/resources.yml](template_user/resources/reso
 ## Developer to-do
 
 * Add a template Python notebook in analysis
-* Add new user script
 * Python plotting theme
 * [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)
 * Add snakemake and python versions to requirements.txt and see if we can automate their installation

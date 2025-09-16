@@ -24,4 +24,4 @@ Details for each analysis task subfolder listed here.
 Included are a few files that demonstrate how to interact with the environment to make your files accessible without having to use long file paths.
 
 * [template.R](template.R): Header and examples using R
-* [template_python.ipynb](template_python.ipynb):
+* [template_python.ipynb](template_python.ipynb): Header and examples using Python iPython notebook

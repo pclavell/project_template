@@ -1,8 +1,8 @@
 ################################## README BEFORE USAGE ##################################
 
-# Set up settings in resources.yml and in the project directory according to what's in resources.yml setup_settings
+# Set up settings in resources.yml and in the project directory according to what's in resources.yml setup_settings; selectively add directories and init Git repos for only new users
 
-# Usage: python setup_project.py
+# Usage: python add_new_users.py
 
                                     #   /\_/\
                                     #  ( o.o )
@@ -14,26 +14,21 @@
 
 ############ --------------------------------------------------------------- ############
 
-
 from template_user.resources.utils import *
 import pathlib
-from collections import defaultdict, Counter
 
 m = load_resources()
 
-# verify that a new project name has been given 
-if m['setup_settings']['project_name'] == 'project_template':
-    raise ValueError(f'Must provide a new project name in template_user/resources.yml!')
-    
+# list of new users
+new_users = list(set(list(m['setup_settings']['users'].keys()))-set(m['users']))
+
+if len(new_users) == 0: 
+    print('No new users found. Exiting.')
+    return
+
 # verify that all usernames are unique, we'll have a problem 
 # determining the system if not
 check_setup_usernames(m)
-
-# rename project; immediately remove all git things;
-cmd = 'rm -rf .git'
-run_cmd(cmd)
-cmd = f"mv ../project_template ../{m['setup_settings']['project_name']}"
-run_cmd(cmd)
 
 # get paths for each user in setup_settings
 path_map, quick_path_map = get_setup_settings_path_maps(m)
@@ -45,13 +40,24 @@ quick_path_map['template_user'] = get_user_system_entry_path_map(m, 'template_us
 # also add a users list 
 quick_path_map['users'] = list(m['setup_settings']['users'].keys())
 
-# write to resources.yml, just append the path_map and quick-access path maps
+# when writing, we now need to overwrite previous entries
 path_map = {'path_map': dict(path_map)}
-with open('template_user/resources/resources.yml', 'a') as f:
-        yaml.dump(path_map, f, default_flow_style=False)
-        yaml.dump(quick_path_map, f, default_flow_style=False)
-        
-# make a copy of template user for each user
-for user, systems in m['setup_settings']['users'].items():
-    cmd = f'cp -r template_user/ {user}'
+m['path_map'] = path_map
+
+# quick path map
+for key, item in quick_path_map.items():
+    m[key] = item
+
+# rewrite
+with open('template_user/resources/resources.yml', 'w') as f:
+    yaml.dump(m, f, default_flow_style=False)
+    
+# which one was the new user ? copy a preexisting user for them
+# idea is to get also the git info 
+for user in new_users:
+    cmd = f"cp -r {list(m['setup_settings']['users'].keys())[0]} {user}"
+    # print(cmd)
     run_cmd(cmd)
+    cmd = f'git checkout main'
+    run_cmd(cmd, user)
+    # print(cmd)

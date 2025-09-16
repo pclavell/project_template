@@ -54,31 +54,17 @@ setup_settings:
             # or a collaborator from another institution,
             # you can add as many systems / users as you want
             # crg_cluster:
-                # username: crg_username
-                # path: /path/to/crg/cluster/projects/
+            #     username: crg_username
+            #     path: /path/to/crg/cluster/projects/
+
+        # testing
+        # new_user:
+        #     local:
+        #       username: new_user
+        #       path: /new/user/local_path/
 
     # do not change, used to automatically determine path for mn5 file system
     mn5_projects: /gpfs/projects/bsc83/Projects/
-
-# setup_settings:
-#     project_name: test_project_template
-
-#     # users and user settings
-#     users:
-#         pclavell: # this will be the name your project is nested under, not related to the usernames you have locally or on mn5
-#             mn5_username: bsc083549 # your MN5 username (`echo $USER`)
-#             local_username: pclavell # your local username (`echo $USER`)
-#             local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
-
-#         freese:
-#             mn5_username: bsc083001
-#             local_username: fairliereese
-#             local_path: /Users/fairliereese/Documents/programming/mele_lab/projects/
-
-#     # do not change
-#     mn5_projects: /gpfs/projects/bsc83/Projects/
-
-
 
 # other project settings, for example color settings, aliases, global variables... etc
 # example:
@@ -89,60 +75,4 @@ setup_settings:
 #         eye: red
 
 
-# we could have here a list of settings to not touch?
-
-
 # ##### REMOVE WHAT IS BELOW NOW, THIS IS FOR TESTING
-path_map:
-  local:
-    fairliereese:
-      \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/data
-      \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/figures
-      \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/freese/metadata
-      \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/ref
-    pclavell:
-      \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/data
-      \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/figures
-      \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/pclavell/metadata
-      \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/ref
-  mn5:
-    bsc083001:
-      \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-      \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/freese/metadata
-      \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-    bsc083549:
-      \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-      \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/pclavell/metadata
-      \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-    template_user:
-      \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-      \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/template_user/metadata
-      \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-bsc083001:
-  \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-  \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/freese/metadata
-  \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-bsc083549:
-  \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-  \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/pclavell/metadata
-  \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref
-fairliereese:
-  \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/data
-  \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/figures
-  \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/freese/metadata
-  \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/ref
-pclavell:
-  \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/data
-  \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/figures
-  \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/pclavell/metadata
-  \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template/ref
-template_user:
-  \{data_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/data
-  \{figures_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/figures
-  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/template_user/metadata
-  \{ref_dir\}: /gpfs/projects/bsc83/Projects/test_project_template/ref

@@ -20,6 +20,7 @@ import os
 import getpass
 import subprocess
 import pathlib
+from collections import defaultdict, Counter
 
 def load_config(config_file=None):
     """
@@ -165,7 +166,7 @@ def replace_str_dict(d, m):
     else:
         return d  # leave numbers, bools, None, etc. untouched
 
-def run_cmd(cmd):
+def run_cmd(cmd, wd='.'):
     """
     Run a shell command using subprocess and return its output.
 
@@ -174,6 +175,8 @@ def run_cmd(cmd):
     cmd : str or list
         Command to run. If a string, it is split safely into arguments.
         If a list, it is passed directly to subprocess.
+    wd: str
+        Directory to run process in 
 
     Returns
     -------
@@ -195,7 +198,8 @@ def run_cmd(cmd):
             cmd,
             capture_output=True,
             text=True,
-            check=True
+            check=True,
+            cwd=wd
         )
         return result.stdout
     except subprocess.CalledProcessError as e:
@@ -297,3 +301,45 @@ def flatten_list(l):
     l : list
     """
     return [j for i in l for j in i]
+
+def check_setup_usernames(m):
+    """
+    Checks that all usernames in setup_settings in resources.yml
+    are unique. Raises a value error if not.
+    
+    Parameters
+    ----------
+    m : dict from load_resources()
+    """
+    # verify that all usernames are unique, we'll have a problem 
+    # determining the system if not
+    usernames = []
+    for user, systems in m['setup_settings']['users'].items():
+        for system, system_dict in systems.items():
+            if 'username' in system_dict:
+                usernames.append(system_dict['username'])
+    dupes = [item for item, count in Counter(usernames).items() if count > 1]
+    if len(dupes)>0:
+        raise ValueError(f'Found duplicated username {dupes}.')
+
+def get_setup_settings_path_maps(m):
+    """
+    Create dictionaries for resources.yml entries for paths for
+    each user / system.
+    
+    Parameters
+    ----------
+    m : dict from load_resources()
+    """
+    # loop through usernames
+    path_map = defaultdict(dict)
+    quick_path_map = {}
+
+    for user, systems in m['setup_settings']['users'].items():
+        for system, system_dict in systems.items():
+
+            username = system_dict['username']
+            path_map[system][username] = get_user_system_entry_path_map(m, user, system)
+            quick_path_map[username] = get_user_system_entry_path_map(m, user, system)
+    
+    return path_map, quick_path_map

@@ -1,7 +1,8 @@
 ## RULES
 
 * Always run `git pull origin <branch name>` before starting to work
-Work on your own branch, but try to merge into main at least 1x / week
+* Work on your own branch, but try to merge into main at least 1x / week
+* Try to work on separate files to yield as few git merge conflicts as possible
 * Maintain the .gitignore well! Ie, should be able to run `git add -A` without accidentally pushing large / unnecessary files
 * When adding files to the config, only update resources/config.yml. The mn5 version of it is generated automatically
 * To commit your work and push, run:

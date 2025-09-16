@@ -124,11 +124,13 @@ def get_path_map(mn5_config=False):
     if mn5_config == True: username = 'template_user'
 
     resources = load_resources()
-    if username not in resources['path_map'].keys():
+
+    usernames = flatten_list([i.keys() for k, i in resources['path_map'].items()])
+    if username not in usernames:
         raise ValueError(f'Username {username} not found in ../resources/resources.yml. Add before proceeding')
 
     else:
-        return resources['path_map'][username]
+        return resources[username]
 
 
 
@@ -203,27 +205,27 @@ def run_cmd(cmd):
 
 def get_user_system_entry_path_map(m, user, system):
     """
-    Construct a mapping of placeholder keys to canonical filesystem paths 
+    Construct a mapping of placeholder keys to canonical filesystem paths
     for a given user and system within a project configuration.
 
     Parameters
     ----------
     m : dict
-        Project configuration dictionary, typically loaded from YAML. 
+        Project configuration dictionary, typically loaded from YAML.
         Must contain a ``setup_settings`` section with keys:
         - ``project_name`` (str): the project name
         - ``mn5_projects`` (str): base directory for MN5 projects
     user : str
         User identifier (e.g., ``"freese"``). Used to build user-specific paths.
     system : str
-        System identifier (e.g., ``"mn5"``, ``"local"``). 
+        System identifier (e.g., ``"mn5"``, ``"local"``).
         Determines which base path prefix to use.
 
     Returns
     -------
     dict of str to str
         A mapping from placeholder keys to resolved filesystem paths:
-        
+
         - ``"{data_dir}"`` → project data directory
         - ``"{ref_dir}"`` → project reference directory
         - ``"{figures_dir}"`` → project figures directory
@@ -231,12 +233,12 @@ def get_user_system_entry_path_map(m, user, system):
 
     Notes
     -----
-    - For the ``"mn5"`` system, the path prefix is inferred from 
+    - For the ``"mn5"`` system, the path prefix is inferred from
       ``m['setup_settings']['mn5_projects']``.
-    - For all other systems, the path prefix is taken from the 
+    - For all other systems, the path prefix is taken from the
       resources.yml dictionary
     - All returned paths are normalized using :class:`pathlib.Path`.
-    - Placeholder-style keys (e.g., ``"{data_dir}"``) are used to 
+    - Placeholder-style keys (e.g., ``"{data_dir}"``) are used to
       facilitate string substitution elsewhere in the project.
 
     Examples
@@ -255,22 +257,22 @@ def get_user_system_entry_path_map(m, user, system):
         '{metadata_dir}': '/mnt/projects/test_project/freese/metadata'
     }
     """
-    
+
     d = {}
 
     # mn5 paths
-    if system == 'mn5': 
+    if system == 'mn5':
         pref = f"{m['setup_settings']['mn5_projects']}/{m['setup_settings']['project_name']}"
-    
+
     # any other path
     else:
         pref = f"{m['setup_settings']['users'][user][system]['path']}/{m['setup_settings']['project_name']}/"
-        
+
     # print(user)
     # print(system)
     # print(pref)
     # print()
-        
+
     data_dir = f'{pref}/data/'
     ref_dir = f'{pref}/ref/'
     figures_dir = f'{pref}/figures/'
@@ -283,5 +285,15 @@ def get_user_system_entry_path_map(m, user, system):
     d["\{ref_dir\}"] = str(pathlib.Path(ref_dir))
     d["\{figures_dir\}"] = str(pathlib.Path(figures_dir))
     d["\{metadata_dir\}"] = str(pathlib.Path(metadata_dir))
-    
+
     return d
+
+def flatten_list(l):
+    """
+    Flatten a list into 1 dimension.
+
+    Parameters
+    ----------
+    l : list
+    """
+    return [j for i in l for j in i]

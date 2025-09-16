@@ -4,24 +4,24 @@
 # Add all the functions you want; a good rule of thumb is if you feel you are copy+pasting
 # the same code over and over, make it a function! =)
 
-                                    #   /\_/\  
-                                    #  ( o.o ) 
-                                    #   > ^ < 
-                                    #  /     \  
-                                    # (       )  
-                                    #  \__ __/   
-                                    #   || ||   
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
 
 ############ --------------------------------------------------------------- ############
 
 #' Set Up Configuration with User-Specific Resource Paths
 #'
-#' This function loads a configuration file and a resources file from a user 
-#' directory, then adjusts resource paths based on the current user and 
-#' machine. It returns a fully substituted configuration object for use in 
+#' This function loads a configuration file and a resources file from a user
+#' directory, then adjusts resource paths based on the current user and
+#' machine. It returns a fully substituted configuration object for use in
 #' downstream workflows.
 #'
-#' @param user_dir Character string. Path to the user directory containing the 
+#' @param user_dir Character string. Path to the user directory containing the
 #'   \code{resources/config.yml} and \code{resources/resources.yml} files.
 #'
 #' @details
@@ -32,11 +32,11 @@
 #'   \item Determines the current system username via \code{Sys.info()[["user"]]}.
 #'   \item Filters the resource mappings to those specific to the current user.
 #'   \item Flattens the nested resource mappings into a named vector.
-#'   \item Substitutes placeholders in the configuration with absolute paths 
+#'   \item Substitutes placeholders in the configuration with absolute paths
 #'         from the resource mappings using \code{replace_str_dict()}.
 #' }
 #'
-#' @return A configuration object (typically a list) with all resource paths 
+#' @return A configuration object (typically a list) with all resource paths
 #'   substituted and adjusted for the current user.
 #'
 #' @examples
@@ -63,12 +63,12 @@ set_up_config <- function(user_dir){
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
-  resources_yml <- resources_yml$path_map[[username]]
+  resources_yml <- resources_yml[[username]]
   # Flatten resources yml to a named vector for substitution
   resources_vec <- unlist(resources_yml, use.names = TRUE)
   # Creation of proper absolute paths depending on machine and user
   config <-replace_str_dict(config_file, resources_vec)
-  
+
   return(config)
 }
 
@@ -76,7 +76,7 @@ replace_str_dict <- function(d, m) {
   #' Recursively replace substrings in all strings within a nested data structure.
   #'
   #' @param d A nested data structure: list, vector, or string.
-  #' @param m A named character vector mapping substrings to replace 
+  #' @param m A named character vector mapping substrings to replace
   #'   (names are patterns, values are replacements).
   #'
   #' @return The same type as input `d`, with replacements applied.
@@ -90,22 +90,22 @@ replace_str_dict <- function(d, m) {
   #' #
   #' # $files
   #' # [1] "file1.txt" "file2.txt"
-  
+
   if (is.list(d)) {
     # Handle named or unnamed lists recursively
     return(lapply(d, replace_str_dict, m = m))
-    
+
   } else if (is.character(d) && length(d) == 1) {
     # Single string: apply replacements
     for (old in names(m)) {
       d <- gsub(old, m[[old]], d, fixed = TRUE)
     }
     return(d)
-    
+
   } else if (is.character(d) && length(d) > 1) {
     # Character vector: apply replacements elementwise
     return(vapply(d, function(x) replace_str_dict(x, m), character(1)))
-    
+
   } else {
     # Leave numbers, logicals, NULL, etc. untouched
     return(d)
@@ -138,7 +138,7 @@ replace_str_dict <- function(d, m) {
 expand <- function(pattern, ...) {
   vars <- list(...)
   combos <- do.call(expand.grid, vars)
-  
+
   result <- apply(combos, 1, function(row) {
     res <- pattern
     for (varname in names(vars)) {
@@ -146,36 +146,36 @@ expand <- function(pattern, ...) {
     }
     res
   })
-  
+
   return(result)
 }
 
 
 #' Capture and Assign Command-Line Arguments (When using Rscript myscript.R)
 #'
-#' This function retrieves a specified number of command-line arguments and 
+#' This function retrieves a specified number of command-line arguments and
 #' assigns them to variable names in the global environment.
 #'
 #' @param num Integer. The number of command-line arguments to capture (1–10).
-#' @param arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10 
-#'   Character strings. The names of variables to which the corresponding 
+#' @param arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10
+#'   Character strings. The names of variables to which the corresponding
 #'   command-line arguments will be assigned.
 #'
 #' @details
-#' The function uses \code{commandArgs(trailingOnly = TRUE)} to obtain 
-#' command-line arguments passed to the R script. Up to 10 arguments can be 
+#' The function uses \code{commandArgs(trailingOnly = TRUE)} to obtain
+#' command-line arguments passed to the R script. Up to 10 arguments can be
 #' captured and assigned. For each argument:
 #' \itemize{
-#'   \item If \code{num >= k} and at least \code{k} arguments are supplied, 
-#'   the \code{k}-th command-line argument is assigned to the variable name 
+#'   \item If \code{num >= k} and at least \code{k} arguments are supplied,
+#'   the \code{k}-th command-line argument is assigned to the variable name
 #'   provided in \code{argk} within the global environment.
 #' }
 #'
-#' Arguments beyond the number provided by the user or exceeding \code{num} 
+#' Arguments beyond the number provided by the user or exceeding \code{num}
 #' are ignored.
 #'
-#' @return 
-#' This function does not return a value. Instead, it assigns variables 
+#' @return
+#' This function does not return a value. Instead, it assigns variables
 #' in the global environment.
 #'
 #' @examples
@@ -196,7 +196,7 @@ expand <- function(pattern, ...) {
 catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
   if (num > 0) {
     args <- commandArgs(trailingOnly = TRUE)
-    
+
     if (num >= 1 && length(args) >= 1) {
       first <- args[1]
       assign(arg1, first, envir = .GlobalEnv)
@@ -252,7 +252,7 @@ mythemep <- function() {
     theme_minimal(),
     theme(
       axis.text = element_text(color = "black"),
-      axis.ticks = element_line(linewidth = 0.2), 
+      axis.ticks = element_line(linewidth = 0.2),
       axis.title = element_text(size=7, vjust = -0.5),
       legend.title = element_text(size = 7, face = "bold"),
       legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
@@ -262,13 +262,13 @@ mythemep <- function() {
       legend.key.size= unit(4, "mm"),
       # legend.key.spacing.y= unit(-1, "mm"),
       legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
-      panel.border = element_rect(linewidth = 0.2, fill = NA), 
+      panel.border = element_rect(linewidth = 0.2, fill = NA),
       panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
       panel.grid = element_line(linewidth =0.05, color="grey"),
-      panel.grid.minor = element_blank(), 
+      panel.grid.minor = element_blank(),
       plot.margin = margin(t = 1, r = 10, b = 1, l = 1),
       plot.title = element_text(face="bold", hjust=0.5),
-      strip.text = element_text(size=7, face="bold"),   
+      strip.text = element_text(size=7, face="bold"),
       strip.background = element_blank(),
       text = element_text(family = "Helvetica", color="black", size=7),
     ),
@@ -285,7 +285,7 @@ mytheme <- function() {
     theme_minimal(),
     theme(
       axis.text = element_text(color = "black"),
-      axis.ticks = element_line(linewidth = 0.2), 
+      axis.ticks = element_line(linewidth = 0.2),
       axis.title = element_text(vjust = -0.5),
       legend.title = element_text(face = "bold"),
       legend.margin = margin(r = 0, l = 0, t = 0, b = 0),
@@ -295,13 +295,13 @@ mytheme <- function() {
       legend.key.size= unit(4, "mm"),
       # legend.key.spacing.y= unit(-1, "mm"),
       legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
-      panel.border = element_rect(linewidth = 0.2, fill = NA), 
+      panel.border = element_rect(linewidth = 0.2, fill = NA),
       panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
       panel.grid = element_line(linewidth =0.05, color="grey"),
-      panel.grid.minor = element_blank(), 
+      panel.grid.minor = element_blank(),
       plot.margin = margin(t = 1, r = 10, b = 1, l = 1),
       plot.title = element_text(face="bold", hjust=0.5),
-      strip.text = element_text( face="bold"),   
+      strip.text = element_text( face="bold"),
       strip.background = element_blank(),
       text = element_text(family = "Helvetica", color="black"),
     ),

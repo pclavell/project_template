@@ -23,8 +23,7 @@ m = load_resources()
 new_users = list(set(list(m['setup_settings']['users'].keys()))-set(m['users']))
 
 if len(new_users) == 0: 
-    print('No new users found. Exiting.')
-    return
+    raise ValueError('No new users found. Exiting.')
 
 # verify that all usernames are unique, we'll have a problem 
 # determining the system if not
@@ -58,6 +57,7 @@ for user in new_users:
     cmd = f"cp -r {list(m['setup_settings']['users'].keys())[0]} {user}"
     # print(cmd)
     run_cmd(cmd)
-    cmd = f'git checkout main'
-    run_cmd(cmd, user)
-    # print(cmd)
+    cmd = "git fetch origin"
+    run_cmd(cmd, wd=user)
+    cmd = "git reset --hard origin/main"
+    run_cmd(cmd, wd=user)

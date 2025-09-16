@@ -18,3 +18,10 @@ To help get started, we provide tempate R and Python files with headers and exam
 Details for each analysis task subfolder listed here.
 
 <!-- * [dummy_analysis] -->
+
+## Template resources
+
+Included are a few files that demonstrate how to interact with the environment to make your files accessible without having to use long file paths.
+
+* [template.R](template.R): Header and examples using R
+* [template_python.ipynb](template_python.ipynb):

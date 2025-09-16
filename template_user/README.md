@@ -17,8 +17,19 @@ git add -A; git commit -m "update"; git push origin <branch name>
 * [processing](processing): Processing pipelines and code to perform cluster computation.
 * [analysis](analysis): Analysis, data wrangling, plotting, and statistical testing.
 
+
 ## Other files details
-* [requirements.txt](requirements.txt): Python libraries needed to run the code in this repo.
+* [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo.
+
+## GitHub actions
+
+By default, when you push, GitHub actions will automatically update a few files:
+
+* [`resources/config_mn5.yml`](resources/config_mn5.yml): Generated automatically; contains full MN5 paths to each data file. Useful when you need to share like a few files to someone without fully integrating them into the project.
+* Add bullet points in READMEs for each subfolder created under analysis and processing with descriptions that can be filled in later; helpful to document your project as you go.
+* Add links to all GitHub-tracked files in READMEs to make it easier to navigate your repo on the web.
+
+GitHub actions are stored in [.github/workflows/](.github/workflows).
 
 <!--
 ```bash

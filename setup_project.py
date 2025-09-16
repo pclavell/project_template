@@ -3,12 +3,22 @@ import pathlib
 
 m = load_resources()
 
-# for path_map for find and replace
-m['path_map'] = {}
+# verify that a new project name has been given 
+if m['setup_settings']['project_name'] == 'project_template':
+    raise ValueError(f'Must provide a new project name in template_user/resources.yml!')
+    
+# verify that all usernames are unique, we'll have a problem 
+# determining the system if not
+usernames = []
 
-# for plain text getters
-m2 = {}
-
+for user, systems in m['setup_settings']['users'].items():
+    for system, system_dict in systems.items():
+        if 'username' in system_dict:
+            usernames.append(system_dict['username'])
+dupes = [item for item, count in Counter(usernames).items() if count > 1]
+if len(dupes)>0:
+    raise ValueError(f'Found duplicated username {dupes}.')
+    
 
 # rename project; immediately remove all git things;
 cmd = 'rm -rf .git'
@@ -16,80 +26,30 @@ run_cmd(cmd)
 cmd = f"mv ../project_template ../{m['setup_settings']['project_name']}"
 run_cmd(cmd)
 
-# adding path map entries for MN5 location
-
-# data dir, ref dir, and figures dir are shared by all users
-pref = f"{m['setup_settings']['mn5_projects']}/{m['setup_settings']['project_name']}"
-data_dir = f'{pref}/data/'
-ref_dir = f'{pref}/ref/'
-figures_dir = f'{pref}/figures/'
-
-
-def make_user_path_map_entry(username):
-    m['path_map'][username] = {}
-    m['path_map'][username]["\{data_dir\}"] = str(pathlib.Path(data_dir))
-    m['path_map'][username]["\{ref_dir\}"] = str(pathlib.Path(ref_dir))
-    m['path_map'][username]["\{figures_dir\}"] = str(pathlib.Path(figures_dir))
-
-    # metadata dir is part of the github-stored stuff, so it's separate
-    m['path_map'][username]["\{metadata_dir\}"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-    
-    # these we'll use for all-purpose directory retrieval, but separate from path_map
-    m2[username] = {}
-    m2[username]["data_dir"] = str(pathlib.Path(data_dir))
-    m2[username]["ref_dir"] = str(pathlib.Path(ref_dir))
-    m2[username]["figures_dir"] = str(pathlib.Path(figures_dir))
-
-    # metadata dir is part of the github-stored stuff, so it's separate
-    m2[username]["metadata_dir"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-
-    return m, m2
-
+# add path maps to resources.yml 
 
 # loop through usernames
-for user, entry in m['setup_settings']['users'].items():
-    m, m2 = make_user_path_map_entry(entry['mn5_username'])
+path_map = defaultdict(dict)
+quick_path_map = {}
 
-# also make one for temp mn5 user
-m, m2 = make_user_path_map_entry('template_user')
+for user, systems in m['setup_settings']['users'].items():
+    for system, system_dict in systems.items():
+        
+        username = system_dict['username']
+        path_map[system][username] = get_user_system_entry_path_map(m, user, system)
+        quick_path_map[username] = get_user_system_entry_path_map(m, user, system)
 
-# adding path map entries for LOCAL location
+# also add template user under the mn5 regime
+path_map['mn5']['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
+quick_path_map['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
 
-def make_user_path_map_entry_local(user, username):
-    # data dir, ref dir, and figures dir are shared by all users
-    pref = f"{m['setup_settings']['users'][user]['local_path']}/{m['setup_settings']['project_name']}/"
-    data_dir = f'{pref}/data/'
-    ref_dir = f'{pref}/ref/'
-    figures_dir = f'{pref}/figures/'
-
-    m['path_map'][username] = {}
-    m['path_map'][username]["\{data_dir\}"] = str(pathlib.Path(data_dir))
-    m['path_map'][username]["\{ref_dir\}"] = str(pathlib.Path(ref_dir))
-    m['path_map'][username]["\{figures_dir\}"] = str(pathlib.Path(figures_dir))
-    m['path_map'][username]["\{metadata_dir\}"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-    
-    
-    m2[username] = {}
-    m2[username]["data_dir"] = str(pathlib.Path(data_dir))
-    m2[username]["ref_dir"] = str(pathlib.Path(ref_dir))
-    m2[username]["figures_dir"] = str(pathlib.Path(figures_dir))
-    m2[username]["metadata_dir"] = str(pathlib.Path(f'{pref}/{user}/metadata/'))
-    
-
-    return m, m2
-
-# loop through usernames
-for user, entry in m['setup_settings']['users'].items():
-    m, m2 = make_user_path_map_entry_local(user, entry['local_username'])
-
-# write, just append the path_map and quick-access path maps
-m_append = {}
-m_append['path_map'] = m['path_map']
+# write to resources.yml, just append the path_map and quick-access path maps
+path_map = {'path_map': dict(path_map)}
 with open('template_user/resources/resources.yml', 'a') as f:
-        yaml.dump(m_append, f, default_flow_style=False)
-        yaml.dump(m2, f, default_flow_style=False)
-
+        yaml.dump(path_map, f, default_flow_style=False)
+        yaml.dump(quick_path_map, f, default_flow_style=False)
+        
 # make a copy of template user for each user
-for user in m['setup_settings']['users']:
+for user, systems in m['setup_settings']['users'].items():
     cmd = f'cp -r template_user/ {user}'
     run_cmd(cmd)

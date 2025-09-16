@@ -19,6 +19,7 @@ import yaml
 import os
 import getpass
 import subprocess
+import pathlib
 
 def load_config(config_file=None):
     """
@@ -199,3 +200,88 @@ def run_cmd(cmd):
         print("Error while running command:")
         print(e.stderr)
         raise
+
+def get_user_system_entry_path_map(m, user, system):
+    """
+    Construct a mapping of placeholder keys to canonical filesystem paths 
+    for a given user and system within a project configuration.
+
+    Parameters
+    ----------
+    m : dict
+        Project configuration dictionary, typically loaded from YAML. 
+        Must contain a ``setup_settings`` section with keys:
+        - ``project_name`` (str): the project name
+        - ``mn5_projects`` (str): base directory for MN5 projects
+    user : str
+        User identifier (e.g., ``"freese"``). Used to build user-specific paths.
+    system : str
+        System identifier (e.g., ``"mn5"``, ``"local"``). 
+        Determines which base path prefix to use.
+
+    Returns
+    -------
+    dict of str to str
+        A mapping from placeholder keys to resolved filesystem paths:
+        
+        - ``"{data_dir}"`` → project data directory
+        - ``"{ref_dir}"`` → project reference directory
+        - ``"{figures_dir}"`` → project figures directory
+        - ``"{metadata_dir}"`` → user-specific metadata directory
+
+    Notes
+    -----
+    - For the ``"mn5"`` system, the path prefix is inferred from 
+      ``m['setup_settings']['mn5_projects']``.
+    - For all other systems, the path prefix is taken from the 
+      resources.yml dictionary
+    - All returned paths are normalized using :class:`pathlib.Path`.
+    - Placeholder-style keys (e.g., ``"{data_dir}"``) are used to 
+      facilitate string substitution elsewhere in the project.
+
+    Examples
+    --------
+    >>> config = {
+    ...     "setup_settings": {
+    ...         "project_name": "test_project",
+    ...         "mn5_projects": "/mnt/projects"
+    ...     }
+    ... }
+    >>> get_user_system_entry_path_map(config, "freese", "mn5")  # doctest: +ELLIPSIS
+    {
+        '{data_dir}': '/mnt/projects/test_project/data',
+        '{ref_dir}': '/mnt/projects/test_project/ref',
+        '{figures_dir}': '/mnt/projects/test_project/figures',
+        '{metadata_dir}': '/mnt/projects/test_project/freese/metadata'
+    }
+    """
+    
+    d = {}
+
+    # mn5 paths
+    if system == 'mn5': 
+        pref = f"{m['setup_settings']['mn5_projects']}/{m['setup_settings']['project_name']}"
+    
+    # any other path
+    else:
+        pref = f"{m['setup_settings']['users'][user][system]['path']}/{m['setup_settings']['project_name']}/"
+        
+    # print(user)
+    # print(system)
+    # print(pref)
+    # print()
+        
+    data_dir = f'{pref}/data/'
+    ref_dir = f'{pref}/ref/'
+    figures_dir = f'{pref}/figures/'
+
+    # metadata dir is part of the github-stored stuff, so it's separate
+    metadata_dir = str(pathlib.Path(f'{pref}/{user}/metadata/'))
+
+    # add all paths to dict
+    d["\{data_dir\}"] = str(pathlib.Path(data_dir))
+    d["\{ref_dir\}"] = str(pathlib.Path(ref_dir))
+    d["\{figures_dir\}"] = str(pathlib.Path(figures_dir))
+    d["\{metadata_dir\}"] = str(pathlib.Path(metadata_dir))
+    
+    return d

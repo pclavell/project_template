@@ -48,7 +48,7 @@ setup_settings:
                 # path:  path will be automatically inferred from mn5 system name
             local:
                 username: pclavell # your local username (`echo $USER`)
-                path: /Users/fairliereese/Documents/programming/mele_lab/projects/ # /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/test_project_template/
+                path: # /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/test_project_template/
 
             # if you have another cluster you run stuff on,
             # or a collaborator from another institution,

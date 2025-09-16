@@ -14,6 +14,7 @@ git clone git@github.com:pclavell/project_template.git
 
 
 * Run the [setup script](setup_project.py) to automatically create project subdirs for each user, populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo
+* If you want to work on other systems as well (ie locally), you'll have to do this step again
 
 ```bash
 cd project_template

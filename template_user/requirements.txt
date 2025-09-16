@@ -1,2 +1,12 @@
 PyYAML
 marko
+jupyterlab
+numpy
+pandas
+plotnine
+scipy
+pyranges
+pyfaidx
+seaborn
+UpSetPlot
+pysam

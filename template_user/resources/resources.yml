@@ -1,13 +1,21 @@
 ################################## README BEFORE USAGE ##################################
-# 1. Change the entries in setup_settings according to your needs
-# 2. Do NOT remove template_mn5_user_do_not_remove (it is used in utils.py)
+# 1. Change the entries in setup_settings according to your needs/
+
+# NOTE: username entries must be unique for determining the system you're working on
 
 # Developer notes:
 # * we could technically make mn5_projects editable and therfore generalize to other systems...
 # * if we add any foolproof utils to interface w/ resources.yml (ie, getting color schemes),
 #   we could add them for real to this file
 # * related to first pt, we could generalize more the # of systems we can allow for a user
-#   to have
+#   to have; would require allowing for a variable of the system name
+#   ie, we'd have to nest in resources['path_map'][<system_name>][<username>]
+#   and change somehow in setup_settings where / how we call mn5_projects path,
+#   or we might get rid of it entirely and just have it specified under each user? ie
+#   freese:
+#      mn5: # system name
+#           username: bsc083001
+#           path: /gpfs/projects/bsc83/Projects
 
                                     #   /\_/\
                                     #  ( o.o )
@@ -26,18 +34,49 @@ setup_settings:
 
     # users and user settings
     users:
-        pclavell: # this will be the name your project is nested under
-            mn5_username: bsc083549 # your MN5 username (`echo $USER`)
-            local_username: pclavell # your local username (`echo $USER`)
-            local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
+        freese: # this will be the name your project directory, not related to the usernames you have locally or on mn5
+            mn5: # system name
+                username: bsc083001 # your MN5 username (`echo $USER`)
+                # path:  path will be automatically inferred from mn5 system name
+            local:
+                username: fairliereese # your local username (`echo $USER`)
+                path: /Users/fairliereese/Documents/programming/mele_lab/projects/ # final path will  be /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template
+                
+        pclavell:
+            mn5: # system name
+                username: bsc083549 # your MN5 username (`echo $USER`)
+                # path:  path will be automatically inferred from mn5 system name
+            local:
+                username: pclavell # your local username (`echo $USER`)
+                path: /Users/fairliereese/Documents/programming/mele_lab/projects/ # /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/test_project_template/
+                
+            # if you have another cluster you run stuff on, 
+            # or a collaborator from another institution, 
+            # you can add as many systems / users as you want
+            # crg_cluster: 
+                # username: crg_username
+                # path: /path/to/crg/cluster/projects/
 
-        freese:
-            mn5_username: bsc083001
-            local_username: fairliereese
-            local_path: /Users/fairliereese/Documents/programming/mele_lab/projects/
-
-    # do not change
+    # do not change, used to automatically determine path for mn5 file system
     mn5_projects: /gpfs/projects/bsc83/Projects/
+
+# setup_settings:
+#     project_name: test_project_template
+
+#     # users and user settings
+#     users:
+#         pclavell: # this will be the name your project is nested under, not related to the usernames you have locally or on mn5
+#             mn5_username: bsc083549 # your MN5 username (`echo $USER`)
+#             local_username: pclavell # your local username (`echo $USER`)
+#             local_path: /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/project_template/
+
+#         freese:
+#             mn5_username: bsc083001
+#             local_username: fairliereese
+#             local_path: /Users/fairliereese/Documents/programming/mele_lab/projects/
+
+#     # do not change
+#     mn5_projects: /gpfs/projects/bsc83/Projects/
 
 
 
@@ -53,7 +92,7 @@ setup_settings:
 # we could have here a list of settings to not touch?
 
 
-##### REMOVE WHAT IS BELOW NOW, THIS IS FOR TESTING
+# ##### REMOVE WHAT IS BELOW NOW, THIS IS FOR TESTING
 path_map:
   bsc083001:
     \{data_dir\}: /gpfs/projects/bsc83/Projects/project_template/data

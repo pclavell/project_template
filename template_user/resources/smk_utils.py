@@ -3,18 +3,18 @@
 # This contains util function for snakemake.
 
 
-                                    #   /\_/\  
-                                    #  ( o.o ) 
-                                    #   > ^ < 
-                                    #  /     \  
-                                    # (       )  
-                                    #  \__ __/   
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
                                     #   || ||   
 
 ############ --------------------------------------------------------------- ############
 import pandas as pd
 
-# function to enable the array-like behaviour in snakemake 
+# function to enable the array-like behaviour in snakemake
 #  (particularly when there are more start than ending files)
 # it is useful for example when we start with replicates and end with a merge by sample
 

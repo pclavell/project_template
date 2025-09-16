@@ -30,9 +30,13 @@ git add -A
 git commit -m "first commit"
 ```
 
+## Other rules
+* Do not remove [template_user](template_user), as it will be used to generate new users if need be
+
 ## Developer to-do
 
-* Add a template Python notebook in analysis (Fairlie)
+* Add a template Python notebook in analysis
 * Add new user script
 * Python plotting theme
 * [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)
+* Add snakemake and python versions to requirements.txt and see if we can automate their installation

@@ -1,6 +1,7 @@
 ## Data processing
 
 Most data processing tasks that were run in parallel and / or on the cluster are here.
+Always use the [template.sh](template.sh) header in your bash scripts so it is reproducible across user.
 
 ## Organization
 

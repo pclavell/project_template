@@ -176,7 +176,7 @@ def run_cmd(cmd, wd='.'):
         Command to run. If a string, it is split safely into arguments.
         If a list, it is passed directly to subprocess.
     wd: str
-        Directory to run process in 
+        Directory to run process in
 
     Returns
     -------
@@ -285,10 +285,10 @@ def get_user_system_entry_path_map(m, user, system):
     metadata_dir = str(pathlib.Path(f'{pref}/{user}/metadata/'))
 
     # add all paths to dict
-    d["\{data_dir\}"] = str(pathlib.Path(data_dir))
-    d["\{ref_dir\}"] = str(pathlib.Path(ref_dir))
-    d["\{figures_dir\}"] = str(pathlib.Path(figures_dir))
-    d["\{metadata_dir\}"] = str(pathlib.Path(metadata_dir))
+    d[r"\{data_dir\}"] = str(pathlib.Path(data_dir))
+    d[r"\{ref_dir\}"] = str(pathlib.Path(ref_dir))
+    d[r"\{figures_dir\}"] = str(pathlib.Path(figures_dir))
+    d[r"\{metadata_dir\}"] = str(pathlib.Path(metadata_dir))
 
     return d
 
@@ -306,12 +306,12 @@ def check_setup_usernames(m):
     """
     Checks that all usernames in setup_settings in resources.yml
     are unique. Raises a value error if not.
-    
+
     Parameters
     ----------
     m : dict from load_resources()
     """
-    # verify that all usernames are unique, we'll have a problem 
+    # verify that all usernames are unique, we'll have a problem
     # determining the system if not
     usernames = []
     for user, systems in m['setup_settings']['users'].items():
@@ -326,10 +326,16 @@ def get_setup_settings_path_maps(m):
     """
     Create dictionaries for resources.yml entries for paths for
     each user / system.
-    
+
     Parameters
     ----------
     m : dict from load_resources()
+
+    Returns
+    -------
+    path_map, quick_path_map
+        Dictionaries of paths dict['path_map'][system][username];
+        dict[username] respectively
     """
     # loop through usernames
     path_map = defaultdict(dict)
@@ -341,5 +347,5 @@ def get_setup_settings_path_maps(m):
             username = system_dict['username']
             path_map[system][username] = get_user_system_entry_path_map(m, user, system)
             quick_path_map[username] = get_user_system_entry_path_map(m, user, system)
-    
+
     return path_map, quick_path_map

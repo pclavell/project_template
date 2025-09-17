@@ -6,13 +6,13 @@
 #  2) Adapt the FIRST RULE depending on your data (detail below)
 #  3) Add all the rules you want =)
 
-                                    #   /\_/\  
-                                    #  ( o.o ) 
-                                    #   > ^ < 
-                                    #  /     \  
-                                    # (       )  
-                                    #  \__ __/   
-                                    #   || ||   
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
 
 ############ --------------------------------------------------------------- ############
 
@@ -24,15 +24,16 @@
 # import packages
 import pandas as pd
 import os
+import re
 import sys
+from pathlib import Path
 
-# set resources and metadata path
-p = os.path.dirname(os.path.dirname(os.getcwd()))+'/resources/'
-sys.path.append(p)
+script_path = Path.cwd()
+user_dir = re.sub(r"/(metadata|processing|analysis)/.*$", "", str(script_path))
+sys.path.append(user_dir)
 
-# import all utils stored in resources
-from smk_utils import *
-from utils import *
+from resources.utils import *
+from resources.smk_utils import *
 
 # set folder where all snakemake modules are sitting
 rules_dir = '../rules/'
@@ -44,7 +45,7 @@ for f in sorted(os.listdir(rules_dir)):    #  recursive way to do ->   include: 
 
 
 # this makes all paths on the config as absolute paths that can be read while using the config.yml references
-config = load_config_abs() 
+config = load_config_abs()
 
 ############ --------------------------------------------------------------- ############
 
@@ -97,7 +98,7 @@ use rule example_rule1 as er1 with:
         sam = temporary(config['example']['sam'])
 
 
-# rule 2 
+# rule 2
 use rule example_rule2 as er2 with:
     input:
         sam = rules.example_rule1.output.sam

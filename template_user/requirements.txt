@@ -10,3 +10,4 @@ pyfaidx
 seaborn
 UpSetPlot
 pysam
+matplotlib

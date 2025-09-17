@@ -4,8 +4,12 @@ on:
   push:
     branches:
       - '*'
-    paths-ignore:
-      - 'resources/config_mn5.yml'
+    # paths-ignore:
+    #   - 'resources/config_mn5.yml'
+    # only runs when one of these things has changed
+    paths:
+      - '**/README.md'
+      - 'resources/config.yml'
   workflow_dispatch:
 
 permissions:

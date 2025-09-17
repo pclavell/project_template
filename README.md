@@ -22,7 +22,8 @@ python setup_project.py
 cd ../
 ```
 
-* Create a new GitHub repository on GitHub. In each of the user directories (ie template_user), run:
+* Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used below
+* In each of the user directories (ie template_user), run:
 ```bash
 cd <project_name>/<username>
 git init
@@ -45,3 +46,4 @@ simply edit [template_user/resources/resources.yml](template_user/resources/reso
 * Python plotting theme
 * [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)
 * Add snakemake and python versions to template_user/requirements.txt and see if we can automate their installation
+* Fix snakemake launch script to work with any combination of wildcards

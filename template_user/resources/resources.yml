@@ -7,15 +7,6 @@
 # * we could technically make mn5_projects editable and therfore generalize to other systems...
 # * if we add any foolproof utils to interface w/ resources.yml (ie, getting color schemes),
 #   we could add them for real to this file
-# * related to first pt, we could generalize more the # of systems we can allow for a user
-#   to have; would require allowing for a variable of the system name
-#   ie, we'd have to nest in resources['path_map'][<system_name>][<username>]
-#   and change somehow in setup_settings where / how we call mn5_projects path,
-#   or we might get rid of it entirely and just have it specified under each user? ie
-#   freese:
-#      mn5: # system name
-#           username: bsc083001
-#           path: /gpfs/projects/bsc83/Projects
 
                                     #   /\_/\
                                     #  ( o.o )

@@ -44,7 +44,7 @@ If you add a new user to the project, please see [this section](template_user/#a
 <!-- ## Other rules
 * Do not remove [template_user](template_user), as it will be used to generate new users if need be -->
 
-## Developer to-do
+<!-- ## Developer to-do -->
 
 * Python plotting theme
 * [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)

@@ -6,7 +6,7 @@
 * Go to the dir where you want the project to sit (probably in Projects) and clone this repo
 
 ```bash
-git clone git@github.com:pclavell/project_template.git
+git clone https://github.com/pclavell/project_template.git
 ```
 
 * Fill out `setup_settings` according to the example / instructions in [`template_user/resources/resources.yml`](template_user/resources/resources.yml).

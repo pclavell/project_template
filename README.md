@@ -3,15 +3,16 @@
 
 ## Installation instructions
 
-* Go to the dir where you want the project to sit (probably in Projects) and clone this repo
+* **Repo cloning**: Go to the dir where you want the project to sit (probably in Projects) and run:
 
 ```bash
 git clone https://github.com/pclavell/project_template.git
 ```
 
-* Fill out `setup_settings` according to the example / instructions in [`template_user/resources/resources.yml`](template_user/resources/resources.yml).
-  - As part of this, you must determine your local and MN5 usernames. To do so, run `echo $USER` in the system you choose
-* Run the [setup script](setup_project.py) to automatically create project subdirs for each user, populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo
+* **Settings personalization**:
+  1) Determine your local and MN5 usernames. To do so, run `echo $USER` in each system
+  2) Open [`template_user/resources/resources.yml`](template_user/resources/resources.yml) and fill out the fields under `setup_settings` according to the example and instructions indicated in the same file.
+  3) Run the [setup script](setup_project.py). It will automatically create project subdirs for each user, populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo (cleaning step because you will no longer need it).
 
 ```bash
 cd project_template

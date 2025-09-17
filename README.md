@@ -3,7 +3,7 @@
 
 ## Installation instructions
 
-* Clone this repo
+* Go to the dir where you want the project to sit (probably in Projects) and clone this repo
 
 ```bash
 git clone git@github.com:pclavell/project_template.git

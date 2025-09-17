@@ -166,7 +166,7 @@ def replace_str_dict(d, m):
     else:
         return d  # leave numbers, bools, None, etc. untouched
 
-def run_cmd(cmd, wd='.'):
+def run_cmd(cmd, wd='.', shell=False):
     """
     Run a shell command using subprocess and return its output.
 
@@ -177,6 +177,8 @@ def run_cmd(cmd, wd='.'):
         If a list, it is passed directly to subprocess.
     wd: str
         Directory to run process in
+    shell: bool
+        Whether to interpret as a shell command or not
 
     Returns
     -------
@@ -190,7 +192,7 @@ def run_cmd(cmd, wd='.'):
         and stderr are raised.
     """
     # Split string into args safely
-    if isinstance(cmd, str):
+    if isinstance(cmd, str) and not shell:
         cmd = cmd.split()
 
     try:
@@ -199,13 +201,15 @@ def run_cmd(cmd, wd='.'):
             capture_output=True,
             text=True,
             check=True,
-            cwd=wd
+            cwd=wd,
+            shell=shell
         )
         return result.stdout
     except subprocess.CalledProcessError as e:
         print("Error while running command:")
         print(e.stderr)
         raise
+
 
 def get_user_system_entry_path_map(m, user, system):
     """

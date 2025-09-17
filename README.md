@@ -27,7 +27,7 @@ cd <project_name>/<username>
 git init
 git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
-git commit -m "first commit"
+git commit -m "define dir structure"
 ```
 
 * After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:

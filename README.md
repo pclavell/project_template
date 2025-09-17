@@ -50,3 +50,4 @@ simply edit [template_user/resources/resources.yml](template_user/resources/reso
 * [Check for broken links in READMEs](https://github.com/tcort/github-action-markdown-link-check)
 * Add snakemake and python versions to template_user/requirements.txt and see if we can automate their installation
 * Fix snakemake launch script to work with any combination of wildcards
+* Add Nextflow template

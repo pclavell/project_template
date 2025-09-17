@@ -5,7 +5,7 @@ Most data processing tasks that were run in parallel and / or on the cluster are
 ## Organization
 
 In the parent directory, there are a few shared resources
-* [rules](rules): Rule definitions for workflow manager rules that are repeatedly used throughout the subfolder tasks.
+* [rules](rules): Rule definitions for workflow manager (Snakemake or Nextflow) rules that are repeatedly used throughout the subfolder tasks.
 * Each subfolder roughly contains a distinct data processing task
 
 * For Snakemake workflows, in each subdirectory, the important files which are usually there are as follows:

@@ -6,7 +6,7 @@ In this folder you will find downstream tasks, usually related to data wrangling
 
 ## Organization
 
-To help get started, we provide template R and Python files [template.r](template.r) and [template.py](template.py) with headers and example code that you can use to interface with the project environment. The headers must be copied to start your scripts, otherwise the framework won't work.
+To help get started, we provide template R and Python files [template.R](template.R) and [template_python.ipynb](template_python.ipynb) with headers and example code that you can use to interface with the project environment. The headers must be copied to start your scripts, otherwise the framework won't work.
 
 <!-- TODO add links / descriptions here
  -->

@@ -20,8 +20,8 @@ python setup_project.py
 cd ../
 ```
 * **Building the GitHub repository**
-  1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used below
-  2) In each of the user directories (ie template_user), run:
+  1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used      below
+  2) In *each* of the user directories (ie template_user), run:
 
 ```bash
 cd <project_name>/<username>
@@ -30,10 +30,10 @@ git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "define dir structure"
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;iii. After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
+  iii) After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
 ```bash
 cd ../.. # go to parent dir where project sits
-scp -r <project_name> <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/
+scp -r <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/ <project_name>
 ```
 
 
@@ -44,12 +44,6 @@ simply edit [template_user/resources/resources.yml](template_user/resources/reso
 
 <!-- ## Other rules
 * Do not remove [template_user](template_user), as it will be used to generate new users if need be -->
-
-## Directories structure and functions
-* **data**: to keep any data downloaded or generated for the project that is not a reference.
-* **figures**: to store any figure that you want to keep either from exploration or for a paper.
-* **ref**: to keep any reference file (genomes, gene annotation, etc.) that are downloaded and used for the project. We recommend creating symlinks to files in `/gpfs/projects/bsc83/Data` to save storage.
-
 
 ## Developer to-do
 

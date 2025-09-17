@@ -3,7 +3,7 @@
 
 ## Installation instructions
 
-* **Repo cloning**: Go to the dir where you want the project to sit (probably in Projects) and run:
+* **Repository cloning**: Go to the dir where you want the project to sit (probably in Projects) and run:
 
 ```bash
 git clone https://github.com/pclavell/project_template.git
@@ -19,9 +19,9 @@ cd project_template
 python setup_project.py
 cd ../
 ```
-
-* Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used below
-* In each of the user directories (ie template_user), run:
+* **Building the GitHub repository**
+  1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used below
+  2) In each of the user directories (ie template_user), run:
 ```bash
 cd <project_name>/<username>
 git init
@@ -30,7 +30,7 @@ git add -A
 git commit -m "define dir structure"
 ```
 
-* After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
+  3) After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
 ```bash
 scp -r <project_name> <bsc_username>@glogin4.bsc.es:/gpfs/projects/bsc83/Projects/
 ```

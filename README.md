@@ -45,6 +45,12 @@ simply edit [template_user/resources/resources.yml](template_user/resources/reso
 <!-- ## Other rules
 * Do not remove [template_user](template_user), as it will be used to generate new users if need be -->
 
+## Directories structure and functions
+* **data**: to keep any data downloaded or generated for the project that is not a reference.
+* **figures**: to store any figure that you want to keep either from exploration or for a paper.
+* **ref**: to keep any reference file (genomes, gene annotation, etc.) that are downloaded and used for the project. We recommend creating symlinks to files in `/gpfs/projects/bsc83/Data` to save storage.
+
+
 ## Developer to-do
 
 * Python plotting theme

@@ -11,10 +11,7 @@ git clone git@github.com:pclavell/project_template.git
 
 * Fill out `setup_settings` according to the example / instructions in [`template_user/resources/resources.yml`](template_user/resources/resources.yml).
   - As part of this, you must determine your local and MN5 usernames. To do so, run `echo $USER` in the system you choose
-
-
 * Run the [setup script](setup_project.py) to automatically create project subdirs for each user, populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user, and to disconnect the parent repo
-* If you want to work on other systems as well (ie locally), you'll have to do this step again
 
 ```bash
 cd project_template
@@ -30,6 +27,11 @@ git init
 git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "first commit"
+```
+
+* After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
+```bash
+scp -r <project_name> <bsc_username>@glogin4.bsc.es:/gpfs/projects/bsc83/Projects/
 ```
 
 

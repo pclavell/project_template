@@ -16,9 +16,13 @@ git add -A; git commit -m "update"; git push origin <branch name>
 * [processing](processing): Processing pipelines and code to perform cluster computation.
 * [analysis](analysis): Analysis, data wrangling, plotting, and statistical testing.
 
+## Adding / updating users information
 
-## Other files details
-* [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo.
+If you add a new user to the project, or want to add another system you're working on,
+simply edit [resources/resources.yml](resources/resources.yml) and run `python add_new_users.py` from this directory.
+
+<!-- ## Other files details
+* [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo. -->
 
 ## GitHub actions
 

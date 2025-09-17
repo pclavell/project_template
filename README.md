@@ -39,8 +39,7 @@ scp -r <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/ <project_n
 
 ## Adding / updating users information
 
-If you add a new user to the project, or want to add another system you're working on,
-simply edit [template_user/resources/resources.yml](template_user/resources/resources.yml) and run `python add_new_users.py` from this directory.
+If you add a new user to the project, please see [this section](template_user/#adding--updating-users-information).
 
 <!-- ## Other rules
 * Do not remove [template_user](template_user), as it will be used to generate new users if need be -->

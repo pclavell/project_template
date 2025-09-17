@@ -1,12 +1,12 @@
 ## Analysis
 
-Downstream tasks, usually related to data wrangling, plotting, and statistical testing, are in this folder.
+In this folder you will find downstream tasks, usually related to data wrangling, plotting, and statistical testing.
 
 <!-- Any notes you may want to add to the public audience about how analyses were done -->
 
 ## Organization
 
-To help get started, we provide tempate R and Python files with headers and example code that you can use to interface with the project environment.
+To help get started, we provide template R and Python files [template.r](template.r) and [template.py](template.py) with headers and example code that you can use to interface with the project environment. The headers must be copied to start your scripts, otherwise the framework won't work.
 
 <!-- TODO add links / descriptions here
  -->

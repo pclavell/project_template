@@ -22,6 +22,7 @@ cd ../
 * **Building the GitHub repository**
   1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link used below
   2) In each of the user directories (ie template_user), run:
+
 ```bash
 cd <project_name>/<username>
 git init
@@ -29,7 +30,6 @@ git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "define dir structure"
 ```
-
   3) After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
 ```bash
 scp -r <project_name> <bsc_username>@glogin4.bsc.es:/gpfs/projects/bsc83/Projects/

@@ -30,7 +30,7 @@ git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "define dir structure"
 ```
-&nbsp;&nbsp;iii. After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
+&nbsp;&nbsp;&nbsp;&nbsp;iii. After running the setup script and GitHub initialization, copy the whole directory to each system you need it on. For example, if initialized locally and copying to MN5, run:
 ```bash
 cd ../.. # go to parent dir where project sits
 scp -r <project_name> <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/

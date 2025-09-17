@@ -34,7 +34,7 @@ setup_settings:
 
     # users and user settings
     users:
-        freese: # this will be the name your project directory, not related to the usernames you have locally or on mn5
+        freese: # this will be the name of your project directory, not related to the usernames in the systems
             mn5: # system name
                 username: bsc083001 # your MN5 username (`echo $USER`)
                 # path:  path will be automatically inferred from mn5 system name
@@ -48,7 +48,7 @@ setup_settings:
                 # path:  path will be automatically inferred from mn5 system name
             local:
                 username: pclavell # your local username (`echo $USER`)
-                path: # /home/pclavell/mounts/mn5/Projects/ # final path will be /home/pclavell/mounts/mn5/Projects/test_project_template/
+                path: /home/pclavell/mounts/mn5/Projects/
 
             # if you have another cluster you run stuff on,
             # or a collaborator from another institution,

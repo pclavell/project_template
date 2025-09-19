@@ -89,8 +89,37 @@ def load_config_abs(**kwargs):
     m = get_path_map(**kwargs)
     config = replace_str_dict(config, m)
 
+    # replace all paths with their absolute pathss
+    # to resolve symlinks
+    config = resolve_config_symlinks(config)
+
     return config
 
+def resolve_config_symlinks(d):
+    """
+    Recursively resolve symlinks and relative paths in the
+    config dictionary.
+
+    Parameters
+    ----------
+    d : dict
+        Configuration dictionary
+
+    Returns
+    -------
+    dict
+        Configuration dictionary with symlinks and any
+        relative paths resolved
+    """
+    if isinstance(d, dict):
+        return {key: resolve_config_symlinks(item) for key, item in d.items()}
+    elif isinstance(d, list):
+        return [resolve_config_symlinks(item) for item in d]
+    elif isinstance(d, str):
+        d = str(pathlib.Path(d).resolve())
+        return d
+    else:
+        return d
 
 def save_mn5_config():
     """
@@ -118,7 +147,7 @@ def get_path_map(mn5_config=False):
     Return dictionary of strings to be replaced if username is recognized, otherwise
     use relative paths
     """
-
+    
     username = getpass.getuser()
 
     # if for just updating mn5 config

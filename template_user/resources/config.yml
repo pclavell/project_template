@@ -17,3 +17,5 @@ data:
   sam: \{data_dir\}/fake_dir/example_{sample}_{replicate}.sam
   bam: \{data_dir\}/fake_dir/example_{sample}.bam
   sorted_sam: \{data_dir\}/fake_dir/example_{sample}_sorted.sam
+
+test_symlink: \{data_dir\}/hg38_repeats.bed

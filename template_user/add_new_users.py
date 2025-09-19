@@ -3,7 +3,9 @@ import re
 import os
 import sys
 import pandas as pd
-from snakemake.io import expand
+import yaml
+
+os.chdir(str(Path('./../')))
 
 script_path = Path.cwd()
 user_dir = re.sub(r"/(metadata|processing|analysis)/.*$", "", str(script_path))

@@ -68,6 +68,8 @@ set_up_config <- function(user_dir){
   resources_vec <- unlist(resources_yml, use.names = TRUE)
   # Creation of proper absolute paths depending on machine and user
   config <-replace_str_dict(config_file, resources_vec)
+  # Resolve all relative paths and symlinks
+  config <- resolve_config_symlinks(config)
 
   return(config)
 }
@@ -105,6 +107,34 @@ replace_str_dict <- function(d, m) {
   } else if (is.character(d) && length(d) > 1) {
     # Character vector: apply replacements elementwise
     return(vapply(d, function(x) replace_str_dict(x, m), character(1)))
+
+  } else {
+    # Leave numbers, logicals, NULL, etc. untouched
+    return(d)
+  }
+}
+
+resolve_config_symlinks <- function(d) {
+  #' Recursively resolve symlinks and relative paths in the config dictionary
+  #'
+  #' @param d A nested data structure: list, vector, or string.
+  #'
+  #' @return The same type as input `d`, with
+  #'         symlinks and relative paths resolved'.
+  #'
+
+  if (is.list(d)) {
+    # Handle named or unnamed lists recursively
+    return(lapply(d, resolve_config_symlinks))
+
+  } else if (is.character(d) && length(d) == 1) {
+    # Single string: apply replacements
+    d <- normalizePath(d, mustWork=FALSE)
+    return(d)
+
+  } else if (is.character(d) && length(d) > 1) {
+    # Character vector: apply replacements elementwise
+    return(vapply(d, function(x) resolve_config_symlinks(x), character(1)))
 
   } else {
     # Leave numbers, logicals, NULL, etc. untouched

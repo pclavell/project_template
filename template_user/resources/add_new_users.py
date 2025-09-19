@@ -63,17 +63,13 @@ for user in curr_users:
         m[key] = item
         
     # rewrite
-    with open(user_cfg, 'w') as f:
+    with open(user_resources, 'w') as f:
         yaml.dump(m, f, default_flow_style=False)
-
-new_users = ['test']
-main_branch = 'test_branch'
 
 # for each new user, copy the user's directory that is carrying out 
 # the change, and switch to the main branch
 for user in new_users:
     temp_user_dir = new_user_dir = str(Path(f'{project_dir}/{user}').resolve())
-    print(f'current loop user dir: {temp_user_dir}')
         
     cmd = f"cp -r {curr_user_dir} {new_user_dir}"
     print(cmd)

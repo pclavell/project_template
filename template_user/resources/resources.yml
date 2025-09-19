@@ -64,19 +64,3 @@ setup_settings:
 #     tissue:
 #         lung: blue
 #         eye: red
-
-users:
-- freese
-- pclavell
-path_map:
-  local:
-    fairliereese:
-      \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/data
-      \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/figures
-      \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/freese/metadata
-      \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/ref
-fairliereese:
-  \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/data
-  \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/figures
-  \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/freese/metadata
-  \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/project_template/ref

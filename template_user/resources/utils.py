@@ -353,3 +353,115 @@ def get_setup_settings_path_maps(m):
             quick_path_map[username] = get_user_system_entry_path_map(m, user, system)
 
     return path_map, quick_path_map
+
+
+
+def rm_color_cats(palette, order, cats):
+    if cats:
+        keys = palette.keys()
+        pop_list = []
+        for key in keys:
+            if key not in cats:
+                pop_list.append(key)
+        for p in pop_list:
+            del palette[p]
+        order = [o for o in order if o in cats]
+    return palette, order
+
+#######################################
+############# Color palettes
+def get_colors(col, cats=None):
+    """
+    Retrieve a color mapping (palette) and category order for a given metadata column.
+
+    This function looks up colors for a specified metadata column `col` from the
+    resources dictionary returned by `load_resources()`. If the column is not
+    directly available in the `m['colors']` mapping, the function will attempt
+    to resolve an alias column using `m['metadata_col_aliases']`. In that case,
+    it also builds a mapping between the alias column values and the requested
+    column values, ensuring the colors map correctly.
+
+    Parameters
+    ----------
+    col : str
+        The name of the metadata column for which colors should be retrieved.
+    cats : list, optional
+        A subset of categories to keep. If provided, categories and colors not
+        in this list are removed via `rm_color_cats`.
+
+    Returns
+    -------
+    palette : dict
+        A dictionary mapping category values of the requested column to hex color codes.
+    order : list
+        The order of categories (keys of `palette`) after filtering.
+
+    Raises
+    ------
+    ValueError
+        If `col` cannot be found in `m['colors']` or in any of the alias mappings.
+    """
+
+    def get_metadata_col_alias_mappings(m, col):
+        """
+        Resolve alias mappings for a metadata column.
+
+        If the requested column `col` is not found in `m['colors']`, this function
+        attempts to identify an alias column from `m['metadata_col_aliases']`.
+        If an alias is found, it loads biosample metadata and constructs a mapping
+        between the alias column values and the requested column values.
+
+        Parameters
+        ----------
+        m : dict
+            The resources dictionary returned by `load_resources()`. Must contain
+            keys 'colors' and 'metadata_col_aliases'.
+        col : str
+            The requested metadata column name.
+
+        Returns
+        -------
+        d : dict
+            A mapping between alias column values and requested column values.
+            Empty if the column is directly in `m['colors']`.
+        alias_col : str
+            The resolved column name to be used for color lookup. Either the same
+            as `col` (if directly available) or the alias column name.
+
+        Raises
+        ------
+        ValueError
+            If no alias column is found for `col`.
+        """
+        # if we need to find an alternate
+        if col not in list(m['colors'].keys()):
+            alias_col = -1
+            for k, i in m['metadata_col_aliases'].items():
+                # import pdb; pdb.set_trace()
+                if col in i:
+                    alias_col = k
+            if alias_col == -1:
+                raise ValueError(f'Could not find metadata column: {col}')
+
+            b_df = load_biosamp_meta()
+            b_df = b_df[[alias_col, col]].drop_duplicates()
+            d = dict([(a_c, c) for a_c, c in zip(b_df[alias_col].tolist(),
+                                                 b_df[col].tolist())])
+            return d, alias_col
+        else: return {}, col
+
+    m = load_resources()
+
+    # try aliases if col not already in colors
+    alias_m, alias_col = get_metadata_col_alias_mappings(m, col)
+
+    palette = m['colors'][alias_col]
+
+    # if we had to make the substitution
+    if len(alias_m.keys()) > 1:
+        palette = dict([(alias_m[k], i) for k, i in palette.items()])
+
+    order = [k for k,i in palette.items()]
+
+    palette, order = rm_color_cats(palette, order, cats)
+    return palette, order

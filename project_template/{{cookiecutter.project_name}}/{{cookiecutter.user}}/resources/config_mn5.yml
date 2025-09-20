@@ -1,0 +1,5 @@
+data:
+  bam: /gpfs/projects/bsc83/Projects/test_project_template/data/fake_dir/example_{sample}.bam
+  sam: /gpfs/projects/bsc83/Projects/test_project_template/data/fake_dir/example_{sample}_{replicate}.sam
+  sorted_sam: /gpfs/projects/bsc83/Projects/test_project_template/data/fake_dir/example_{sample}_sorted.sam
+metadata: /gpfs/projects/bsc83/Projects/test_project_template/template_user/metadata/metadata.tsv

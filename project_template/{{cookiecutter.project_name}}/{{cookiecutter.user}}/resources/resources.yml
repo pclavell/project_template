@@ -1,0 +1,70 @@
+################################## README BEFORE USAGE ##################################
+# 1. Change the entries in setup_settings according to your needs/
+
+# NOTE: username entries must be unique for determining the system you're working on
+
+# Developer notes:
+# * we could technically make mn5_projects editable and therfore generalize to other systems...
+# * if we add any foolproof utils to interface w/ resources.yml (ie, getting color schemes),
+#   we could add them for real to this file
+
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
+
+############ --------------------------------------------------------------- ############
+
+# CHANGE ME
+# project settings
+setup_settings:
+    project_name: test_project_template
+
+    # users and user settings
+    users:
+        freese: # this will be the name of your project directory, not related to the usernames in the systems
+            mn5: # system name
+                username: bsc083001 # your MN5 username (`echo $USER`)
+                # path:  path will be automatically inferred from mn5 system name
+            local:
+                username: fairliereese # your local username (`echo $USER`)
+                path: /Users/fairliereese/Documents/programming/mele_lab/projects/ # final path will  be /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template
+
+        pclavell:
+            mn5: # system name
+                username: bsc083549 # your MN5 username (`echo $USER`)
+                # path:  path will be automatically inferred from mn5 system name
+            local:
+                username: pclavell # your local username (`echo $USER`)
+                path: /home/pclavell/mounts/mn5/Projects/
+
+            # if you have another cluster you run stuff on,
+            # or a collaborator from another institution,
+            # you can add as many systems / users as you want
+            # crg_cluster:
+            #     username: crg_username
+            #     path: /path/to/crg/cluster/projects/
+
+        # testing
+        # new_user:
+        #     local:
+        #       username: new_user
+        #       path: /new/user/local_path/
+
+    # do not change, used to automatically determine path for mn5 file system
+    mn5_projects: /gpfs/projects/bsc83/Projects/
+
+# other project settings, for example color settings, aliases, global variables... etc
+# example:
+
+# colors:
+#     tissue:
+#         lung: blue
+#         eye: red
+
+users:
+    - pclavell
+    - freese

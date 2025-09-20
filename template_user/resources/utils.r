@@ -56,6 +56,8 @@
 #' @export
 
 set_up_config <- function(user_dir){
+  # setwd
+  setwd(user_dir)
   # read config file
   config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"))
   # read resources yml file

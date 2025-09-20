@@ -16,7 +16,7 @@ get_script_path <- function() {
   return(script_path)
 }
 script_path <- get_script_path()
-user_dir <- gsub("/metadata/|/processing/|/analysis/.*", "", script_path)
+user_dir <- gsub("(/(?:metadata|processing|analysis)/.*)", "", script_path)
 
 # Source all utils and set up environment
 source(paste0(user_dir, "/resources/utils.r"))

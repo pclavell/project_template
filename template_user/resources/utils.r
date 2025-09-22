@@ -365,5 +365,5 @@ n_fun <- function(x, y){
 }
 
 # Cheatsheet how to save a ggplot
-saveplotinfo <- function(){
+ggsaveinfo <- function(){
   print("ggsave(filename,  dpi=500, width = 45, height = 45,  units = \"mm\")")}

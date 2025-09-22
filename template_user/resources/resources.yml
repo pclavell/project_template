@@ -29,17 +29,23 @@ setup_settings:
             mn5: # system name
                 username: bsc083001 # your MN5 username (`echo $USER`)
                 # path:  path will be automatically inferred from mn5 system name
+                # scratch path:  path will be automatically inferred from mn5 system name
             local:
                 username: fairliereese # your local username (`echo $USER`)
                 path: /Users/fairliereese/Documents/programming/mele_lab/projects/ # final path will  be /Users/fairliereese/Documents/programming/mele_lab/projects/test_project_template
+                #scratch_path: /home/pclavell/mounts/scratch/
+
 
         pclavell:
             mn5: # system name
                 username: bsc083549 # your MN5 username (`echo $USER`)
                 # path:  path will be automatically inferred from mn5 system name
+                # scratch path:  path will be automatically inferred from mn5 system name
+
             local:
                 username: pclavell # your local username (`echo $USER`)
                 path: /home/pclavell/mounts/mn5/Projects/
+                scratch_path: /home/pclavell/mounts/scratch/
 
             # if you have another cluster you run stuff on,
             # or a collaborator from another institution,
@@ -56,6 +62,7 @@ setup_settings:
 
     # do not change, used to automatically determine path for mn5 file system
     mn5_projects: /gpfs/projects/bsc83/Projects/
+    mn5_scratch: /gpfs/scratch/bsc83/
 
 # other project settings, for example color settings, aliases, global variables... etc
 # example:

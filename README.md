@@ -20,13 +20,15 @@ Copy the following functions within `~/.bashrc` (remember to manually replace `<
 mountprojects(){
 echo "-Trying to mount MareNostrum5: Projects"
 sshfs -o workaround=rename <bscuser>@transfer1.bsc.es:/gpfs/projects/bsc83/ <projects_target_directory> # replace with your bsc user and your target directory (eg. /home/pclavell/mounts/projects)
-echo "MareNostrum5 Projects mounted.
+echo "MareNostrum5 Projects mounted"
 }
+
 mountscratch(){
 echo "Trying to mount MareNostrum5: Scratch"
 sshfs -o workaround=rename <bscuser>@transfer1.bsc.es:/gpfs/scratch/bsc83/ <scratch_target_directory> # replace with your bsc user and your target directory (eg. /home/pclavell/mounts/scratch)
-echo "MareNostrum5 Scratch mounted. 
+echo "MareNostrum5 Scratch mounted"
 }
+
 mountall(){
 mountprojects()
 mountscratch()
@@ -38,8 +40,8 @@ cd ~
 mkdir <projects_target_directory>
 mkdir <scratch_target_directory>
 ```
-  5) Open [`template_user/resources/resources.yml`](template_user/resources/resources.yml) and fill out the fields under `setup_settings` according to the MareNostrum5 structure and the local mounting structure that oyu have just build. Notice that there is an example and instructions indicated in the same `resources.yml` file.
-  6) Run the [setup script](setup_project.py). It will automatically:
+  4) Open [`template_user/resources/resources.yml`](template_user/resources/resources.yml) and fill out the fields under `setup_settings` according to the MareNostrum5 structure and the local mounting structure that oyu have just build. Notice that there is an example and instructions indicated in the same `resources.yml` file.
+  5) Run the [setup script](setup_project.py). It will automatically:
      * create project subdirs for each user
      * populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user
      * disconnect the parent repo (project_template) (this is a cleaning step because you will no longer need it).

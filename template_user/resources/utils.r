@@ -55,11 +55,13 @@
 #'
 #' @export
 
-set_up_config <- function(user_dir){
+load_config <- function(user_dir){
+  #setwd
+  setwd(user_dir)
   # read config file
-  config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"))
+  config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"),  readLines.warn=FALSE)
   # read resources yml file
-  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
+  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"), readLines.warn=FALSE)
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
@@ -73,6 +75,20 @@ set_up_config <- function(user_dir){
 
   return(config)
 }
+
+load_resources <- function(user_dir){
+  #setwd
+  setwd(user_dir)
+  # read resources yml file
+  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
+  # get username
+  username <- Sys.info()[["user"]]
+  # filter resources yml file depending on the user and machine
+  resources <- resources_yml[[username]]
+  names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
+  return(resources)
+}
+
 
 replace_str_dict <- function(d, m) {
   #' Recursively replace substrings in all strings within a nested data structure.
@@ -329,7 +345,7 @@ mytheme <- function() {
       panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
       panel.grid = element_line(linewidth =0.05, color="grey"),
       panel.grid.minor = element_blank(),
-      plot.margin = margin(t = 1, r = 10, b = 1, l = 1),
+      plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
       plot.title = element_text(face="bold", hjust=0.5),
       strip.text = element_text( face="bold"),
       strip.background = element_blank(),
@@ -349,5 +365,5 @@ n_fun <- function(x, y){
 }
 
 # Cheatsheet how to save a ggplot
-howtosave <- function(){
+saveplotinfo <- function(){
   print("ggsave(filename,  dpi=500, width = 45, height = 45,  units = \"mm\")")}

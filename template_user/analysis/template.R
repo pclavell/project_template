@@ -1,35 +1,14 @@
-# Identify user directory to have a reference path to load the utils
-#       (assuming that it is inside one of these three dirs, at any depth level)
-
-get_script_path <- function() {
-  script_path <- ifelse(length(commandArgs(trailingOnly = F))>2,
-                              normalizePath(gsub("--file=","",
-                                                 commandArgs(trailingOnly = F)[4])),
-                              normalizePath(rstudioapi::getActiveDocumentContext()$path))
-   # fallback if running in IRkernel / notebook
-  if (script_path == "IRkernel::main()") {
-    script_path <- normalizePath(getwd())
-  }
-
-  script_path <- paste0(script_path, "/")
-    
-  return(script_path)
-}
-script_path <- get_script_path()
-user_dir <- gsub("/metadata/|/processing/|/analysis/.*", "", script_path)
-
-# Source all utils and set up environment
-source(paste0(user_dir, "/resources/utils.r"))
-config <- set_up_config(user_dir)
+# HEADER -----------------------------------------------------------------------
+library(here)
+source(here("resources", "utils.r")) # here referes to where .here file sits (in the user dir)
+config <- load_config(here()) # to refer to files in config use config$
+resources <- load_resources(here()) # to refer to data, figs, metadata, ref, scratch use resources$
+#--------------------------------------------------------------------------------
 
 # Load libraries
 library(tidyverse)
 library(data.table)
 
-# Examples of loading / parsing data 
-meta_df <- data.table::fread(config$metadata)
+# Examples of loading / parsing data (you can delete)
 expand(config$data$bam, sample=c(meta_df$sample))
 fread(config$data$sorted_sam)
-meta_df$sample
-
-

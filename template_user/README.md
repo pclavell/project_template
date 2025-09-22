@@ -19,7 +19,7 @@ git add -A; git commit -m "update"; git push origin <branch name>
 ## Adding / updating users information
 
 If you add a new user to the project, or want to add another system you're working on,
-simply edit [resources/resources.yml](resources/resources.yml) and run `python add_new_users.py` from this directory.
+simply edit [resources/resources.yml](resources/resources.yml) from YOUR user directory and run `python resources/add_new_users.py` **from the user's directory** (ie `<project_name>/<user>/`). NOT from the template_user directory
 
 <!-- ## Other files details
 * [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo. -->

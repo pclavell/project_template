@@ -21,6 +21,12 @@ git add -A; git commit -m "update"; git push origin <branch name>
 If you add a new user to the project, or want to add another system you're working on,
 simply edit [resources/resources.yml](resources/resources.yml) from YOUR user directory and run `python resources/add_new_users.py` **from the user's directory** (ie `<project_name>/<user>/`). NOT from the template_user directory
 
+# How do I manage the git, the mounting and the cluster? (EFFICENCY TIP)
+This organization framework is designed to automatically detect if you are working in local/mounting or in the cluster. It is very useful to work on the mounting because we can use IDEs and GUIs like Rstudio and VScode. However, in many cases we have mounting lag causing code loss and annoying slowliness. With this framework this is partially solved:
+- as usual, mount
+- instead of working in the mounted dirs, clone your project repository (created during installation) to your local filesystem
+If you do it correctly, you will be able to access your code from this local directory and also from the mounted directory. The local directory is where you will work on your code, the mounted directory will be the source of the data. The advantage of this framework is that all paths will work the same. Just remember to keep using git and pull/push.
+
 <!-- ## Other files details
 * [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo. -->
 

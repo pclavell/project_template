@@ -1,3 +1,9 @@
+# USAGE
+* [`resources.yml`](resources.yml): should contain exclusively project-wide settings for users.
+* [`config.yml`](config.yml): should contain file locations of recurrent inputs/outputs from analysis and processing. We **heavily encourage** including here all used files outside the `<project_name>` directory, to prevent path errors when working locally with the mountings.
+* [`config_mn5.yml`](config_mn5.yml): DO NOT modify, it updates automatically.
+
+
 ## Resources
 
 Project-wide resources, including:

@@ -17,7 +17,6 @@ import pandas as pd
 # function to enable the array-like behaviour in snakemake
 #  (particularly when there are more start than ending files)
 # it is useful for example when we start with replicates and end with a merge by sample
-
 def get_value_from_df(df, target_column, filters, single_output=True):
     """
     Retrieve value(s) from a DataFrame given filtering conditions.

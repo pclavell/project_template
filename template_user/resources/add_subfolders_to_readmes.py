@@ -19,10 +19,6 @@ import os
 import sys
 from pathlib import Path
 
-# Append resources dir to path
-p = os.path.dirname(os.getcwd())+'/resources/'
-sys.path.append(p)
-
 from utils import *
 
 # Map directories to permanent subdirs to ignore

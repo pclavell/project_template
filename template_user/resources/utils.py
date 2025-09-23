@@ -65,6 +65,18 @@ def load_resources():
     config = load_yml(config_file)
     return config
 
+def load_paths():
+    """
+    Load the relevant prefixes for paths for the current user
+
+    Returns
+    -------
+    dict
+        Parsed resources paths as a dictionary.
+    """
+    m = load_resources()
+    username = getpass.getuser()
+    return m[username]
 
 def load_config(**kwargs):
     """
@@ -155,9 +167,10 @@ def get_path_map(mn5_config=False):
 
     resources = load_resources()
 
+    # this is where I should adjust --- it's not likely that I need to keep both path_maps
     usernames = flatten_list([i.keys() for k, i in resources['path_map'].items()])
     if username not in usernames:
-        raise ValueError(f'Username {username} not found in ../resources/resources.yml. Add before proceeding')
+        raise ValueError(f'Username {username} not found in resources.yml. Add before proceeding')
 
     else:
         return resources[username]

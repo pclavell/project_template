@@ -2,7 +2,7 @@
 library(here)
 source(here("resources", "utils.r")) # here referes to where .here file sits (in the user dir)
 config <- load_config(here()) # to refer to files in config use config$
-resources <- load_resources(here()) # to refer to data, figs, metadata, ref, scratch use resources$
+resources <- load_paths(here()) # to refer to data, figs, metadata, ref, scratch use resources$
 #--------------------------------------------------------------------------------
 
 # Load libraries

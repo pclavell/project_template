@@ -1,0 +1,5 @@
+entry:
+  file1: "{data_dir}/some/file"
+  file2: ./{data_dir}/some/file
+  file3: "{{data_dir}}/some/file"
+  file4: ./{{data_dir}}/some/file

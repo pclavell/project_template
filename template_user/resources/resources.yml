@@ -71,3 +71,61 @@ setup_settings:
 #     tissue:
 #         lung: blue
 #         eye: red
+
+
+users:
+- freese
+- pclavell
+path_map:
+  local:
+    fairliereese:
+      \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/data
+      \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/figures
+      \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/freese/metadata
+      \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/ref
+    pclavell:
+      \{data_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/data
+      \{figures_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/figures
+      \{metadata_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/pclavell/metadata
+      \{ref_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/ref
+  mn5:
+    bsc083001:
+      \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+      \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/freese/metadata
+      \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref
+    bsc083549:
+      \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+      \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/pclavell/metadata
+      \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref
+    template_user:
+      \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+      \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+      \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/template_user/metadata
+      \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref
+bsc083001:
+  \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+  \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/freese/metadata
+  \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref
+bsc083549:
+  \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+  \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/pclavell/metadata
+  \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref
+fairliereese:
+  \{data_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/data
+  \{figures_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/figures
+  \{metadata_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/freese/metadata
+  \{ref_dir\}: /Users/fairliereese/Documents/programming/mele_lab/projects/fetal_dev/ref
+pclavell:
+  \{data_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/data
+  \{figures_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/figures
+  \{metadata_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/pclavell/metadata
+  \{ref_dir\}: /home/pclavell/mounts/mn5/Projects/fetal_dev/ref
+template_user:
+  \{data_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/data
+  \{figures_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/figures
+  \{metadata_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/template_user/metadata
+  \{ref_dir\}: /gpfs/projects/bsc83/Projects/fetal_dev/ref

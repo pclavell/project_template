@@ -40,7 +40,7 @@ for f in sorted(os.listdir(rules_dir)):    #  recursive way to do ->   include: 
 
 
 # this makes all paths on the config as absolute paths that can be read while using the config.yml references
-config = load_config_abs()
+config = load_config()
 
 ############ --------------------------------------------------------------- ############
 

@@ -56,8 +56,6 @@
 #' @export
 
 load_config <- function(user_dir){
-  #setwd
-  setwd(user_dir)
   # read config file
   config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"),  readLines.warn=FALSE)
   # read resources yml file
@@ -76,9 +74,7 @@ load_config <- function(user_dir){
   return(config)
 }
 
-load_resources <- function(user_dir){
-  #setwd
-  setwd(user_dir)
+load_paths <- function(user_dir){
   # read resources yml file
   resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
   # get username

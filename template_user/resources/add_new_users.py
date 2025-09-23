@@ -73,7 +73,7 @@ for user in curr_users:
     user_resources = str(Path(f'{temp_user_dir}/resources/resources.yml').resolve())
     print(f'user resources yml: {user_resources}')
 
-    m = load_config(user_resources)
+    m = load_yml(user_resources)
 
     # when writing, we now need to overwrite previous entries
     m['path_map'] = path_map

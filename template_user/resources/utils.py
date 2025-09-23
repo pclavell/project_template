@@ -22,7 +22,7 @@ import subprocess
 import pathlib
 from collections import defaultdict, Counter
 
-def load_config(config_file=None):
+def load_yml(config_file=None):
     """
     Load a YAML configuration file containing project file paths.
 
@@ -62,11 +62,11 @@ def load_resources():
     """
     d = os.path.dirname(__file__)
     config_file = f'{d}/resources.yml'
-    config = load_config(config_file)
+    config = load_yml(config_file)
     return config
 
 
-def load_config_abs(**kwargs):
+def load_config(**kwargs):
     """
     Load the project configuration with absolute paths applied.
 
@@ -85,7 +85,7 @@ def load_config_abs(**kwargs):
     dict
         Configuration dictionary with absolute paths applied.
     """
-    config = load_config()
+    config = load_yml()
     m = get_path_map(**kwargs)
     config = replace_str_dict(config, m)
 
@@ -133,7 +133,7 @@ def save_mn5_config():
     -------
     None
     """
-    config = load_config_abs(mn5_config=True)
+    config = load_config(mn5_config=True)
 
     d = os.path.dirname(__file__)
     config_file = f'{d}/config_mn5.yml'
@@ -147,7 +147,7 @@ def get_path_map(mn5_config=False):
     Return dictionary of strings to be replaced if username is recognized, otherwise
     use relative paths
     """
-    
+
     username = getpass.getuser()
 
     # if for just updating mn5 config

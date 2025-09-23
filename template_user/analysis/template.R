@@ -1,7 +1,7 @@
 # HEADER -----------------------------------------------------------------------
-script_dir <- dirname(ifelse(length(commandArgs(trailingOnly = F))>2,normalizePath(gsub("--file=","", commandArgs(trailingOnly = F)[4])),
-                              normalizePath(rstudioapi::getActiveDocumentContext()$path)))
-script_dir <- dirname(ifelse(script_dir == "IRkernel::main()",normalizePath(getwd()), script_dir))
+script_dir <- normalizePath(dirname(ifelse(interactive(),rstudioapi::getActiveDocumentContext()$path,
+                                           gsub("--file=","", commandArgs(trailingOnly = F)[4]))))
+script_dir <- normalizePath(ifelse(script_dir == "IRkernel::main()",getwd(), script_dir))
 setwd(script_dir)
 library(here)
 setwd(here())
@@ -16,4 +16,3 @@ library(data.table)
 
 # Examples of loading / parsing data (you can delete)
 expand(config$data$bam, sample=c(meta_df$sample))
-fread(config$data$sorted_sam)

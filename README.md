@@ -49,7 +49,7 @@ If you add a new user to the project, please see [this section](template_user/#a
 ## Managing mounting
 
 * **Set up local mounting structure**:
-Mountings are a way to acces remote filesystems (eg. HPC cluster) as they were integrated into our local filesystem (as if they were inside our computer).
+Mountings are a way to access remote filesystems (eg. HPC cluster) as they were integrated into our local filesystem (as if they were inside our computer).
 We recommend having two directoriess, one for `/gpfs/projects/bsc83` (aka projects) and another for `/gpfs/scratch/bsc83` (aka scratch).
 You can do it as follows (recommendation: add it in the `~/.bashrc` as a function):
 ```bash

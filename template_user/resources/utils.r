@@ -80,8 +80,8 @@ load_paths <- function(user_dir){
   # get username
   username <- Sys.info()[["user"]]
   # filter resources yml file depending on the user and machine
-  resources <- resources_yml[[username]]
-  names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
+  resources = resources_yml[['path_map']][[username]]
+  # names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
   return(resources)
 }
 

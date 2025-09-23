@@ -21,11 +21,11 @@ from collections import defaultdict, Counter
 
 m = load_resources()
 
-# verify that a new project name has been given 
+# verify that a new project name has been given
 if m['setup_settings']['project_name'] == 'project_template':
     raise ValueError(f'Must provide a new project name in template_user/resources.yml!')
-    
-# verify that all usernames are unique, we'll have a problem 
+
+# verify that all usernames are unique, we'll have a problem
 # determining the system if not
 check_setup_usernames(m)
 
@@ -36,21 +36,21 @@ cmd = f"mv ../project_template ../{m['setup_settings']['project_name']}"
 run_cmd(cmd)
 
 # get paths for each user in setup_settings
-path_map, quick_path_map = get_setup_settings_path_maps(m)
+path_map = get_setup_settings_path_maps(m)
 
 # also add template user under the mn5 regime
-path_map['mn5']['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
-quick_path_map['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
+path_map['path_map']['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
 
-# also add a users list 
-quick_path_map['users'] = list(m['setup_settings']['users'].keys())
+# also add a users list
+users_list = {}
+users_list['users'] = list(m['setup_settings']['users'].keys())
 
 # write to resources.yml, just append the path_map and quick-access path maps
 path_map = {'path_map': dict(path_map)}
 with open('template_user/resources/resources.yml', 'a') as f:
         yaml.dump(path_map, f, default_flow_style=False)
         yaml.dump(quick_path_map, f, default_flow_style=False)
-        
+
 # make a copy of template user for each user
 for user, systems in m['setup_settings']['users'].items():
     cmd = f'cp -r template_user/ {user}'

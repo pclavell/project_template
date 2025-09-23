@@ -25,8 +25,8 @@ echo "MareNostrum5 Scratch mounted"
 }
 
 mountall(){
-mountprojects()
-mountscratch()
+mountprojects
+mountscratch
 }
 ```
 Create `<projects_target_directory>` and `<scratch_target_directory>`:
@@ -36,7 +36,7 @@ mkdir <projects_target_directory>
 mkdir <scratch_target_directory>
 ```
 
-* **Repository cloning**: 
+* **Repository cloning**:
 Enter to MareNostrum5 login4 (or your HPC cluster node with internet connection) and move to `cd /gpfs/projects/bsc83/Projects` (if you are in another HPC cluster, choose where you want the project to be located)
 ```bash
 git clone https://github.com/pclavell/project_template.git
@@ -84,4 +84,3 @@ This organization framework is designed to automatically detect if you are worki
 
 If you do it correctly, you will be able to access your code from this local directory and also from the mounted directory. The local directory is where you will work on your code, the mounted directory will be the source of the data. The advantage of this framework is that all paths will work the same. Just remember to keep using git and pull/push.
 ![framework_visualization](dev/framework_visualization.jpg)
-

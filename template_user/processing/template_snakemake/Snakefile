@@ -23,17 +23,12 @@
 ######################################## SETTINGS ########################################
 # import packages
 import pandas as pd
-import os
-import re
 import sys
-from pathlib import Path
+from pyprojroot.here import here
 
-script_path = Path.cwd()
-user_dir = re.sub(r"/(metadata|processing|analysis)/.*$", "", str(script_path))
-sys.path.append(user_dir)
+sys.path.append(str(here()))
 
 from resources.utils import *
-from resources.smk_utils import *
 
 # set folder where all snakemake modules are sitting
 rules_dir = '../rules/'

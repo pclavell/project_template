@@ -1,3 +1,23 @@
+
+################################## README BEFORE USAGE ##################################
+
+# This script rewrites the entries in resources.yml with paths for each user,
+# finds new users, for each new user copies the user directory from the current
+# user, and pulls from main in the new users' directories
+
+#     Usage: python3 add_new_users.py # run from your user's directory!
+#                                     # ie <project_name>/<user>
+
+                                    #   /\_/\
+                                    #  ( o.o )
+                                    #   > ^ <
+                                    #  /     \
+                                    # (       )
+                                    #  \__ __/
+                                    #   || ||
+
+############ --------------------------------------------------------------- ############
+
 from pathlib import Path
 import re
 import os
@@ -90,5 +110,3 @@ for user in new_users:
     cmd = f"git checkout {main_branch}"
     print(cmd)
     run_cmd(cmd, wd=new_user_dir)
-
-    

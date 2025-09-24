@@ -14,6 +14,7 @@
 
 ############ --------------------------------------------------------------- ############
 
+import argparse
 
 from template_user.resources.utils import *
 
@@ -84,4 +85,7 @@ def main(dry_run=True,
     else: return None
     
 if __name__ == '__main__':
-    main(dry_run=False)
+    args = parser.parse_args()
+    main(dry_run=args.dry_run,
+         resources=args.resources,
+         output_resources=args.output_resources)

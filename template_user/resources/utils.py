@@ -19,13 +19,13 @@ import yaml
 import os
 import getpass
 import subprocess
-import pathlib
+from pathlib import Path
 from collections import defaultdict, Counter
 import copy
 
 d = os.path.dirname(__file__)
-CONFIG_FILE = f'{d}/config.yml'
-RESOURCES_FILE = f'{d}/resources.yml'
+CONFIG_FILE = str(Path(f'{d}/config.yml').resolve())
+RESOURCES_FILE = str(Path(f'{d}/resources.yml').resolve())
 TEMPLATE_PROJECT_NAME = 'project_template'
 
 def load_yml(file):
@@ -115,9 +115,9 @@ def load_paths(resources=None,
             f"Available: {list(path_map.keys())}"
         )
 
-    # normalize all paths as pathlib.Path w/ symlink / relative path resolution
-    return {k: str(pathlib.Path(v).resolve()) for k, v in path_map[username].items()}
-               
+    # normalize all paths as Path w/ symlink / relative path resolution
+    return {k: str(Path(v).resolve()) for k, v in path_map[username].items()}
+
 def load_config(config=None, resources=None, **kwargs):
     """
     Load the project configuration with absolute paths applied.
@@ -158,7 +158,7 @@ def load_config(config=None, resources=None, **kwargs):
     config_dict = resolve_config_symlinks(config_dict)
 
     return config_dict
-               
+
 def fmt_path_map_key(k: str) -> str:
     """Format a key for placeholder substitution in config files.
        This can be changed if we ever decide to update the format"""
@@ -183,7 +183,7 @@ def get_path_map(resources=None, **kwargs):
     paths = load_paths(resources=resources, **kwargs)
 
     return {fmt_path_map_key(k): str(v) for k, v in paths.items()}
-               
+
 def check_setup_usernames(usernames):
     """
     Ensure all usernames are unique.
@@ -200,7 +200,7 @@ def check_setup_usernames(usernames):
     dupes = {u for u, count in Counter(usernames).items() if count > 1}
     if dupes:
         raise ValueError(f"Duplicate usernames found: {sorted(dupes)}")
-               
+
 def verify_proj_name(name):
     """
     Ensure the project name is not left as the template default.
@@ -210,7 +210,7 @@ def verify_proj_name(name):
             f"Invalid project name: {TEMPLATE_PROJECT_NAME!r}. "
             f"Update it in template_user/resources.yml."
         )
-               
+
 def construct_templated_paths(path_map, base_path, user_alias, username, proj_name):
     """
     Generate and attach standard project-relative paths.
@@ -248,10 +248,6 @@ def construct_templated_paths(path_map, base_path, user_alias, username, proj_na
     path_map[username].update(subdirs)
 
     return path_map
-               
-from collections import defaultdict
-from copy import deepcopy
-from pathlib import Path
 
 def generate_path_map(setup_settings, proj_name):
     """
@@ -277,7 +273,7 @@ def generate_path_map(setup_settings, proj_name):
     for user_alias, systems in users.items():
         for system_name, system_info in systems.items():
             username = system_info["username"]
-            
+
             # Start with paths directly supplied in the YAML for *_dir
             for k, v in system_info.items():
                 if k.endswith("_dir"):
@@ -304,7 +300,7 @@ def generate_path_map(setup_settings, proj_name):
             # Optionally add a canonical mn5_user copy
             if system_name == "mn5":
                 path_map["mn5_user"] = deepcopy(path_map[username])
-                
+
         # Convert all Path objects to strings (construct_templated_paths still returns Paths)
     path_map_str = {
         user: {k: str(v) for k, v in paths.items()} for user, paths in path_map.items()
@@ -333,7 +329,7 @@ def resolve_config_symlinks(d):
     elif isinstance(d, list):
         return [resolve_config_symlinks(item) for item in d]
     elif isinstance(d, str):
-        d = str(pathlib.Path(d).resolve())
+        d = str(Path(d).resolve())
         return d
     else:
         return d

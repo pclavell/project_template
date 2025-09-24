@@ -18,95 +18,151 @@
 
 ############ --------------------------------------------------------------- ############
 
-from pathlib import Path
-import re
-import os
+from pyprojroot.here import here
 import sys
+import pandas as pd
+import pathlib
+from collections import defaultdict, Counter
+import copy
+import argparse
 
-from utils import *
+sys.path.append(str(here()))
 
-m = load_resources()
+from resources.utils import *
 
-user_dir = Path.cwd()
-curr_user = str(Path(user_dir).name)
+def main(dry_run=True,
+         user_dir=None,
+         resources=None):
+    """
+    Generate resources.yml with path_map and user list.
+    Copies user's dir for each NEW user.
+    Also initializes git project for each new user, 
+    and syncs the branch in that directory to HEAD branch
+    Supports dry-run mode for safe testing.
 
+    Parameters
+    ----------
+    dry_run : bool
+        If True, no destructive operations are performed; operations are logged.
+    user_dir : str
+        Path to user's directory
+    resources : dict | str | None
+        Path to resources.yml or a pre-loaded dict.
+    """
+    
+    # stuff to return if we're in dry run
+    dry_run_outputs = []
+    
+    if not resources: resources = RESOURCES_FILE
+    m = load_yml(resources)
+    
+    proj_name = m['setup_settings']['project_name']
+    
+    # if no user dir provided, infer
+    user_dir = Path(user_dir) if user_dir else here()
+    curr_user = user_dir.name
+    project_dir = user_dir.parent.resolve()
 
-# list of new users
-curr_users = m['users']
-new_users = list(set(list(m['setup_settings']['users'].keys()))-set(curr_users))
+    # list of new users
+    curr_users = m['users']
+    new_users = [u for u in m['setup_settings']['users'] if u not in m['users']]
 
-if len(new_users) == 0:
-    raise ValueError('No new users found. Exiting.')
+    if len(new_users) == 0:
+        raise ValueError('No new users found. Exiting.')
+        
+    # make sure usernames are unique
+    usernames = [i2['username']
+        for _, i in m['setup_settings']['users'].items()
+        for _, i2 in i.items()]    
+    check_setup_usernames(usernames)
+    
+    # also check to make sure that the repo has commit history
+    curr_user_dir = user_dir.resolve()
+    project_dir = user_dir.parent.resolve()
 
-# verify that all usernames are unique, we'll have a problem
-# determining the system if not
-check_setup_usernames(m)
-
-# also check to make sure that the repo has commit history
-curr_user_dir = str(Path(user_dir).resolve())
-project_dir = str(Path(user_dir).parent.resolve())
-
-cmd = "git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
-main_branch = run_cmd(cmd, wd=curr_user_dir, shell=True).strip()
-if main_branch == '(unknown)':
-    raise ValueError('No remote git history detected. Please push at least once to remote before adding a user')
-
-# get paths for each user in setup_settings
-path_map, quick_path_map = get_setup_settings_path_maps(m)
-
-# also add template user under the mn5 regime
-path_map['mn5']['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
-quick_path_map['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
-
-# also add a users list
-quick_path_map['users'] = list(m['setup_settings']['users'].keys())
-
-# path_map from default dict to normal dict (defaultdict
-# doesn't save nicely in yaml)
-path_map =  dict(path_map)
-
-# for each current user, update the resources.yml
-for user in curr_users:
-
-    # load this users' resources to add the new user to
-    temp_user_dir = new_user_dir = str(Path(f'{project_dir}/{user}').resolve())
-    user_resources = str(Path(f'{temp_user_dir}/resources/resources.yml').resolve())
-    print(f'user resources yml: {user_resources}')
-
-    m = load_yml(user_resources)
-
-    # when writing, we now need to overwrite previous entries
-    m['path_map'] = path_map
-
-    # quick path map
-    for key, item in quick_path_map.items():
-        m[key] = item
-
-    # rewrite
-    with open(user_resources, 'w') as f:
-        yaml.dump(m, f, default_flow_style=False)
-
-# for each new user, copy the user's directory that is carrying out
-# the change, and switch to the main branch
-for user in new_users:
-    temp_user_dir = new_user_dir = str(Path(f'{project_dir}/{user}').resolve())
-
-    cmd = f"cp -r {curr_user_dir} {new_user_dir}"
-    print(cmd)
-    run_cmd(cmd)
-
-    cmd = "git fetch origin"
-    print(cmd)
-    run_cmd(cmd, wd=new_user_dir)
-
+    # determine head branch of git repo
     cmd = "git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
-    print(cmd)
-    main_branch = run_cmd(cmd, wd=new_user_dir, shell=True).strip()
+    head = safe_run(cmd, dry_run=dry_run,
+                               wd=curr_user_dir,
+                               shell=True)
 
-    cmd = f"git reset --hard origin/{main_branch}"
-    print(cmd)
-    run_cmd(cmd, wd=new_user_dir)
+    # in dry run mode won't have returned anything, just assume main
+    if dry_run: head = 'main'
+    else: head = head.strip()
 
-    cmd = f"git checkout {main_branch}"
-    print(cmd)
-    run_cmd(cmd, wd=new_user_dir)
+    # no remote git history detected
+    if head == '(unknown)':
+        raise ValueError('No remote git history detected. Please push at least once to remote before adding a user')
+        
+    path_map = generate_path_map(m['setup_settings'], proj_name)
+    
+    # also add a users list
+    users_list = {'users': list(m['setup_settings']['users'].keys())}
+
+    # for each current user, update the resources.yml
+    for user_alias in curr_users:
+
+        # load this users' resources to add the new user to
+        temp_user_dir = str(Path(f'{project_dir}/{user_alias}').resolve())
+        user_resources = str(Path(f'{temp_user_dir}/resources/resources.yml').resolve())
+
+        # write path map and users to resources.yml
+        if dry_run:
+            # return the generated data for testing
+            print(f"[DRY-RUN] Would overwrite YAML to {user_resources}")
+            if dry_run:
+                dry_run_outputs.append({'user_resources': user_resources,
+                                        'path_map': path_map,
+                                        'users': users_list})
+        else:
+            m = load_yml(user_resources)
+            # when writing, we now need to overwrite previous entries
+            m['path_map'] = path_map
+            with Path(user_resources).open('w') as f:
+                yaml.dump({'path_map': path_map}, f, default_flow_style=False)
+                yaml.dump(users_list, f, default_flow_style=False)
+                
+    # for each new user, copy the user's directory that is carrying out
+    # the change, and switch to the main branch
+    for user_alias in new_users:
+        new_user_dir = Path(project_dir) / user_alias
+
+
+        if not dry_run:
+            shutil.copytree(curr_user_dir, new_user_dir)
+        else:
+            print(f"[DRY-RUN] Would copy {curr_user_dir} -> {new_user_dir}")
+
+        git_cmds = [
+            "git fetch origin",
+            f"git reset --hard origin/{head}",
+            f"git checkout {head}"
+        ]
+
+        for cmd in git_cmds:
+            safe_run(cmd, dry_run=dry_run, wd=new_user_dir)
+            
+    if dry_run: return dry_run_outputs
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Add new users to project."
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true",
+        help="Simulate the setup without making changes"
+    )
+    parser.add_argument(
+        "--resources", type=str,
+        help="Path to resources.yml file"
+    )
+    parser.add_argument(
+        "--user_dir", type=str,
+        help="User's directory to copy for new users"
+    )
+
+    args = parser.parse_args()
+    
+    main(dry_run=args.dry_run,
+         resources=args.resources,
+         user_dir=args.user_dir)

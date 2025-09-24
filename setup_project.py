@@ -83,16 +83,6 @@ def main(dry_run=True,
 
     if dry_run: return dry_run_outputs
     else: return None
-    
-if __name__ == '__main__':
-import argparse
-from pathlib import Path
-import shutil
-import yaml
-from template_user.resources.utils import (
-    load_yml, verify_proj_name, check_setup_usernames,
-    generate_path_map, safe_run
-)
 
 def main(dry_run=True, resources=None, output_resources='template_user/resources/resources.yml'):
     """
@@ -125,7 +115,7 @@ def main(dry_run=True, resources=None, output_resources='template_user/resources
     # write path map and users to resources.yml
     if dry_run:
         print(f"[DRY-RUN] Would append YAML to {output_resources}")
-        return {'path_map': path_map, 'users': users_list}
+        dry_run_outputs =  {'path_map': path_map, 'users': users_list}
     else:
         output_resources = Path(output_resources)
         output_resources.parent.mkdir(parents=True, exist_ok=True)
@@ -133,12 +123,15 @@ def main(dry_run=True, resources=None, output_resources='template_user/resources
             yaml.dump({'path_map': path_map}, f, default_flow_style=False)
             yaml.dump(users_list, f, default_flow_style=False)
 
-        # copy template_user for each user
-        for user_alias in m['setup_settings']['users']:
-            dest = Path(user_alias)
-            shutil.copytree("template_user", dest, dirs_exist_ok=True)
+    # copy template_user for each user
+    for user_alias in m['setup_settings']['users']:
+        dest = Path(user_alias)
+        if dry_run:
+             print(f"[DRY-RUN] Would copy template_useer -> {dest}")
+        else: shutil.copytree("template_user", dest, dirs_exist_ok=True)
 
-        return None
+    if dry_run: return dry_run_outputs
+    else: return None
 
 
 if __name__ == "__main__":
@@ -154,7 +147,7 @@ if __name__ == "__main__":
         help="Path to resources.yml file"
     )
     parser.add_argument(
-        "--output", type=str, default='template_user/resources/resources.yml',
+        "--output_resources", type=str, default='template_user/resources/resources.yml',
         help="Path to write updated resources.yml"
     )
 

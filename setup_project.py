@@ -16,42 +16,72 @@
 
 
 from template_user.resources.utils import *
-import pathlib
-from collections import defaultdict, Counter
 
-m = load_resources()
+d = os.path.dirname(__file__)
+CONFIG_FILE = f'{d}/template_user/resources/config.yml'
+RESOURCES_FILE = f'{d}/template_user/resources/resources.yml'
 
-# verify that a new project name has been given
-if m['setup_settings']['project_name'] == 'project_template':
-    raise ValueError(f'Must provide a new project name in template_user/resources.yml!')
+def main(dry_run=True,
+         resources=None,
+         output_resources='template_user/resources/resources.yml'):
+    """
+    Generate resources.yml with path_map and user list.
+    Copies template_user dir for each user.
+    Supports dry-run mode for safe testing.
 
-# verify that all usernames are unique, we'll have a problem
-# determining the system if not
-check_setup_usernames(m)
+    Parameters
+    ----------
+    dry_run : bool
+        If True, no destructive operations are performed; operations are logged.
+    resources : dict | str | None
+        Path to resources.yml or a pre-loaded dict.
+    output_resources : str | Path | None
+        Path to write the generated resources.yml. Defaults to
+        'template_user/resources/resources.yml'.
+    """
+    if not resources: resources = RESOURCES_FILE
+    m = load_yml(resources)
+    
+    # make sure project name has been changed
+    proj_name = m['setup_settings']['project_name']
+    verify_proj_name(proj_name)
+    
+    # make sure usernames are unique
+    usernames = [i2['username']
+        for _, i in m['setup_settings']['users'].items()
+        for _, i2 in i.items()]    
+    check_setup_usernames(usernames)
+    
+    # destructive operations
+    safe_run("rm -rf .git", dry_run=dry_run)
+    safe_run(f"mv ../project_template ../{proj_name}", dry_run=dry_run)
 
-# rename project; immediately remove all git things;
-cmd = 'rm -rf .git'
-run_cmd(cmd)
-cmd = f"mv ../project_template ../{m['setup_settings']['project_name']}"
-run_cmd(cmd)
+    path_map = generate_path_map(m['setup_settings'], proj_name)
+    
+    # also add a users list
+    users_list = {'users': list(m['setup_settings']['users'].keys())}
 
-# get paths for each user in setup_settings
-path_map = get_setup_settings_path_maps(m)
+    # write path map and users to resources.yml
+    if dry_run:
+        # return the generated data for testing
+        print(f"[DRY-RUN] Would append YAML to {output_resources}")
+        dry_run_outputs = {'path_map': path_map, 'users': users_list}
+    
+    else:
+        with Path(output_resources).open('a') as f:
+            yaml.dump({'path_map': path_map}, f, default_flow_style=False)
+            yaml.dump(users_list, f, default_flow_style=False)
+    
+    # copy template_user for each user    
+    for user_alias in m['setup_settings']['users']:
+        dest = Path(user_alias)
+        if dry_run:
+            print(f"[DRY-RUN] Would copy template_user -> {dest}")
+        else:
+            shutil.copytree("template_user", dest, dirs_exist_ok=True)
 
-# also add template user under the mn5 regime
-path_map['path_map']['template_user'] = get_user_system_entry_path_map(m, 'template_user', 'mn5')
-
-# also add a users list
-users_list = {}
-users_list['users'] = list(m['setup_settings']['users'].keys())
-
-# write to resources.yml, just append the path_map and quick-access path maps
-path_map = {'path_map': dict(path_map)}
-with open('template_user/resources/resources.yml', 'a') as f:
-        yaml.dump(path_map, f, default_flow_style=False)
-        yaml.dump(quick_path_map, f, default_flow_style=False)
-
-# make a copy of template user for each user
-for user, systems in m['setup_settings']['users'].items():
-    cmd = f'cp -r template_user/ {user}'
-    run_cmd(cmd)
+    if dry_run: return dry_run_outputs
+    else: return None
+    
+if __name__ == '__main__':
+    main(dry_run=False)

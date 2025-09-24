@@ -399,3 +399,11 @@ def flatten_list(l):
 #             # quick_path_map[username] = get_user_system_entry_path_map(m, user, system)
 
 #     return path_map
+
+
+# Helper wrapper for shell commands
+def safe_run(cmd, dry_run=True):
+    if dry_run:
+        print(f"[DRY-RUN] Would execute: {cmd}")
+    else:
+        run_cmd(cmd)

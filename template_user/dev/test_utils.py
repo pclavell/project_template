@@ -71,7 +71,7 @@ def load_resources(resources=None):
 
 def load_paths(resources=None,
                username=None,
-               mn5_user=False:
+               mn5_user=False):
     """
     Load the relevant path mappings for the current user.
 
@@ -230,7 +230,7 @@ def construct_templated_paths(path_map, base_path, user_alias, username, proj_na
         "data_dir": pref / "data",
         "ref_dir": pref / "ref",
         "figures_dir": pref / "figures",
-        "metadata_dir": pref / user / "metadata",
+        "metadata_dir": pref / user_alias / "metadata",
     }
 
     # store them as Paths
@@ -255,7 +255,7 @@ def generate_path_map(setup_settings, proj_name):
 
     Returns
     -------
-    dict[str, dict]
+    dict[str, dict[str, str]]
         path_map with username keys mapping to their paths.
     """
     path_map = defaultdict(dict)
@@ -293,8 +293,13 @@ def generate_path_map(setup_settings, proj_name):
             # Optionally add a canonical mn5_user copy
             if system_name == "mn5":
                 path_map["mn5_user"] = deepcopy(path_map[username])
+                
+        # Convert all Path objects to strings (construct_templated_paths still returns Paths)
+    path_map_str = {
+        user: {k: str(v) for k, v in paths.items()} for user, paths in path_map.items()
+    }
 
-    return dict(path_map)
+    return path_map_str
 
 
 

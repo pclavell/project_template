@@ -22,52 +22,52 @@ import subprocess
 import pathlib
 from collections import defaultdict, Counter
 
-def load_yml(config_file=None):
-    """
-    Load a YAML configuration file containing project file paths.
+# def load_yml(config_file=None):
+#     """
+#     Load a YAML configuration file containing project file paths.
 
-    Parameters
-    ----------
-    config_file : str, optional
-        Path to a YAML configuration file. If None, the function defaults
-        to `../processing/config.yml` relative to the current script file.
+#     Parameters
+#     ----------
+#     config_file : str, optional
+#         Path to a YAML configuration file. If None, the function defaults
+#         to `../processing/config.yml` relative to the current script file.
 
-    Returns
-    -------
-    dict
-        Parsed configuration as a dictionary with keys corresponding to
-        configuration entries and values as specified in the YAML file.
-    """
-    if not config_file:
-        d = os.path.dirname(__file__)
-        config_file = f'{d}/config.yml'
+#     Returns
+#     -------
+#     dict
+#         Parsed configuration as a dictionary with keys corresponding to
+#         configuration entries and values as specified in the YAML file.
+#     """
+#     if not config_file:
+#         d = os.path.dirname(__file__)
+#         config_file = f'{d}/config.yml'
 
-    with open(config_file) as f:
-        config = yaml.safe_load(f)
+#     with open(config_file) as f:
+#         config = yaml.safe_load(f)
 
-    return config
+#     return config
 
-# is there a way to make the behavior if a config_file is
-# passed more tight between load_resources and load_yml?
-# maybe chatgpt has some ideas
-def load_resources(config_file=None):
-    """
-    Load the resources YAML file containing global project settings.
+# # is there a way to make the behavior if a config_file is
+# # passed more tight between load_resources and load_yml?
+# # maybe chatgpt has some ideas
+# def load_resources(config_file=None):
+#     """
+#     Load the resources YAML file containing global project settings.
 
-    The resources file typically includes items such as color schemes,
-    metadata settings, and other shared constants for the project.
+#     The resources file typically includes items such as color schemes,
+#     metadata settings, and other shared constants for the project.
 
-    Returns
-    -------
-    dict
-        Parsed resources as a dictionary.
-    """
-    if not config_file:
-        d = os.path.dirname(__file__)
-        config_file = f'{d}/resources.yml'
+#     Returns
+#     -------
+#     dict
+#         Parsed resources as a dictionary.
+#     """
+#     if not config_file:
+#         d = os.path.dirname(__file__)
+#         config_file = f'{d}/resources.yml'
 
-    config = load_yml(config_file)
-    return config
+#     config = load_yml(config_file)
+#     return config
 
 # def load_paths(config_file=None, username=None):
 #     """
@@ -137,25 +137,25 @@ def resolve_config_symlinks(d):
     else:
         return d
 
-def save_mn5_config():
-    """
-    Save a version of the project configuration with absolute paths for MN5.
+# def save_mn5_config():
+#     """
+#     Save a version of the project configuration with absolute paths for MN5.
 
-    This function generates a copy of the configuration where paths are
-    converted to absolute paths suitable for the MN5 environment and saves
-    it as `config_mn5.yml` in the `../resources/` directory.
+#     This function generates a copy of the configuration where paths are
+#     converted to absolute paths suitable for the MN5 environment and saves
+#     it as `config_mn5.yml` in the `../resources/` directory.
 
-    Returns
-    -------
-    None
-    """
-    config = load_config(mn5_config=True)
+#     Returns
+#     -------
+#     None
+#     """
+#     config = load_config(mn5_config=True)
 
-    d = os.path.dirname(__file__)
-    config_file = f'{d}/config_mn5.yml'
+#     d = os.path.dirname(__file__)
+#     config_file = f'{d}/config_mn5.yml'
 
-    with open(config_file, 'w') as f:
-        yaml.dump(config, f, default_flow_style=False)
+#     with open(config_file, 'w') as f:
+#         yaml.dump(config, f, default_flow_style=False)
 
 
 # def get_path_map(mn5_config=False):

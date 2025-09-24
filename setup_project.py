@@ -80,56 +80,7 @@ def main(dry_run=True,
         if dry_run:
             print(f"[DRY-RUN] Would copy template_user -> {dest}")
         else:
-            shutil.copytree("template_user", dest, dirs_exist_ok=True)
-
-    if dry_run: return dry_run_outputs
-    else: return None
-
-def main(dry_run=True, resources=None, output_resources='template_user/resources/resources.yml'):
-    """
-    Generate resources.yml with path_map and user list.
-    Copies template_user dir for each user.
-    Supports dry-run mode for safe testing.
-    """
-    
-    m = load_yml(resources)
-    
-    # make sure project name has been changed
-    proj_name = m['setup_settings']['project_name']
-    verify_proj_name(proj_name)
-    
-    # make sure usernames are unique
-    usernames = [i2['username']
-        for _, i in m['setup_settings']['users'].items()
-        for _, i2 in i.items()]    
-    check_setup_usernames(usernames)
-    
-    # destructive operations
-    safe_run("rm -rf .git", dry_run=dry_run)
-    safe_run(f"mv ../project_template ../{proj_name}", dry_run=dry_run)
-
-    path_map = generate_path_map(m['setup_settings'], proj_name)
-    
-    # also add a users list
-    users_list = {'users': list(m['setup_settings']['users'].keys())}
-
-    # write path map and users to resources.yml
-    if dry_run:
-        print(f"[DRY-RUN] Would append YAML to {output_resources}")
-        dry_run_outputs =  {'path_map': path_map, 'users': users_list}
-    else:
-        output_resources = Path(output_resources)
-        output_resources.parent.mkdir(parents=True, exist_ok=True)
-        with output_resources.open('a') as f:
-            yaml.dump({'path_map': path_map}, f, default_flow_style=False)
-            yaml.dump(users_list, f, default_flow_style=False)
-
-    # copy template_user for each user
-    for user_alias in m['setup_settings']['users']:
-        dest = Path(user_alias)
-        if dry_run:
-             print(f"[DRY-RUN] Would copy template_useer -> {dest}")
-        else: shutil.copytree("template_user", dest, dirs_exist_ok=True)
+            shutil.copytree("template_user", dest)
 
     if dry_run: return dry_run_outputs
     else: return None

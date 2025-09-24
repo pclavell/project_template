@@ -97,7 +97,7 @@ def load_paths(resources=None,
 
     Returns
     -------
-    dict[str, pathlib.Path]
+    dict[str, str]
         Mapping of keys (like 'data_dir', 'ref_dir') to absolute paths.
     """
     resources = load_resources(resources)
@@ -116,7 +116,7 @@ def load_paths(resources=None,
         )
 
     # normalize all paths as pathlib.Path w/ symlink / relative path resolution
-    return {k: pathlib.Path(v).resolve() for k, v in path_map[username].items()}
+    return {k: str(pathlib.Path(v).resolve()) for k, v in path_map[username].items()}
                
 def load_config(config=None, resources=None, **kwargs):
     """

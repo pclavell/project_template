@@ -31,6 +31,14 @@ path_map:
     projects_dir: /user2/mounts/projects/
     ref_dir: /user2/mounts/projects/Projects/my_test_project/ref
     scratch_dir: /user2/mounts/scratch/
+  mn5_user:
+    data_dir: /gpfs/projects/bsc83/Projects/my_test_project/data
+    figures_dir: /gpfs/projects/bsc83/Projects/my_test_project/figures
+    metadata_dir: /gpfs/projects/bsc83/Projects/my_test_project/user2_alias/metadata
+    new_dir: /new/mn5/dir/user1/
+    projects_dir: /gpfs/projects/bsc83/
+    ref_dir: /gpfs/projects/bsc83/Projects/my_test_project/ref
+    scratch_dir: /gpfs/scratch/bsc83/
 users:
 - user1_alias
 - user2_alias

@@ -1,0 +1,9 @@
+data:
+    data_dir_file: ./{data_dir}/some/file
+    data_dir_file2: ./{data_dir}/some/file_2
+    figures_dir_file: ./{figures_dir}/my_favorite_plot.pdf
+    metadata_dir_file: ./{metadata_dir}/biosample_metadata.tsv
+    new_dir_file: ./{new_dir}/some_extra_file_i_need.txt
+    projects_dir_file: ./{projects_dir}/Data/some_file_someone_else_downloaded.fq
+    ref_dir_file: ./{ref_dir}/hg38.fa
+    scratch_dir_file: ./{scratch_dir}/some/scratch/file.txt

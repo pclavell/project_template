@@ -47,7 +47,9 @@ def load_yml(config_file=None):
 
     return config
 
-
+# is there a way to make the behavior if a config_file is
+# passed more tight between load_resources and load_yml?
+# maybe chatgpt has some ideas
 def load_resources(config_file=None):
     """
     Load the resources YAML file containing global project settings.
@@ -67,47 +69,47 @@ def load_resources(config_file=None):
     config = load_yml(config_file)
     return config
 
-def load_paths(config_file=None, username=None):
-    """
-    Load the relevant prefixes for paths for the current user
+# def load_paths(config_file=None, username=None):
+#     """
+#     Load the relevant prefixes for paths for the current user
 
-    Returns
-    -------
-    dict
-        Parsed resources paths as a dictionary.
-    """
-    m = load_resources(config_file)
-    if not username: username = getpass.getuser()
-    return m['path_map'][username]
+#     Returns
+#     -------
+#     dict
+#         Parsed resources paths as a dictionary.
+#     """
+#     m = load_resources(config_file)
+#     if not username: username = getpass.getuser()
+#     return m['path_map'][username]
 
-def load_config(**kwargs):
-    """
-    Load the project configuration with absolute paths applied.
+# def load_config(**kwargs):
+#     """
+#     Load the project configuration with absolute paths applied.
 
-    This function modifies the entries in the configuration so that any
-    file paths become absolute paths according to the system or user-specific
-    path mapping.
+#     This function modifies the entries in the configuration so that any
+#     file paths become absolute paths according to the system or user-specific
+#     path mapping.
 
-    Parameters
-    ----------
-    **kwargs : dict
-        Arbitrary keyword arguments passed to `get_path_map` to determine
-        the system/user-specific path mapping.
+#     Parameters
+#     ----------
+#     **kwargs : dict
+#         Arbitrary keyword arguments passed to `get_path_map` to determine
+#         the system/user-specific path mapping.
 
-    Returns
-    -------
-    dict
-        Configuration dictionary with absolute paths applied.
-    """
-    config = load_yml()
-    m = get_path_map(**kwargs)
-    config = replace_str_dict(config, m)
+#     Returns
+#     -------
+#     dict
+#         Configuration dictionary with absolute paths applied.
+#     """
+#     config = load_yml(**kwargs)
+#     m = get_path_map(**kwargs)
+#     config = replace_str_dict(config, m)
 
-    # replace all paths with their absolute pathss
-    # to resolve symlinks
-    config = resolve_config_symlinks(config)
+#     # replace all paths with their absolute pathss
+#     # to resolve symlinks
+#     config = resolve_config_symlinks(config)
 
-    return config
+#     return config
 
 def resolve_config_symlinks(d):
     """
@@ -156,26 +158,26 @@ def save_mn5_config():
         yaml.dump(config, f, default_flow_style=False)
 
 
-def get_path_map(mn5_config=False):
-    """
-    Return dictionary of strings to be replaced if username is recognized, otherwise
-    use relative paths
-    """
+# def get_path_map(mn5_config=False):
+#     """
+#     Return dictionary of strings to be replaced if username is recognized, otherwise
+#     use relative paths
+#     """
 
-    username = getpass.getuser()
+#     username = getpass.getuser()
 
-    # if for just updating mn5 config
-    if mn5_config == True: username = 'template_user'
+#     # if for just updating mn5 config
+#     if mn5_config == True: username = 'mn5_user'
 
-    resources = load_paths()
+#     resources = load_paths()
 
-    # this is where I should adjust --- it's not likely that I need to keep both path_maps
-    usernames = flatten_list([i.keys() for k, i in resources['path_map'].items()])
-    if username not in usernames:
-        raise ValueError(f'Username {username} not found in resources.yml. Add before proceeding')
+#     # this is where I should adjust --- it's not likely that I need to keep both path_maps
+#     usernames = flatten_list([i.keys() for k, i in resources['path_map'].items()])
+#     if username not in usernames:
+#         raise ValueError(f'Username {username} not found in resources.yml. Add before proceeding')
 
-    else:
-        return resources[username]
+#     else:
+#         return resources[username]
 
 
 

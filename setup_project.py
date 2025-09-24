@@ -15,6 +15,7 @@
 ############ --------------------------------------------------------------- ############
 
 import argparse
+import shutil
 
 from template_user.resources.utils import *
 

@@ -402,8 +402,8 @@ def flatten_list(l):
 
 
 # Helper wrapper for shell commands
-def safe_run(cmd, dry_run=True):
+def safe_run(cmd, dry_run=True, **kwargs):
     if dry_run:
         print(f"[DRY-RUN] Would execute: {cmd}")
     else:
-        run_cmd(cmd)
+        return run_cmd(cmd, **kwargs)

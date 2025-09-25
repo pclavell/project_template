@@ -20,10 +20,12 @@ import shutil
 from template_user.resources.utils import *
 
 d = os.path.dirname(__file__)
+TEMPLATE_PROJECT_NAME = 'project_template'
 CONFIG_FILE = f'{d}/template_user/resources/config.yml'
 RESOURCES_FILE = f'{d}/template_user/resources/resources.yml'
 
-def main(dry_run=True,
+def main(repo_dir=None,
+         dry_run=True,
          resources=None,
          output_resources='template_user/resources/resources.yml'):
     """
@@ -33,6 +35,8 @@ def main(dry_run=True,
 
     Parameters
     ----------
+    repo_dir : str | None
+        Path to project_template repo or, if None, current directory
     dry_run : bool
         If True, no destructive operations are performed; operations are logged.
     resources : dict | str | None
@@ -42,24 +46,26 @@ def main(dry_run=True,
         'template_user/resources/resources.yml'.
     """
     if not resources: resources = RESOURCES_FILE
+    import pdb; pdb.set_trace()
+    if repo_dir: os.chdir(repo_dir)
     m = load_yml(resources)
-    
+
     # make sure project name has been changed
     proj_name = m['setup_settings']['project_name']
     verify_proj_name(proj_name)
-    
+
     # make sure usernames are unique
     usernames = [i2['username']
         for _, i in m['setup_settings']['users'].items()
-        for _, i2 in i.items()]    
+        for _, i2 in i.items()]
     check_setup_usernames(usernames)
-    
+
     # destructive operations
     safe_run("rm -rf .git", dry_run=dry_run)
     safe_run(f"mv ../project_template ../{proj_name}", dry_run=dry_run)
 
     path_map = generate_path_map(m['setup_settings'], proj_name)
-    
+
     # also add a users list
     users_list = {'users': list(m['setup_settings']['users'].keys())}
 
@@ -67,14 +73,14 @@ def main(dry_run=True,
     if dry_run:
         # return the generated data for testing
         print(f"[DRY-RUN] Would append YAML to {output_resources}")
-        dry_run_outputs = {'path_map': path_map, 'users': users_list}
-    
+        dry_run_outputs = {'path_map': path_map, 'users': users_list['users']}
+
     else:
         with Path(output_resources).open('a') as f:
             yaml.dump({'path_map': path_map}, f, default_flow_style=False)
             yaml.dump(users_list, f, default_flow_style=False)
-    
-    # copy template_user for each user    
+
+    # copy template_user for each user
     for user_alias in m['setup_settings']['users']:
         dest = Path(user_alias)
         if dry_run:
@@ -104,7 +110,7 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    
+
     main(dry_run=args.dry_run,
          resources=args.resources,
          output_resources=args.output_resources)

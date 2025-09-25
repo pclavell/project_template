@@ -299,7 +299,7 @@ def generate_path_map(setup_settings, proj_name):
 
             # Optionally add a canonical mn5_user copy
             if system_name == "mn5":
-                path_map["mn5_user"] = deepcopy(path_map[username])
+                path_map["mn5_user"] = copy.deepcopy(path_map[username])
 
         # Convert all Path objects to strings (construct_templated_paths still returns Paths)
     path_map_str = {

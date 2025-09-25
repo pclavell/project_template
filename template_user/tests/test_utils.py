@@ -199,3 +199,185 @@ def test_get_path_map_calls_load_paths(monkeypatch):
     fake_paths = {"path_map": {"alice": {"data_dir": "/test/data"}}}
     result = utils.get_path_map(resources=fake_paths, username="alice")
     assert result == {"./{data_dir}": "/test/data"}
+
+
+############### construct_templated_paths
+
+def test_construct_templated_paths_basic(tmp_path):
+    path_map = {"alice": {}}
+    base = tmp_path / "projects"
+    proj = "proj1"
+
+    result = utils.construct_templated_paths(path_map, base, "alice_alias", "alice", proj)
+
+    # let's just check if all the correct keys are here;
+    # formatting can, and probably will change
+    expected = ['data_dir', 'ref_dir', 'figures_dir', 'metadata_dir']
+    for k in expected:
+        assert k in result['alice'].keys()
+
+def test_preserves_existing_entries(tmp_path):
+    path_map = {"alice": {"scratch_dir": "/tmp"}}
+    result = utils.construct_templated_paths(path_map, tmp_path, "alias", "alice", "proj")
+    assert "scratch_dir" in result["alice"]
+
+
+def test_other_users_unchanged(tmp_path):
+    path_map = {"alice": {}, "bob": {"custom": "/x"}}
+    result = utils.construct_templated_paths(path_map, tmp_path, "alias", "alice", "proj")
+    assert "custom" in result["bob"]
+    assert "data_dir" not in result["bob"]
+
+def test_returns_same_object(tmp_path):
+    path_map = {"alice": {}}
+    result = utils.construct_templated_paths(path_map, tmp_path, "alias", "alice", "proj")
+    assert result is path_map
+
+############# generate_path_map
+
+def test_non_mn5_user(tmp_path):
+    custom_dir = str(tmp_path / "custom")
+    setup_settings = {
+        "users": {
+            "alice": {
+                "local": {
+                    "username": "alice",
+                    "projects_dir": str(tmp_path / "projects"),
+                    "custom_dir": custom_dir
+                }
+            }
+        }
+    }
+    proj = "proj1"
+
+    result = utils.generate_path_map(setup_settings, proj)
+    alice = result["alice"]
+
+    # preserves custom_dir
+    assert alice["custom_dir"] == custom_dir
+
+    # adds templated dirs
+    expected = ['data_dir', 'ref_dir', 'figures_dir', 'metadata_dir']
+    for k in expected:
+        assert k in alice.keys()
+
+
+def test_mn5_user(tmp_path):
+    proj_dir = str(tmp_path / "mn5_projects")
+    scratch_dir = str(tmp_path / "scratch")
+    setup_settings = {
+        "users": {
+            "bob": {
+                "mn5": {
+                    "username": "bob",
+                }
+            }
+        },
+        "mn5_locs": {
+            "projects_dir": proj_dir,
+            "scratch_dir": scratch_dir
+        }
+    }
+    proj = "proj2"
+
+    result = utils.generate_path_map(setup_settings, proj)
+    bob = result["bob"]
+    mn5_user = result["mn5_user"]
+
+    # mn5 projects_dir is special
+    assert bob["projects_dir"] == proj_dir
+    assert bob["scratch_dir"] == scratch_dir
+
+    assert 'data_dir' in bob.keys()
+
+    # mn5_user clone exists and matches bob
+    assert mn5_user == bob
+    assert mn5_user is not bob  # deepcopy
+
+
+def test_multiple_users_and_isolation(tmp_path):
+    setup_settings = {
+        "users": {
+            "alice": {
+                "local": {
+                    "username": "alice",
+                    "projects_dir": str(tmp_path / "proj_alice"),
+                }
+            },
+            "bob": {
+                "mn5": {
+                    "username": "bob"
+                }
+            }
+        },
+        "mn5_locs": {
+            "projects_dir": str(tmp_path / "mn5p"),
+            "scratch_dir": str(tmp_path / "scr")
+        }
+    }
+    proj = "proj3"
+    result = utils.generate_path_map(setup_settings, proj)
+
+    assert "alice" in result and "bob" in result
+    assert "mn5_user" in result
+    assert "projects_dir" in result["bob"]
+
+    # only mn5 gets projects and scratch dir auto added
+    assert "scratch_dir" not in result["alice"]
+
+def test_overwrites_existing_data_dir(tmp_path):
+    old_data_dir = str(tmp_path / "old_data")
+    setup_settings = {
+        "users": {
+            "alice": {
+                "local": {
+                    "username": "alice",
+                    "projects_dir": str(tmp_path / "projects"),
+                    "data_dir": old_data_dir
+                }
+            }
+        }
+    }
+    proj = "proj4"
+    result = utils.generate_path_map(setup_settings, proj)
+    alice = result["alice"]
+
+    # make sure the data_dir got overwritten
+    assert alice["data_dir"] != old_data_dir
+
+def test_all_paths_are_strings(tmp_path):
+    setup_settings = {
+        "users": {
+            "alice": {
+                "local": {
+                    "username": "alice",
+                    "projects_dir": str(tmp_path / "projects")
+                }
+            }
+        }
+    }
+    proj = "proj5"
+    result = utils.generate_path_map(setup_settings, proj)
+    assert all(isinstance(v, str) for v in result["alice"].values())
+
+
+def test_mn5_user_is_deepcopy(tmp_path):
+    setup_settings = {
+        "users": {
+            "bob": {
+                "mn5": {
+                    "username": "bob"
+                }
+            }
+        },
+        "mn5_locs": {
+            "projects_dir": str(tmp_path / "mn5proj"),
+            "scratch_dir": str(tmp_path / "scr")
+        }
+    }
+    proj = "proj6"
+    result = utils.generate_path_map(setup_settings, proj)
+    result["mn5_user"]["data_dir"] = "CHANGED"
+
+    # bob should be unaffected
+    assert result["bob"]["data_dir"] != "CHANGED"

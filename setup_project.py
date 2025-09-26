@@ -46,8 +46,8 @@ def main(repo_dir=None,
         'template_user/resources/resources.yml'.
     """
     if not resources: resources = RESOURCES_FILE
-    import pdb; pdb.set_trace()
-    if repo_dir: os.chdir(repo_dir)
+    if repo_dir:
+        os.chdir(repo_dir)
     m = load_yml(resources)
 
     # make sure project name has been changed

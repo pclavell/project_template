@@ -49,7 +49,7 @@ def test_dry_run_returns(monkeypatch, tmp_path, fake_resources):
     assert "users" in output
     assert "alice" in output["users"]
 
-def test_setup_project_integration(monkeypatch, tmp_path, fake_resources):
+def test_setup_project_integration_dry_run(monkeypatch, tmp_path, fake_resources):
     # Patch dependencies to avoid actual destructive ops
     monkeypatch.setattr(setup_project, "load_yml", lambda x: fake_resources)
     monkeypatch.setattr(setup_project, "verify_proj_name", lambda name: None)

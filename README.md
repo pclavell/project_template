@@ -34,6 +34,12 @@ git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "define dir structure"
 ```
+  3) We also recommend creating a local copy of the GitHub project, so you can edit code locally. On your local machine, run
+
+```bash
+git clone git@github.com:<GitHub username>/<GitHub repo name>.git
+```
+
   The following step is *heavily discouraged* and unnecessary. However, users lacking mounting might want to copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
 ```bash
 cd ../.. # go to parent dir where project sits

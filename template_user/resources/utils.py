@@ -25,6 +25,7 @@ import copy
 
 d = os.path.dirname(__file__)
 CONFIG_FILE = str(Path(f'{d}/config.yml').resolve())
+MN5_CONFIG_FILE = str(Path(f'{d}/config_mn5.yml').resolve())
 RESOURCES_FILE = str(Path(f'{d}/resources.yml').resolve())
 TEMPLATE_PROJECT_NAME = 'project_template'
 
@@ -425,3 +426,22 @@ def safe_run(cmd, dry_run=True, **kwargs):
         print(f"[DRY-RUN] Would execute: {cmd}")
     else:
         return run_cmd(cmd, **kwargs)
+
+def save_mn5_config():
+    """
+    Save a version of the project configuration with absolute paths for MN5.
+
+    This function generates a copy of the configuration where paths are
+    converted to absolute paths suitable for the MN5 environment and saves
+    it as `config_mn5.yml` in the `../resources/` directory.
+
+    Returns
+    -------
+    None
+    """
+    config = load_config(mn5_config=True)
+
+    config_file = MN5_CONFIG_FILE
+
+    with open(config_file, 'w') as f:
+        yaml.dump(config, f, default_flow_style=False)

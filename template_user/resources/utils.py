@@ -439,7 +439,7 @@ def save_mn5_config():
     -------
     None
     """
-    config = load_config(mn5_config=True)
+    config = load_config(mn5_user=True)
 
     config_file = MN5_CONFIG_FILE
 

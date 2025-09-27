@@ -5,7 +5,6 @@ from unittest.mock import patch, Mock
 import yaml
 
 from template_user.resources import add_new_users
-# import template_user
 
 @pytest.fixture
 def fake_resources(tmp_path):

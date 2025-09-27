@@ -10,6 +10,15 @@ Enter to MareNostrum5 login4 (or your HPC cluster node with internet connection)
 git clone https://github.com/pclavell/project_template.git
 ```
 
+* **Dependency installation**:
+You'll need to install at minimum, the following Python packages:
+* [pyprojroot](https://anaconda.org/conda-forge/pyprojroot)
+* [PyYaml](https://anaconda.org/conda-forge/pyyaml/)
+
+And for R, the following:
+* [here](https://cran.r-project.org/web/packages/here/vignettes/here.html)
+* [yaml](https://cran.r-project.org/web/packages/yaml/index.html)
+
 * **Settings personalization**:
   1) Determine your local and MN5 usernames. To do so, run `echo $USER` in each system
   2) Open [`template_user/resources/resources.yml`](template_user/resources/resources.yml) and fill out the fields under `setup_settings` according to the MareNostrum5 structure and the local mounting structure that you have just build. Notice that there is an example and instructions indicated in the same `resources.yml` file.

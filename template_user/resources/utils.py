@@ -23,7 +23,7 @@ from pathlib import Path
 from collections import defaultdict, Counter
 import copy
 
-d = os.path.dirname(__file__)
+d = Path(__file__).parent
 CONFIG_FILE = str(Path(f'{d}/config.yml').resolve())
 MN5_CONFIG_FILE = str(Path(f'{d}/config_mn5.yml').resolve())
 RESOURCES_FILE = str(Path(f'{d}/resources.yml').resolve())
@@ -77,7 +77,7 @@ def load_resources(resources=None):
         return load_yml(resources)
 
     raise TypeError(
-        f"resources must be a dict, str (path), or None, got {type(resources)}"
+        f"Resources must be a dict, str (path), or None, got {type(resources)}"
     )
 
 

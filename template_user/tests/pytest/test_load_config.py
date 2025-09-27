@@ -4,11 +4,8 @@ import pytest
 from unittest.mock import patch
 import yaml
 
-path = str(Path(__file__).parent.parent / 'resources')
-print(path)
-sys.path.append(path)
+from template_user.resources import utils
 
-import utils
 # -------------------------
 # Fixtures
 # -------------------------
@@ -96,8 +93,8 @@ def test_load_config_defaults(tmp_path, monkeypatch):
         yaml.dump(resources_dict, f)
 
     # Monkeypatch defaults
-    monkeypatch.setattr("utils.CONFIG_FILE", str(fake_config_file))
-    monkeypatch.setattr("utils.RESOURCES_FILE", str(fake_resources_file))
+    monkeypatch.setattr("template_user.resources.utils.CONFIG_FILE", str(fake_config_file))
+    monkeypatch.setattr("template_user.resources.utils.RESOURCES_FILE", str(fake_resources_file))
 
     out = utils.load_config(username="junior")
     assert out["file"] == "/test/junior/data/myfile"

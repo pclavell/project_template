@@ -14,6 +14,115 @@
 
 ############ --------------------------------------------------------------- ############
 
+library(here)
+CONFIG_FILE <- here("resources/config.yml")
+RESOURCES_FILE <- here("resources/resources.yml")
+
+#' Load a YAML file
+#'
+#' @description
+#' Reads a YAML file from disk and returns its contents as an R list.
+#'
+#' @param file Character string or [base::Path]-like object.
+#'   Path to a YAML file.
+#'
+#' @return A named list containing the parsed YAML contents.
+#' @examples
+#' \dontrun{
+#'   cfg <- load_yml("resources/config.yml")
+#' }
+#' @export
+load_yml <- function(file) {
+  # ensure input is character
+  file <- as.character(file)
+
+  if (!file.exists(file)) {
+    stop(sprintf("YAML file not found: %s", file), call. = FALSE)
+  }
+
+  yaml::read_yaml(file, readLines.warn = FALSE)
+}
+
+#' Load the resources configuration
+#'
+#' Load the resources configuration from a YAML file or use a pre-loaded list.
+#'
+#' @param resources str | list | NULL
+#'   - str: path to a YAML file
+#'   - list: pre-loaded resources list (useful for testing)
+#'   - NULL: defaults to RESOURCES_FILE
+#'
+#' @return list
+#'   Parsed resources list
+#'
+#' @examples
+#' load_resources(NULL)
+load_resources <- function(resources = NULL) {
+  if (is.null(resources)) {
+    resources <- RESOURCES_FILE
+  }
+
+  if (is.list(resources)) {
+    return(resources)
+  }
+
+  if (is.character(resources)) {
+    return(load_yml(resources))
+  }
+
+  stop(sprintf(
+    "Resources must be a list, character (path), or NULL, got %s",
+    class(resources)
+  ))
+}
+
+#' Load the relevant path mappings for the current user
+#'
+#' @param resources character | list | NULL
+#'   Path to a resources.yml file, a pre-loaded list, or NULL to use RESOURCES_FILE.
+#' @param username character | NULL
+#'   Username to load paths for. If NULL, will use the system user unless mn5_user is TRUE.
+#' @param mn5_user logical, default FALSE
+#'   If TRUE, force use of the 'mn5_user' paths.
+#'
+#' @return named list
+#'   Mapping of keys (like 'data_dir', 'ref_dir') to absolute paths.
+#'
+#' @examples
+#' \dontrun{
+#' load_paths(resources = NULL, username = "alice")
+#' load_paths(resources = "resources.yml", mn5_user = TRUE)
+#' }
+load_paths <- function(resources = NULL, username = NULL, mn5_user = FALSE) {
+  # load resources configuration
+  resources <- load_resources(resources)
+
+  # determine which user to use
+  if (mn5_user) {
+    username <- "mn5_user"
+  } else if (is.null(username)) {
+    username <- Sys.info()[["user"]]
+  }
+
+  path_map <- resources$path_map
+
+  if (!(username %in% names(path_map))) {
+    stop(sprintf(
+      "Username %s not found in resources. Available: %s",
+      username,
+      paste(names(path_map), collapse = ", ")
+    ))
+  }
+
+  # normalize all paths
+  user_paths <- path_map[[username]]
+  user_paths <- lapply(user_paths, function(d) normalizePath(d, mustWork = FALSE))
+
+  return(user_paths)
+}
+
+
+
 #' Set Up Configuration with User-Specific Resource Paths
 #'
 #' This function loads a configuration file and a resources file from a user
@@ -74,16 +183,16 @@ load_config <- function(user_dir){
   return(config)
 }
 
-load_paths <- function(user_dir){
-  # read resources yml file
-  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
-  # get username
-  username <- Sys.info()[["user"]]
-  # filter resources yml file depending on the user and machine
-  resources = resources_yml[['path_map']][[username]]
-  # names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
-  return(resources)
-}
+# load_paths <- function(user_dir){
+#   # read resources yml file
+#   resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
+#   # get username
+#   username <- Sys.info()[["user"]]
+#   # filter resources yml file depending on the user and machine
+#   resources = resources_yml[['path_map']][[username]]
+#   # names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
+#   return(resources)
+# }
 
 
 replace_str_dict <- function(d, m) {

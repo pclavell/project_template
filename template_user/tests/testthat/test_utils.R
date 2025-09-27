@@ -144,3 +144,44 @@ test_that("load_paths raises error if username not found", {
     "Username bob not found in resources"
   )
 })
+
+################### get_path_map
+
+test_that("get_path_map formats keys correctly", {
+  # Fake resources list
+  tmp_dir <- tempdir()
+  resources <- list(
+    path_map = list(
+      alice = list(
+        data_dir = file.path(tmp_dir, "data"),
+        ref_dir = file.path(tmp_dir, "ref")
+      )
+    )
+  )
+
+  result <- get_path_map(resources = resources, username = "alice")
+
+  expected_keys <- c("./{data_dir}", "./{ref_dir}")
+  # print('get_path_map formats keys correctly'); browser()
+
+  expect_setequal(names(result), expected_keys)
+})
+
+test_that("get_path_map returns expected values", {
+  # Monkeypatch load_paths by defining a local function
+  fake_load_paths <- function(resources = NULL, ...) {
+    list(data_dir = "/test/data")
+  }
+
+  # Temporarily override load_paths
+  old_load_paths <- load_paths
+  assign("load_paths", fake_load_paths, envir = environment(get_path_map))
+
+  # print('get_path_map returns expected values'); browser()
+
+  result <- get_path_map(resources = NULL, username = "alice")
+  expect_equal(result, list("./{data_dir}" = "/test/data"))
+
+  # Restore original load_paths
+  assign("load_paths", old_load_paths, envir = environment(get_path_map))
+})

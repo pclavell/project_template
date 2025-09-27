@@ -174,7 +174,7 @@ def get_path_map(resources=None, **kwargs):
     resources : str | Path | dict | None
         Path to a resources.yml file, a dict, or None for default RESOURCES_FILE.
     **kwargs
-        Passed to load_paths (e.g., username, mn5_user, fallback_to_system_user).
+        Passed to load_paths (e.g., username, mn5_user).
 
     Returns
     -------

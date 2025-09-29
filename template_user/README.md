@@ -60,13 +60,24 @@ Instructions on filling out resources.yml setup_settings
 
 #### [`config.yml`](resources/config.yml)
 
-The main purpose of this file is to store information about the location files you wish to share as part of the project, as well as other project settings you want to standardize.
+The main purpose of this file is to store the location of files you wish to share as part of the project, as well as other project settings you want to standardize, such as color schemes or parameter choices.
 
-Instructions on that everything else you want to put should go into config.yml
+In this file, you have access to all path prefixes defined in [`resources.yml`](resources/resources.yml), which will enable you to:
 
-Demonstrate syntax of config.yml w/ path prefixes that will be system-agnoistic
+1. Refer to files to share with shorter paths and
+2. Refer to files across systems (ie MN5 and locally) without having to keep the two sets of paths
 
-# TODO
+The syntax for using the paths from [`resources.yml`](resources/resources.yml) in [`config.yml`](resources/config.yml) is `./{<dir_name>}`.
+
+Example:
+
+```yml
+sam_file: ./{data_dir}/fake_dir/example.sam
+```
+
+#### [`config_mn5.yml`](resources/config_mn5.yml)
+
+This yml file is a parallel version of [`config.yml`](resources/config.yml) with the full MN5 paths to files filled out. It is automatically created by [GitHub actions](#github-actions). This file might be useful for sharing files with people that are not necessarily fully-integrated with or working on the project.
 
 ## Programmatically accessing paths or files from [`config.yml`](resources/config.yml) or [`resources.yml`](resources/resources.yml)
 

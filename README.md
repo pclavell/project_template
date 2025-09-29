@@ -10,7 +10,8 @@ Enter to MareNostrum5 login4 (or your HPC cluster node with internet connection)
 git clone https://github.com/pclavell/project_template.git
 ```
 
-* **Dependency installation**:
+* **Dependencies**:
+
 You'll need to install at minimum, the following Python packages:
 * [pyprojroot](https://anaconda.org/conda-forge/pyprojroot)
 * [PyYaml](https://anaconda.org/conda-forge/pyyaml/)
@@ -27,11 +28,13 @@ And for R, the following:
      * create project subdirs for each user
      * populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user.
      * disconnect the parent repo (project_template) (this is a cleaning step because you will no longer need it).
+
 ```bash
 cd project_template
 python setup_project.py
 cd ../
 ```
+
 * **Building the project GitHub repository**
   1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link (used below)
   2) In *each* of the user directories (ie template_user), run:
@@ -49,11 +52,11 @@ git commit -m "define dir structure"
 git clone git@github.com:<GitHub username>/<GitHub repo name>.git
 ```
 
-  The following step is *heavily discouraged* and unnecessary. However, users lacking mounting might want to copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
+  <!-- The following step is *heavily discouraged* and unnecessary. However, users lacking mounting might want to copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
 ```bash
 cd ../.. # go to parent dir where project sits
 scp -r <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/<project_name> <project_name>
-```
+``` -->
 
 ## Adding / updating users information
 

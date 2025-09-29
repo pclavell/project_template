@@ -2,15 +2,16 @@
 
 # Write your paths relative to any of the following directories (which to they belong):
 
-#     -metadata: ./{metadata_dir}
-#     -data: ./{data_dir}
-#     -ref: ./{ref_dir}
-#     -figures: ./{figures_dir}
-#     -projects: ./{projects_dir}
-#     -scratch: ./{scratch_dir}
+#     * metadata: ./{metadata_dir}
+#     * data: ./{data_dir}
+#     * ref: ./{ref_dir}
+#     * figures: ./{figures_dir}
+#     * projects: ./{projects_dir}
+#     * scratch: ./{scratch_dir}
+
 # For any other *_dir path you named in resources.yml "setup_settings", you can
 #  also refer to this here:
-#     -something_random: ./{something_random_dir}
+#     * something_random: ./{something_random_dir}
 
 #
 

@@ -62,7 +62,7 @@ scp -r <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/<project_na
 
 If you add a new user to the project, please see [this section](template_user/#adding--updating-users-information).
 
-# Other recommendations
+<!-- # Other recommendations
 
 ## Managing mounting
 
@@ -108,4 +108,4 @@ This organization framework is designed to automatically detect if you are worki
 - instead of working in the mounted dirs, clone your project repository (created during installation) to your local filesystem.
 
 If you do it correctly, you will be able to access your code from this local directory and also from the mounted directory. The local directory is where you will work on your code, the mounted directory will be the source of the data. The advantage of this framework is that all paths will work the same. Just remember to keep using git and pull/push.
-![framework_visualization](dev/framework_visualization.jpg)
+![framework_visualization](dev/framework_visualization.jpg) -->

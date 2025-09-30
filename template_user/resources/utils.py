@@ -23,8 +23,9 @@ from pathlib import Path
 from collections import defaultdict, Counter
 import copy
 
-d = os.path.dirname(__file__)
+d = Path(__file__).parent
 CONFIG_FILE = str(Path(f'{d}/config.yml').resolve())
+MN5_CONFIG_FILE = str(Path(f'{d}/config_mn5.yml').resolve())
 RESOURCES_FILE = str(Path(f'{d}/resources.yml').resolve())
 TEMPLATE_PROJECT_NAME = 'project_template'
 
@@ -76,7 +77,7 @@ def load_resources(resources=None):
         return load_yml(resources)
 
     raise TypeError(
-        f"resources must be a dict, str (path), or None, got {type(resources)}"
+        f"Resources must be a dict, str (path), or None, got {type(resources)}"
     )
 
 
@@ -173,7 +174,7 @@ def get_path_map(resources=None, **kwargs):
     resources : str | Path | dict | None
         Path to a resources.yml file, a dict, or None for default RESOURCES_FILE.
     **kwargs
-        Passed to load_paths (e.g., username, mn5_user, fallback_to_system_user).
+        Passed to load_paths (e.g., username, mn5_user).
 
     Returns
     -------
@@ -425,3 +426,22 @@ def safe_run(cmd, dry_run=True, **kwargs):
         print(f"[DRY-RUN] Would execute: {cmd}")
     else:
         return run_cmd(cmd, **kwargs)
+
+def save_mn5_config():
+    """
+    Save a version of the project configuration with absolute paths for MN5.
+
+    This function generates a copy of the configuration where paths are
+    converted to absolute paths suitable for the MN5 environment and saves
+    it as `config_mn5.yml` in the `../resources/` directory.
+
+    Returns
+    -------
+    None
+    """
+    config = load_config(mn5_user=True)
+
+    config_file = MN5_CONFIG_FILE
+
+    with open(config_file, 'w') as f:
+        yaml.dump(config, f, default_flow_style=False)

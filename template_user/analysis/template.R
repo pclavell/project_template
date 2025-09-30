@@ -5,9 +5,9 @@ script_dir <- normalizePath(ifelse(script_dir == "IRkernel::main()",getwd(), scr
 setwd(script_dir)
 library(here)
 setwd(here())
-source(here("resources", "utils.r")) # here referes to where .here file sits (in the user dir)
-config <- load_config(here()) # to refer to files in config use config$
-paths <- load_paths(here()) # to refer to data, figs, metadata, ref, scratch use resources$
+source(here("resources", "utils.r")) # here refers to where .here file sits (in the user dir)
+config <- load_config() # to refer to files in config use config$
+paths <- load_paths() # to refer to data, figs, metadata, ref, scratch use resources$
 #--------------------------------------------------------------------------------
 
 # Load libraries

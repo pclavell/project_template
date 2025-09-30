@@ -10,6 +10,16 @@ Enter to MareNostrum5 login4 (or your HPC cluster node with internet connection)
 git clone https://github.com/pclavell/project_template.git
 ```
 
+* **Dependencies**:
+
+You'll need to install at minimum, the following Python packages:
+* [pyprojroot](https://anaconda.org/conda-forge/pyprojroot)
+* [PyYaml](https://anaconda.org/conda-forge/pyyaml/)
+
+And for R, the following:
+* [here](https://cran.r-project.org/web/packages/here/vignettes/here.html)
+* [yaml](https://cran.r-project.org/web/packages/yaml/index.html)
+
 * **Settings personalization**:
   1) Determine your local and MN5 usernames. To do so, run `echo $USER` in each system
   2) Open [`template_user/resources/resources.yml`](template_user/resources/resources.yml) and fill out the fields under `setup_settings` according to the MareNostrum5 structure and the local mounting structure that you have just build. Notice that there is an example and instructions indicated in the same `resources.yml` file.
@@ -18,11 +28,13 @@ git clone https://github.com/pclavell/project_template.git
      * create project subdirs for each user
      * populate [`template_user/resources.yml`](template_user/resources/resources.yml) with local and mn5 paths for each user.
      * disconnect the parent repo (project_template) (this is a cleaning step because you will no longer need it).
+
 ```bash
 cd project_template
 python setup_project.py
 cd ../
 ```
+
 * **Building the project GitHub repository**
   1) Create a [new GitHub repository](https://github.com/new) on GitHub to get the repo link (used below)
   2) In *each* of the user directories (ie template_user), run:
@@ -34,17 +46,23 @@ git remote add origin git@github.com:<GitHub username>/<GitHub repo name>.git
 git add -A
 git commit -m "define dir structure"
 ```
-  The following step is *heavily discouraged* and unnecessary. However, users lacking mounting might want to copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
+  3) We also recommend creating a local copy of the GitHub project, so you can edit code locally. On your local machine, run
+
+```bash
+git clone git@github.com:<GitHub username>/<GitHub repo name>.git
+```
+
+  <!-- The following step is *heavily discouraged* and unnecessary. However, users lacking mounting might want to copy the whole directory to each system you need it on. For example, if initialized on MN5 and copying to local, run:
 ```bash
 cd ../.. # go to parent dir where project sits
 scp -r <bsc_username>@transfer1.bsc.es:/gpfs/projects/bsc83/Projects/<project_name> <project_name>
-```
+``` -->
 
 ## Adding / updating users information
 
 If you add a new user to the project, please see [this section](template_user/#adding--updating-users-information).
 
-# Other recommendations
+<!-- # Other recommendations
 
 ## Managing mounting
 
@@ -90,4 +108,4 @@ This organization framework is designed to automatically detect if you are worki
 - instead of working in the mounted dirs, clone your project repository (created during installation) to your local filesystem.
 
 If you do it correctly, you will be able to access your code from this local directory and also from the mounted directory. The local directory is where you will work on your code, the mounted directory will be the source of the data. The advantage of this framework is that all paths will work the same. Just remember to keep using git and pull/push.
-![framework_visualization](dev/framework_visualization.jpg)
+![framework_visualization](dev/framework_visualization.jpg) -->

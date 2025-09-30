@@ -4,11 +4,7 @@ import pytest
 from unittest.mock import patch
 import yaml
 
-path = str(Path(__file__).parent.parent / 'resources')
-print(path)
-sys.path.append(path)
-
-import utils
+from template_user.resources import utils
 
 @pytest.fixture
 def fake_resources():
@@ -125,7 +121,7 @@ def test_load_resources_none(monkeypatch, tmp_path):
     fake_yaml = tmp_path / "fake_resources.yml"
     fake_yaml.write_text("hello: world\n")
 
-    monkeypatch.setattr("utils.RESOURCES_FILE", str(fake_yaml))
+    monkeypatch.setattr("template_user.resources.utils.RESOURCES_FILE", str(fake_yaml))
     result = utils.load_resources(None)
     assert result == {"hello": "world"}
 
@@ -176,8 +172,6 @@ def test_load_paths_mn5_user(tmp_path):
     }
     result = utils.load_paths(resources=resources, mn5_user=True)
     assert set(result.keys()) == {"data_dir", "ref_dir"}
-
-import pytest
 
 def test_load_paths_user_not_found(tmp_path):
     resources = {"path_map": {"alice": {"data_dir": tmp_path / "data"}}}

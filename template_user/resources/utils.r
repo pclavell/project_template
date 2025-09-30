@@ -14,77 +14,183 @@
 
 ############ --------------------------------------------------------------- ############
 
-#' Set Up Configuration with User-Specific Resource Paths
+library(here)
+CONFIG_FILE <- here("resources/config.yml")
+RESOURCES_FILE <- here("resources/resources.yml")
+
+#' Load a YAML file
 #'
-#' This function loads a configuration file and a resources file from a user
-#' directory, then adjusts resource paths based on the current user and
-#' machine. It returns a fully substituted configuration object for use in
-#' downstream workflows.
+#' @description
+#' Reads a YAML file from disk and returns its contents as an R list.
 #'
-#' @param user_dir Character string. Path to the user directory containing the
-#'   \code{resources/config.yml} and \code{resources/resources.yml} files.
+#' @param file Character string or [base::Path]-like object.
+#'   Path to a YAML file.
 #'
-#' @details
-#' The function performs the following steps:
-#' \enumerate{
-#'   \item Reads the main configuration from \code{config.yml}.
-#'   \item Reads the resource mappings from \code{resources.yml}.
-#'   \item Determines the current system username via \code{Sys.info()[["user"]]}.
-#'   \item Filters the resource mappings to those specific to the current user.
-#'   \item Flattens the nested resource mappings into a named vector.
-#'   \item Substitutes placeholders in the configuration with absolute paths
-#'         from the resource mappings using \code{replace_str_dict()}.
+#' @return A named list containing the parsed YAML contents.
+#' @examples
+#' \dontrun{
+#'   cfg <- load_yml("resources/config.yml")
 #' }
+#' @export
+load_yml <- function(file) {
+  # ensure input is character
+  file <- as.character(file)
+
+  if (!file.exists(file)) {
+    stop(sprintf("YAML file not found: %s", file), call. = FALSE)
+  }
+
+  yaml::read_yaml(file, readLines.warn = FALSE)
+}
+
+#' Load the resources configuration
 #'
-#' @return A configuration object (typically a list) with all resource paths
-#'   substituted and adjusted for the current user.
+#' Load the resources configuration from a YAML file or use a pre-loaded list.
+#'
+#' @param resources str | list | NULL
+#'   - str: path to a YAML file
+#'   - list: pre-loaded resources list (useful for testing)
+#'   - NULL: defaults to RESOURCES_FILE
+#'
+#' @return list
+#'   Parsed resources list
+#'
+#' @examples
+#' load_resources(NULL)
+load_resources <- function(resources = NULL) {
+  if (is.null(resources)) {
+    resources <- RESOURCES_FILE
+  }
+
+  if (is.list(resources)) {
+    return(resources)
+  }
+
+  if (is.character(resources)) {
+    return(load_yml(resources))
+  }
+
+  stop(sprintf(
+    "Resources must be a list, character str (path), or NULL, got %s",
+    class(resources)
+  ))
+}
+
+#' Load the relevant path mappings for the current user
+#'
+#' @param resources character | list | NULL
+#'   Path to a resources.yml file, a pre-loaded list, or NULL to use RESOURCES_FILE.
+#' @param username character | NULL
+#'   Username to load paths for. If NULL, will use the system user unless mn5_user is TRUE.
+#' @param mn5_user logical, default FALSE
+#'   If TRUE, force use of the 'mn5_user' paths.
+#'
+#' @return named list
+#'   Mapping of keys (like 'data_dir', 'ref_dir') to absolute paths.
 #'
 #' @examples
 #' \dontrun{
-#' # Example directory containing resources:
-#' user_dir <- "/home/alice/project"
-#'
-#' # Run setup
-#' config <- set_up_config(user_dir)
-#'
-#' # Access values from the returned config
-#' config$data_dir
+#' load_paths(resources = NULL, username = "alice")
+#' load_paths(resources = "resources.yml", mn5_user = TRUE)
 #' }
+load_paths <- function(resources = NULL, username = NULL, mn5_user = FALSE) {
+  # load resources configuration
+  resources <- load_resources(resources)
+
+  # determine which user to use
+  if (mn5_user) {
+    username <- "mn5_user"
+  } else if (is.null(username)) {
+    username <- Sys.info()[["user"]]
+  }
+
+  path_map <- resources$path_map
+
+  if (!(username %in% names(path_map))) {
+    stop(sprintf(
+      "Username %s not found in resources. Available: %s",
+      username,
+      paste(names(path_map), collapse = ", ")
+    ))
+  }
+
+  # normalize all paths
+  user_paths <- path_map[[username]]
+  user_paths <- lapply(user_paths, function(d) normalizePath(d, mustWork = FALSE))
+
+  return(user_paths)
+}
+
+#' Generate a mapping of template keys to absolute paths
 #'
-#' @seealso [yaml::read_yaml()], [Sys.info()], [replace_str_dict()]
+#' @param resources list | character | NULL
+#'   Path to a resources.yml file, a pre-loaded list, or NULL for default RESOURCES_FILE.
+#' @param ... Additional arguments passed to `load_paths()`, e.g., `username`, `mn5_user`.
 #'
+#' @return Named list
+#'   Mapping of placeholder keys (like './{data_dir}') to absolute path strings.
+#'
+#' @examples
+#' # resources <- list(path_map = list(alice = list(data_dir = "/tmp/data")))
+#' # get_path_map(resources, username="alice")
+get_path_map <- function(resources = NULL, ...) {
+  # Load user paths
+  paths <- load_paths(resources = resources, ...)
+
+  # Map keys to formatted template keys
+  res <- setNames(
+    lapply(names(paths), function(k) paths[[k]]),
+    vapply(names(paths), fmt_path_map_key, character(1))
+  )
+
+  return(res)
+}
+
+# Helper: format keys the same way as Python's fmt_path_map_key
+fmt_path_map_key <- function(key) {
+  paste0("./{", key, "}")
+}
+
+#' Load Project Configuration with Absolute Paths
+#'
+#' This function loads a configuration (`config.yml`) and resources (`resources.yml`)
+#' and applies user-specific path mappings. Placeholders in the configuration are
+#' replaced by absolute paths from the resources.
+#'
+#' @param config Character string or list. Path to config.yml file or pre-loaded config list.
+#'   If NULL, defaults to CONFIG_FILE.
+#' @param resources Character string or list. Path to resources.yml file or pre-loaded resources list.
+#'   If NULL, defaults to RESOURCES_FILE.
+#' @param ... Additional arguments passed to `get_path_map()` (e.g., username, mn5_user).
+#'
+#' @return A list representing the fully substituted configuration with absolute paths.
 #' @export
+load_config <- function(config = NULL, resources = NULL, ...) {
 
-load_config <- function(user_dir){
-  # read config file
-  config_file <-yaml::read_yaml(paste0(user_dir, "/resources/config.yml"),  readLines.warn=FALSE)
-  # read resources yml file
-  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"), readLines.warn=FALSE)
-  # get username
-  username <- Sys.info()[["user"]]
-  # filter resources yml file depending on the user and machine
-  resources_yml <- resources_yml[[username]]
-  # Flatten resources yml to a named vector for substitution
-  resources_vec <- unlist(resources_yml, use.names = TRUE)
-  # Creation of proper absolute paths depending on machine and user
-  config <-replace_str_dict(config_file, resources_vec)
-  # Resolve all relative paths and symlinks
-  config <- resolve_config_symlinks(config)
+  # --- Load config
+  if (is.null(config)) {
+    config <- CONFIG_FILE
+  }
+  if (is.list(config)) {
+    config_dict <- config
+  } else if (is.character(config)) {
+    config_dict <- load_yml(config)
+  } else {
+    stop(sprintf(
+      "Config must be a list, character str (path), or NULL, got %s",
+      class(resources)
+    ))
+  }
 
-  return(config)
+  # --- Load path map from resources
+  path_map <- get_path_map(resources = resources, ...)
+
+  # --- Apply replacements & resolve symlinks
+  config_dict <- replace_str_dict(config_dict, path_map)
+  config_dict <- resolve_config_symlinks(config_dict)
+
+  return(config_dict)
 }
-
-load_paths <- function(user_dir){
-  # read resources yml file
-  resources_yml <- yaml::read_yaml(paste0(user_dir, "/resources/resources.yml"))
-  # get username
-  username <- Sys.info()[["user"]]
-  # filter resources yml file depending on the user and machine
-  resources = resources_yml[['path_map']][[username]]
-  # names(resources) <- gsub("^\\\\\\{|\\\\\\}$", "", names(resources))
-  return(resources)
-}
-
 
 replace_str_dict <- function(d, m) {
   #' Recursively replace substrings in all strings within a nested data structure.
@@ -154,33 +260,24 @@ resolve_config_symlinks <- function(d) {
   }
 }
 
-
-
-
-#' Expand a pattern with all combinations of variables
+#' Generate All Combinations of a Pattern with Variables
 #'
-#' Generates a vector of strings by substituting placeholders in a pattern
-#' with all possible combinations of provided variables.
+#' Creates a character vector by substituting placeholders in a pattern with all
+#' combinations of provided variables.
 #'
-#' @param pattern A character string containing placeholders in curly braces,
-#'   e.g., "{x}", "{y}".
-#' @param ... Named arguments, each being a vector of values to substitute into
-#'   the pattern. All combinations of these values will be generated.
+#' @param pattern Character string with placeholders in curly braces, e.g., "{x}", "{y}".
+#' @param ... Named arguments, each a vector of values to substitute into the pattern.
 #'
-#' @return A character vector of strings with placeholders replaced by the
-#'   values from all combinations of the provided variables.
+#' @return Character vector of strings with placeholders replaced.
 #'
 #' @examples
 #' expand("file_{x}_{y}.txt", x = 1:2, y = c("a", "b"))
-#' # Returns: "file_1_a.txt" "file_2_a.txt" "file_1_b.txt" "file_2_b.txt"
-#'
 #' expand("path/{folder}/{file}.csv", folder = c("data", "results"), file = 1:2)
 #'
 #' @export
 expand <- function(pattern, ...) {
   vars <- list(...)
   combos <- do.call(expand.grid, vars)
-
   result <- apply(combos, 1, function(row) {
     res <- pattern
     for (varname in names(vars)) {
@@ -188,107 +285,61 @@ expand <- function(pattern, ...) {
     }
     res
   })
-
   return(result)
 }
 
-
-#' Capture and Assign Command-Line Arguments (When using Rscript myscript.R)
+#' Capture Command-Line Arguments for Rscript
 #'
-#' This function retrieves a specified number of command-line arguments and
-#' assigns them to variable names in the global environment.
+#' Assigns command-line arguments to variables in the global environment.
 #'
-#' @param num Integer. The number of command-line arguments to capture (1–10).
-#' @param arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10
-#'   Character strings. The names of variables to which the corresponding
-#'   command-line arguments will be assigned.
+#' @param num Integer: number of command-line arguments to capture (1–10).
+#' @param arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10 Character:
+#'   names of variables to assign arguments to.
 #'
 #' @details
-#' The function uses \code{commandArgs(trailingOnly = TRUE)} to obtain
-#' command-line arguments passed to the R script. Up to 10 arguments can be
-#' captured and assigned. For each argument:
-#' \itemize{
-#'   \item If \code{num >= k} and at least \code{k} arguments are supplied,
-#'   the \code{k}-th command-line argument is assigned to the variable name
-#'   provided in \code{argk} within the global environment.
-#' }
+#' Uses \code{commandArgs(trailingOnly = TRUE)}. Only the first \code{num} arguments
+#' are assigned to provided variable names; excess arguments are ignored.
 #'
-#' Arguments beyond the number provided by the user or exceeding \code{num}
-#' are ignored.
-#'
-#' @return
-#' This function does not return a value. Instead, it assigns variables
-#' in the global environment.
+#' @return None. Variables are created in the global environment.
 #'
 #' @examples
 #' \dontrun{
-#' # Suppose the script is called with:
 #' # Rscript myscript.R input.txt output.txt
-#'
 #' catch_args(2, "infile", "outfile", NA, NA, NA, NA, NA, NA, NA, NA)
-#'
-#' # After running, two variables will be available in the global environment:
 #' # infile  -> "input.txt"
 #' # outfile -> "output.txt"
 #' }
-#'
-#' @seealso [commandArgs()]
 #'
 #' @export
 catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10) {
   if (num > 0) {
     args <- commandArgs(trailingOnly = TRUE)
-
-    if (num >= 1 && length(args) >= 1) {
-      first <- args[1]
-      assign(arg1, first, envir = .GlobalEnv)
-    }
-    if (num >= 2 && length(args) >= 2) {
-      second <- args[2]
-      assign(arg2, second, envir = .GlobalEnv)
-    }
-    if (num >= 3 && length(args) >= 3) {
-      third <- args[3]
-      assign(arg3, third, envir = .GlobalEnv)
-    }
-    if (num >= 4 && length(args) >= 4) {
-      fourth <- args[4]
-      assign(arg4, fourth, envir = .GlobalEnv)
-    }
-    if (num >= 5 && length(args) >= 5) {
-      fifth <- args[5]
-      assign(arg5, fifth, envir = .GlobalEnv)
-    }
-    if (num >= 6 && length(args) >= 6) {
-      sixth <- args[6]
-      assign(arg6, sixth, envir = .GlobalEnv)
-    }
-    if (num >= 7 && length(args) >= 7) {
-      seventh <- args[7]
-      assign(arg7, seventh, envir = .GlobalEnv)
-    }
-    if (num >= 8 && length(args) >= 8) {
-      eighth <- args[8]
-      assign(arg8, eighth, envir = .GlobalEnv)
-    }
-    if (num >= 9 && length(args) >= 9) {
-      ninth <- args[9]
-      assign(arg9, ninth, envir = .GlobalEnv)
-    }
-    if (num >= 10 && length(args) >= 10) {
-      tenth <- args[10]
-      assign(arg10, tenth, envir = .GlobalEnv)
-    }
+    if (num >= 1 && length(args) >= 1) assign(arg1, args[1], envir = .GlobalEnv)
+    if (num >= 2 && length(args) >= 2) assign(arg2, args[2], envir = .GlobalEnv)
+    if (num >= 3 && length(args) >= 3) assign(arg3, args[3], envir = .GlobalEnv)
+    if (num >= 4 && length(args) >= 4) assign(arg4, args[4], envir = .GlobalEnv)
+    if (num >= 5 && length(args) >= 5) assign(arg5, args[5], envir = .GlobalEnv)
+    if (num >= 6 && length(args) >= 6) assign(arg6, args[6], envir = .GlobalEnv)
+    if (num >= 7 && length(args) >= 7) assign(arg7, args[7], envir = .GlobalEnv)
+    if (num >= 8 && length(args) >= 8) assign(arg8, args[8], envir = .GlobalEnv)
+    if (num >= 9 && length(args) >= 9) assign(arg9, args[9], envir = .GlobalEnv)
+    if (num >= 10 && length(args) >= 10) assign(arg10, args[10], envir = .GlobalEnv)
   }
 }
 
-
-
-# R theme
-library(ggplot2)
-
-# mytheme version for publication based on Nature Genetics guidelines
-
+#' Publication-Quality ggplot2 Theme (Nature Genetics Style)
+#'
+#' Returns a list of theme modifications and legend guides for consistent
+#' publication figures.
+#'
+#' @return List suitable for addition to a ggplot object.
+#'
+#' @examples
+#' ggplot(mtcars, aes(mpg, wt, color = factor(cyl))) +
+#'   geom_point() +
+#'   mythemep()
+#'
+#' @export
 mythemep <- function() {
   list(
     theme_minimal(),
@@ -302,7 +353,6 @@ mythemep <- function() {
       legend.key = element_rect(color=NA, fill=FALSE),
       legend.box.margin = margin(r = 0, l = 5, t = 0, b = 0),
       legend.key.size= unit(4, "mm"),
-      # legend.key.spacing.y= unit(-1, "mm"),
       legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
       panel.border = element_rect(linewidth = 0.2, fill = NA),
       panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
@@ -312,16 +362,27 @@ mythemep <- function() {
       plot.title = element_text(face="bold", hjust=0.5),
       strip.text = element_text(size=7, face="bold"),
       strip.background = element_blank(),
-      text = element_text(family = "Helvetica", color="black", size=7),
+      text = element_text(family = "Helvetica", color="black", size=7)
     ),
-    guides(color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
-            fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
-            shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+    guides(
+      color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
+      fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
+      shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
     )
   )
 }
 
-# mytheme version for exploration
+
+#' Exploratory ggplot2 Theme
+#'
+#' Lightweight theme for data exploration with clear text and minimal decorations.
+#'
+#' @return List of ggplot2 theme modifications.
+#'
+#' @examples
+#' ggplot(mtcars, aes(mpg, wt)) + geom_point() + mytheme()
+#'
+#' @export
 mytheme <- function() {
   list(
     theme_minimal(),
@@ -335,7 +396,6 @@ mytheme <- function() {
       legend.key = element_rect(color=NA, fill=FALSE),
       legend.box.margin = margin(r = 0, l = 5, t = 0, b = 0),
       legend.key.size= unit(4, "mm"),
-      # legend.key.spacing.y= unit(-1, "mm"),
       legend.box.spacing = margin(r = 0, l = 0, t = 0, b = 0),
       panel.border = element_rect(linewidth = 0.2, fill = NA),
       panel.background = element_rect(color = "black", fill = NA, linewidth = 0.2),
@@ -343,23 +403,49 @@ mytheme <- function() {
       panel.grid.minor = element_blank(),
       plot.margin = margin(t = 10, r = 10, b = 10, l = 10),
       plot.title = element_text(face="bold", hjust=0.5),
-      strip.text = element_text( face="bold"),
+      strip.text = element_text(face="bold"),
       strip.background = element_blank(),
-      text = element_text(family = "Helvetica", color="black"),
+      text = element_text(family = "Helvetica", color="black")
     ),
-    guides(color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
-            fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
-            shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+    guides(
+      color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
+      fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
+      shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
     )
   )
 }
 
-# Function to display sample size in a ggplot
+
+#' Display Sample Size as ggplot Annotation
+#'
+#' Returns a data frame with sample size label for use with stat_summary().
+#'
+#' @param x Numeric vector for which sample size is calculated.
+#' @param y Numeric value giving vertical placement.
+#'
+#' @return Data frame with columns \code{y} and \code{label}.
+#'
+#' @examples
+#' ggplot(mtcars, aes(mpg, wt)) +
+#'   stat_summary(fun.data = n_fun, geom = "text", fun.args = list(y = 200), vjust = 0.5, size = 6*0.35)
+#'
+#' @export
 n_fun <- function(x, y){
   print("USAGE: stat_summary(fun.data = n_fun, geom = \"text\", fun.args = list(y=200), vjust=0.5, size=6*0.35)")
   return(data.frame(y = y, label = paste0("n = ",length(x))))
 }
 
-# Cheatsheet how to save a ggplot
+
+#' Reminder for Saving ggplots
+#'
+#' Prints standard usage for saving a ggplot with specific DPI and dimensions.
+#'
+#' @return None
+#'
+#' @examples
+#' ggsaveinfo()
+#'
+#' @export
 ggsaveinfo <- function(){
-  print("ggsave(filename,  dpi=500, width = 45, height = 45,  units = \"mm\")")}
+  print("ggsave(filename,  dpi=500, width = 45, height = 45,  units = \"mm\")")
+}

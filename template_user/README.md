@@ -150,7 +150,7 @@ GitHub actions are stored in [.github/workflows/](.github/workflows).
 ## Do not touch!
 
 * [resources](resources/): Don't change the name of this directory
-* [`utils.py`](resources/utils.py) / [`utils.r`](resources/utils.r): Don't modify existing functions; though you can add new ones, see [this section](TODO section adding new functions)
+* [`utils.py`](resources/utils.py) / [`utils.r`](resources/utils.r): Don't modify existing functions; though you can add new ones, see [this section](#adding-new-functions)
 * [.here](.here): Makes all `source()` (R) and `import` (Python) calls work. Do not move, rename, or remove
 
 ## Managing mounting

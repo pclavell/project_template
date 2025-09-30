@@ -49,10 +49,11 @@ This project template relies on two `*.yml` files to work: [`config.yml`](resour
 
 Holds global settings related to path resolution. You will only need to edit this as part of the [project setup](../README.md#installation-instructions) or if you wish to [add a new user](#adding--updating-users-information).
 
-Instructions on filling out resources.yml setup_settings
+Instructions on filling out [`resources.yml`](resources/resources.yml) `setup_settings`:
 
-* `project_name`: What to name the parent directory of the project
-* `users`: The listed users will be used to name the subfolders under `<project_name>`, ie `<project_name>/<user1>`, `<project_name>/<user2>`. These are NOT the same as usernames!
+* **`project_name`**: What to name the parent directory of the project
+* **`users`**: The listed users will be used to name the subfolders under `<project_name>`, ie `<project_name>/<user1>`, `<project_name>/<user2>`. These are NOT the same as usernames!
+* **Usernames**: Determine on each system (ie MN5, local) using the bash command `echo $USER`
 * For mn5 systems, all default paths will be automatically added (scratch, data, and projects)
 * For local systems, we recommend adding the paths you mount these paths to (scratch, data, and projects)
 * For all systems, project directory-relative paths (`<project_name>/{data|ref|figures|metadata}`) will be auto-generated
@@ -81,9 +82,36 @@ This yml file is a parallel version of [`config.yml`](resources/config.yml) with
 
 ## Programmatically accessing paths or files from [`config.yml`](resources/config.yml) or [`resources.yml`](resources/resources.yml)
 
-* how to access from load_paths the paths
-* how to access from config using load_config
---> both auto generate the full absolute path given your file system you're working on
+The main benefit to maintaining your files listed in [`config.yml`](resources/config.yml) is your ability to refer to them across systems using more human-readable paths.
+
+In Python, you can access files and absolute paths the following way:
+```Python
+from pyprojroot.here import here
+import sys
+
+sys.path.append(str(here()))
+
+from resources.utils import *
+
+config = load_config()
+paths = load_paths()
+
+paths['data_dir']
+config['data']['sam']
+```
+
+And in R, like this:
+```R
+library(here)
+
+source(here("resources", "utils.r"))
+
+config <- load_config()
+paths <- load_paths()
+
+paths$data_dir
+config$data$sam
+```
 
 ## Adding new functions
 

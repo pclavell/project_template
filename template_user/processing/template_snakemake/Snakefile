@@ -26,7 +26,7 @@ import pandas as pd
 import sys
 from pyprojroot.here import here
 
-sys.path.append(str(here()))
+sys.path = [str(here())]+sys.path
 
 from resources.utils import *
 

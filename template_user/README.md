@@ -89,7 +89,7 @@ In Python, you can access files and absolute paths the following way:
 from pyprojroot.here import here
 import sys
 
-sys.path.append(str(here()))
+sys.path = [str(here())]+sys.path
 
 from resources.utils import *
 
@@ -132,7 +132,7 @@ source(here("resources", "my_custom_functions.r"))
 from pyprojroot.here import here
 import sys
 
-sys.path.append(str(here()))
+sys.path = [str(here())]+sys.path
 
 from resources.my_custom_functions import *
 ```

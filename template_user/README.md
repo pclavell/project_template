@@ -22,7 +22,7 @@ git add -A; git commit -m "update"; git push origin <branch name>
 
 ## Templates
 
-We provide several templates to help familiarize you with how to interface with the environment:
+We provide several templates with the **mandatory** headers for R, python and bash and to help familiarize you with how to interface with the environment:
 
 * [R](analysis/template.R)
 * [Python](analyis/template_python.ipynb)

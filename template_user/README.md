@@ -24,8 +24,8 @@ git add -A; git commit -m "update"; git push origin <branch name>
 
 We provide several templates with the **mandatory** headers for R, python and bash and to help familiarize you with how to interface with the environment:
 
-* [R](analysis/template.R)
-* [Python](analyis/template_python.ipynb)
+* [R](resources/template.R)
+* [Python](resources/template_python.ipynb)
 * [Snakemake workflow](processing/template_snakemake/)
 
 ## Structuring your directories

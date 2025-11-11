@@ -64,8 +64,9 @@ def fake_resources():
                         'random_dir': '/gpfs/kiki/chicken'}}},
             'project_name': 'kitties_proj',
             'mn5_locs': {
-                'projects_dir': '/gpfs/projects/bsc83/',
-                'scratch_dir': '/gpfs/scratch/bsc83/'}
+                'projects_dir': '/gpfs/projects/bsc83/Projects/',
+                'scratch_dir': '/gpfs/scratch/bsc83/',
+                'data_dir': '/gpfs/projects/bsc83/Data/'}
             }}
 
 # def test_load_paths(fake_resources):
@@ -259,6 +260,7 @@ def test_non_mn5_user(tmp_path):
 def test_mn5_user(tmp_path):
     proj_dir = str(tmp_path / "mn5_projects")
     scratch_dir = str(tmp_path / "scratch")
+    data_dir = str(tmp_path / "data")
     setup_settings = {
         "users": {
             "bob": {
@@ -270,7 +272,7 @@ def test_mn5_user(tmp_path):
         "mn5_locs": {
             "projects_dir": proj_dir,
             "scratch_dir": scratch_dir,
-            "data_dir": str(tmp_path / "data")
+            "data_dir": data_dir
         }
     }
     proj = "proj2"
@@ -282,6 +284,8 @@ def test_mn5_user(tmp_path):
     # mn5 projects_dir is special
     assert bob["projects_dir"] == proj_dir
     assert bob["scratch_dir"] == scratch_dir
+    assert bob["data_dir"] == data_dir
+
 
     assert 'data_dir' in bob.keys()
 

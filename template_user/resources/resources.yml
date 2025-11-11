@@ -33,7 +33,7 @@ setup_settings:
                 # the following paths are paths to mounted directories
                 projects_dir: /Users/fairliereese/sshfs/projects/Projects
                 scratch_dir: /Users/fairliereese/sshfs/scratch
-                share_data_dir: /Users/fairliereese/sshfs/projects/Data
+                data_dir: /Users/fairliereese/sshfs/projects/Data
 
                 # above are the minimum set of file paths we recommend, but
                 # if there are other paths you'd like quick access to you can
@@ -51,7 +51,7 @@ setup_settings:
                 # the following paths are paths to mounted directories
                 projects_dir: /home/pclavell/mounts/mn5/Projects
                 scratch_dir: /home/pclavell/mounts/mn5/scratch
-                share_data_dir: /home/pclavell/mounts/mn5/Data
+                data_dir: /home/pclavell/mounts/mn5/Data
                 # mage_data_dir: /home/pclavell/mounts/mn5/Data/MAGE
 
             # if you have another cluster you run stuff on,
@@ -69,4 +69,4 @@ setup_settings:
     mn5_locs:
         projects_dir: /gpfs/projects/bsc83/Projects
         scratch_dir: /gpfs/scratch/bsc83
-        share_data_dir: /gpfs/projects/bsc83/Data
+        data_dir: /gpfs/projects/bsc83/Data

@@ -18,7 +18,8 @@ def fake_resources(tmp_path):
             },
             "mn5_locs": {
                 "projects_dir": str(tmp_path / "mn5p"),
-                "scratch_dir": str(tmp_path / "scr")
+                "scratch_dir": str(tmp_path / "scr"),
+                "data_dir": str(tmp_path / "data")
             }
         },
         "users": ["alice", "bob"]  # already existing users

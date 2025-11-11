@@ -56,7 +56,7 @@ Instructions on filling out [`resources.yml`](resources/resources.yml) `setup_se
 * **Usernames**: Determine on each system (ie MN5, local) using the bash command `echo $USER`
 * For mn5 systems, all default paths will be automatically added (scratch, data, and projects)
 * For local systems, we recommend adding the paths you mount these paths to (scratch, data, and projects)
-* For all systems, project directory-relative paths (`<project_name>/{data|ref|figures|metadata}`) will be auto-generated
+* For all systems, project directory-relative paths (`<project_name>/{proj_data|proj_ref|proj_figures|proj_metadata}`) will be auto-generated
 * If you want to enable quick access to another path, you can add as many entries as you want with the names that end in `*_dir`. Just ensure that each user / system combination has it defined as well!
 
 #### [`config.yml`](resources/config.yml)
@@ -73,7 +73,7 @@ The syntax for using the paths from [`resources.yml`](resources/resources.yml) i
 Example:
 
 ```yml
-sam_file: ./{data_dir}/fake_dir/example.sam
+sam_file: ./{proj_data_dir}/fake_dir/example.sam
 ```
 
 #### [`config_mn5.yml`](resources/config_mn5.yml)
@@ -96,7 +96,7 @@ from resources.utils import *
 config = load_config()
 paths = load_paths()
 
-paths['data_dir']
+paths['proj_data_dir']
 config['data']['sam']
 ```
 

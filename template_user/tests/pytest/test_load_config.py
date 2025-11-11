@@ -15,8 +15,8 @@ def fake_resources(tmp_path):
     return {
         "path_map": {
             "alice": {
-                "data_dir": "/test/data",
-                "ref_dir": "/test/ref"
+                "proj_data_dir": "/test/data",
+                "proj_ref_dir": "/test/ref"
             }
         }
     }
@@ -25,8 +25,8 @@ def fake_resources(tmp_path):
 def fake_config(tmp_path):
     """Fake config dict and file for testing."""
     config_dict = {
-        "data_path": "./{data_dir}/file.txt",
-        "nested": {"ref_path": "./{ref_dir}/ref.fasta"}
+        "data_path": "./{proj_data_dir}/file.txt",
+        "nested": {"proj_ref_path": "./{proj_ref_dir}/ref.fasta"}
     }
     # Write as yaml file
     config_file = tmp_path / "config.yml"
@@ -38,23 +38,23 @@ def fake_config(tmp_path):
 # Tests
 # -------------------------
 def test_load_config_with_dict(fake_resources):
-    config_dict = {"file": "./{data_dir}/myfile"}
+    config_dict = {"file": "./{proj_data_dir}/myfile"}
     out = utils.load_config(config=config_dict, resources=fake_resources, username="alice")
     # Placeholders should be replaced
-    assert out["file"] == str(Path(fake_resources["path_map"]["alice"]["data_dir"]).resolve() / "myfile")
+    assert out["file"] == str(Path(fake_resources["path_map"]["alice"]["proj_data_dir"]).resolve() / "myfile")
 
 def test_load_config_with_file(fake_resources, fake_config):
     _, config_file = fake_config
     out = utils.load_config(config=config_file, resources=fake_resources, username="alice")
-    assert out["data_path"] == str(Path(fake_resources["path_map"]["alice"]["data_dir"]).resolve() / "file.txt")
-    assert out["nested"]["ref_path"] == str(Path(fake_resources["path_map"]["alice"]["ref_dir"]).resolve() / "ref.fasta")
+    assert out["data_path"] == str(Path(fake_resources["path_map"]["alice"]["proj_data_dir"]).resolve() / "file.txt")
+    assert out["nested"]["proj_ref_path"] == str(Path(fake_resources["path_map"]["alice"]["proj_ref_dir"]).resolve() / "ref.fasta")
 
 def test_load_config_nested_replacement(fake_resources):
     config_dict = {
-        "level1": {"level2": {"file": "./{data_dir}/data.txt"}}
+        "level1": {"level2": {"file": "./{proj_data_dir}/data.txt"}}
     }
     out = utils.load_config(config=config_dict, resources=fake_resources, username="alice")
-    expected = str(Path(fake_resources["path_map"]["alice"]["data_dir"]).resolve() / "data.txt")
+    expected = str(Path(fake_resources["path_map"]["alice"]["proj_data_dir"]).resolve() / "data.txt")
     assert out["level1"]["level2"]["file"] == expected
 
 def test_load_config_absolute_paths(fake_resources):
@@ -73,18 +73,18 @@ def test_load_config_invalid_types():
 
 def test_load_config_kwargs_forwarding(fake_resources):
     # tests forwarding of kwargs
-    config_dict = {"file": "./{data_dir}/myfile"}
+    config_dict = {"file": "./{proj_data_dir}/myfile"}
     out = utils.load_config(config=config_dict, resources=fake_resources, username="alice")
-    expected = str(Path(fake_resources["path_map"]["alice"]["data_dir"]).resolve() / "myfile")
+    expected = str(Path(fake_resources["path_map"]["alice"]["proj_data_dir"]).resolve() / "myfile")
     assert out["file"] == expected
 
 def test_load_config_defaults(tmp_path, monkeypatch):
     """Test that default CONFIG_FILE and RESOURCES_FILE are used."""
     fake_config_file = tmp_path / "config.yml"
     fake_resources_file = tmp_path / "resources.yml"
-    config_dict = {"file": "./{data_dir}/myfile"}
-    resources_dict = {"path_map": {"alice": {"data_dir": "/test/data"},
-                                   "junior": {"data_dir": "/test/junior/data"}}}
+    config_dict = {"file": "./{proj_data_dir}/myfile"}
+    resources_dict = {"path_map": {"alice": {"proj_data_dir": "/test/data"},
+                                   "junior": {"proj_data_dir": "/test/junior/data"}}}
 
     # Write fake files
     with fake_config_file.open("w") as f:

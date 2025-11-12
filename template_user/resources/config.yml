@@ -2,12 +2,14 @@
 
 # Write your paths relative to any of the following directories (which to they belong):
 
-#     * metadata: ./{metadata_dir}
-#     * data: ./{data_dir}
-#     * ref: ./{ref_dir}
-#     * figures: ./{figures_dir}
-#     * projects: ./{projects_dir}
-#     * scratch: ./{scratch_dir}
+#     * metadata: ./{proj_metadata_dir}
+#     * data: ./{proj_data_dir}
+#     * ref: ./{proj_ref_dir}
+#     * figures: ./{proj_figures_dir}
+#     * projects (mn5): ./{projects_dir}
+#     * scratch (mn5): ./{scratch_dir}
+#     * data (mn5): ./{data_dir}
+
 
 # For any other *_dir path you named in resources.yml "setup_settings", you can
 #  also refer to this here:
@@ -18,10 +20,10 @@
 ############ --------------------------------------------------------------- ############
 
 # metadata (adapt it if you modify the name of metadata, so snakefiles can parse the samples)
-metadata: ./{metadata_dir}/metadata.tsv
+metadata: ./{proj_metadata_dir}/metadata.tsv
 
 # example
 data:
-  sam: ./{data_dir}/fake_dir/example.sam
-  bam: ./{data_dir}/fake_dir/example.bam
-  sorted_sam: ./{data_dir}/fake_dir/example_sorted.sam
+  sam: ./{proj_data_dir}/fake_dir/example.sam
+  bam: ./{proj_data_dir}/fake_dir/example.bam
+  sorted_sam: ./{proj_data_dir}/fake_dir/example_sorted.sam

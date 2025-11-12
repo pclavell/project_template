@@ -46,7 +46,7 @@ def main(repo_dir=None,
         'template_user/resources/resources.yml'.
     """
     if not resources: resources = RESOURCES_FILE
-        
+
     if repo_dir:
         os.chdir(repo_dir)
 
@@ -79,6 +79,7 @@ def main(repo_dir=None,
 
     else:
         with Path(output_resources).open('a') as f:
+            f.write('\n')
             yaml.dump({'path_map': path_map}, f, default_flow_style=False)
             yaml.dump(users_list, f, default_flow_style=False)
 

@@ -31,8 +31,19 @@ def test_setup_project_real(tmp_path):
         "setup_settings": {
             "project_name": "proj_demo",
             "users": {
-                "alice": {"local": {"username": "alice", "projects_dir": str(tmp_path / 'proj_alice')}},
-                "bob":   {"local": {"username": "bob",   "projects_dir": str(tmp_path / 'proj_bob')}}
+                "alice": {"local":
+                            {"username": "alice", "projects_dir": str(tmp_path / 'proj_alice')},
+                          "mn5":
+                            {"username": "a123"}},
+                "bob":   {"local":
+                            {"username": "bob",   "projects_dir": str(tmp_path / 'proj_bob')},
+                          "mn5":
+                            {"username": "bobby_boi"}},
+            },
+            "mn5_locs": {
+                "projects_dir": "/gpfs/projects/bsc83/Projects",
+                "scratch_dir": "/gpfs/scratch/bsc83",
+                "data_dir": "/gpfs/projects/bsc83/Data"
             }
         }
     }
@@ -75,3 +86,9 @@ def test_setup_project_real(tmp_path):
             else:
                 dir_path = proj_path / d
             assert dir_path.parent  # at least the parent folder exists
+
+    # make sure that mn5 locations are correct
+    for user in ['a123', 'bobby_boi', 'mn5_user']:
+        assert content['path_map'][user]['data_dir'] == '/gpfs/projects/bsc83/Data'
+        assert content['path_map'][user]['scratch_dir'] == '/gpfs/scratch/bsc83'
+        assert content['path_map'][user]['projects_dir'] == '/gpfs/projects/bsc83/Projects'

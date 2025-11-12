@@ -239,10 +239,10 @@ def construct_templated_paths(path_map, base_path, user_alias, username, proj_na
 
     # standard subdirectories
     subdirs = {
-        "projdata_dir": pref / "data",
-        "ref_dir": pref / "ref",
-        "figures_dir": pref / "figures",
-        "metadata_dir": pref / user_alias / "metadata",
+        "proj_data_dir": pref / "data",
+        "proj_ref_dir": pref / "ref",
+        "proj_figures_dir": pref / "figures",
+        "proj_metadata_dir": pref / user_alias / "metadata",
     }
 
     # store them as Paths
@@ -282,9 +282,9 @@ def generate_path_map(setup_settings, proj_name):
 
             # determine project base path
             if system_name == "mn5":
-                base_path = Path(mn5_locs["projects_dir"]) / "Projects"
+                base_path = Path(mn5_locs["projects_dir"])
                 # also store scratch_dir and projects_dir explicitly
-                for k in ["projects_dir", "scratch_dir"]:
+                for k in ["projects_dir", "scratch_dir", "data_dir"]:
                     path_map[username][k] = Path(mn5_locs[k])
             else:
                 base_path = Path(system_info["projects_dir"])

@@ -64,8 +64,9 @@ def fake_resources():
                         'random_dir': '/gpfs/kiki/chicken'}}},
             'project_name': 'kitties_proj',
             'mn5_locs': {
-                'projects_dir': '/gpfs/projects/bsc83/',
-                'scratch_dir': '/gpfs/scratch/bsc83/'}
+                'projects_dir': '/gpfs/projects/bsc83/Projects/',
+                'scratch_dir': '/gpfs/scratch/bsc83/',
+                'data_dir': '/gpfs/projects/bsc83/Data/'}
             }}
 
 # def test_load_paths(fake_resources):
@@ -206,7 +207,7 @@ def test_construct_templated_paths_basic(tmp_path):
 
     # let's just check if all the correct keys are here;
     # formatting can, and probably will change
-    expected = ['data_dir', 'ref_dir', 'figures_dir', 'metadata_dir']
+    expected = ['proj_data_dir', 'proj_ref_dir', 'proj_figures_dir', 'proj_metadata_dir']
     for k in expected:
         assert k in result['alice'].keys()
 
@@ -251,7 +252,7 @@ def test_non_mn5_user(tmp_path):
     assert alice["custom_dir"] == custom_dir
 
     # adds templated dirs
-    expected = ['data_dir', 'ref_dir', 'figures_dir', 'metadata_dir']
+    expected = ['proj_data_dir', 'proj_ref_dir', 'proj_figures_dir', 'proj_metadata_dir']
     for k in expected:
         assert k in alice.keys()
 
@@ -259,6 +260,7 @@ def test_non_mn5_user(tmp_path):
 def test_mn5_user(tmp_path):
     proj_dir = str(tmp_path / "mn5_projects")
     scratch_dir = str(tmp_path / "scratch")
+    data_dir = str(tmp_path / "data")
     setup_settings = {
         "users": {
             "bob": {
@@ -269,7 +271,8 @@ def test_mn5_user(tmp_path):
         },
         "mn5_locs": {
             "projects_dir": proj_dir,
-            "scratch_dir": scratch_dir
+            "scratch_dir": scratch_dir,
+            "data_dir": data_dir
         }
     }
     proj = "proj2"
@@ -281,6 +284,8 @@ def test_mn5_user(tmp_path):
     # mn5 projects_dir is special
     assert bob["projects_dir"] == proj_dir
     assert bob["scratch_dir"] == scratch_dir
+    assert bob["data_dir"] == data_dir
+
 
     assert 'data_dir' in bob.keys()
 
@@ -306,7 +311,8 @@ def test_multiple_users_and_isolation(tmp_path):
         },
         "mn5_locs": {
             "projects_dir": str(tmp_path / "mn5p"),
-            "scratch_dir": str(tmp_path / "scr")
+            "scratch_dir": str(tmp_path / "scr"),
+            "data_dir": str(tmp_path / "data")
         }
     }
     proj = "proj3"
@@ -327,7 +333,7 @@ def test_overwrites_existing_data_dir(tmp_path):
                 "local": {
                     "username": "alice",
                     "projects_dir": str(tmp_path / "projects"),
-                    "data_dir": old_data_dir
+                    "proj_data_dir": old_data_dir
                 }
             }
         }
@@ -337,7 +343,7 @@ def test_overwrites_existing_data_dir(tmp_path):
     alice = result["alice"]
 
     # make sure the data_dir got overwritten
-    assert alice["data_dir"] != old_data_dir
+    assert alice["proj_data_dir"] != old_data_dir
 
 def test_all_paths_are_strings(tmp_path):
     setup_settings = {
@@ -366,12 +372,13 @@ def test_mn5_user_is_deepcopy(tmp_path):
         },
         "mn5_locs": {
             "projects_dir": str(tmp_path / "mn5proj"),
-            "scratch_dir": str(tmp_path / "scr")
+            "scratch_dir": str(tmp_path / "scr"),
+            "data_dir" : str(tmp_path / "data")
         }
     }
     proj = "proj6"
     result = utils.generate_path_map(setup_settings, proj)
-    result["mn5_user"]["data_dir"] = "CHANGED"
+    result["mn5_user"]["proj_data_dir"] = "CHANGED"
 
     # bob should be unaffected
     assert result["bob"]["data_dir"] != "CHANGED"

@@ -57,7 +57,7 @@ def test_add_users_real_git(tmp_path):
     assert "bob" in content["users"]
 
     # make sure that each of the users has the correct directories
-    expected = ['data_dir', 'ref_dir', 'figures_dir', 'metadata_dir']
+    expected = ['proj_data_dir', 'proj_ref_dir', 'proj_figures_dir', 'proj_metadata_dir']
     users = ['bob', 'alice']
     for user in users:
         for k in expected:

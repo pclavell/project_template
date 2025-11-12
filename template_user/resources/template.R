@@ -9,7 +9,7 @@ library(here)
 setwd(here())
 source(here("resources", "utils.r")) # here referes to where .here file sits (in the user dir)
 config <- load_config() # to refer to files in config use config$
-paths <- load_paths() # to refer to data, figs, metadata, ref, scratch use resources$
+paths <- load_paths() # to refer to data, figs, metadata, ref, scratch use resulting paths$
 #--------------------------------------------------------------------------------
 
 # Load libraries

@@ -24,7 +24,9 @@ import argparse
 import shutil
 from pathlib import Path
 
-from template_user.resources.utils import *
+sys.path = [str(here())]+sys.path
+
+from resources.utils import *
 
 def main(dry_run=True,
          user_dir=None,

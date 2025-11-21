@@ -1,7 +1,7 @@
 # Melé lab project template directory
 
 This github contains a framework to set up and mantain a project directory aiming at: 
-1) Making easy interuser script reproducibility (without completely automatic path managing)
+1) Making easy interuser script reproducibility (with completely automatic path managing)
 2) Allowing all users to share the same data directories
 3) Easy data sharing thanks to a config file pointing to important files
 4) Git tracking allowing all users to work in the same project structure and different computers while tracking the versions

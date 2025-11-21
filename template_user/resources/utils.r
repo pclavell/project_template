@@ -326,7 +326,6 @@ catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9
     if (num >= 10 && length(args) >= 10) assign(arg10, args[10], envir = .GlobalEnv)
   }
 }
-
 #' Publication-Quality ggplot2 Theme (Nature Genetics Style)
 #'
 #' Returns a list of theme modifications and legend guides for consistent
@@ -342,7 +341,10 @@ catch_args <- function(num, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9
 #' @export
 mythemep <- function() {
   list(
-    theme_minimal(),
+    theme_minimal(
+      base_family="Helvetica",
+      base_size=7
+    ),
     theme(
       axis.text = element_text(color = "black"),
       axis.ticks = element_line(linewidth = 0.2),
@@ -367,7 +369,7 @@ mythemep <- function() {
     guides(
       color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
       fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
-      shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+      shape = guide_legend(override.aes = list(size = 2.5, color = "black", fill = NULL))
     )
   )
 }
@@ -385,7 +387,9 @@ mythemep <- function() {
 #' @export
 mytheme <- function() {
   list(
-    theme_minimal(),
+    theme_minimal(
+      base_family="Helvetica",
+      base_size=10),
     theme(
       axis.text = element_text(color = "black"),
       axis.ticks = element_line(linewidth = 0.2),
@@ -410,7 +414,7 @@ mytheme <- function() {
     guides(
       color = guide_legend(override.aes = list(shape = 16, size = 3, alpha=0.9)),
       fill  = guide_legend(override.aes = list(shape = 1, size = 2.5)),
-      shape = guide_legend(override.aes = list(shape = 1, size = 2.5, color = NA, fill = NULL))
+      shape = guide_legend(override.aes = list(size = 2.5, color = "black", fill = NULL))
     )
   )
 }

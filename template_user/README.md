@@ -35,7 +35,7 @@ Though we recommend dividing your code roughly between [analysis](analysis/) and
 ## Adding / updating users information
 
 If you add a new user to the project, or want to add another system you're working on,
-simply edit [resources/resources.yml](resources/resources.yml) from YOUR user directory and run `python resources/add_new_users.py` **from the user's directory** (ie `<project_name>/<user>/`). NOT from the template_user directory
+simply edit [resources/resources.yml](resources/resources.yml) from YOUR user directory and run `python resources/add_new_users.py` **from the user's directory** (ie `<project_name>/<user>/`), NOT from the template_user directory. If you have doubts about if it will work right, you can dry-run the script like `python resources/add_new_users.py --dry-run`. This script is also setting up the git within the new user directory, so the new user can get in, pull and create a new branch to start working directly.
 
 <!-- ## Other files details
 * [`requirements.txt`](requirements.txt): Python libraries needed to run the code in this repo. -->
